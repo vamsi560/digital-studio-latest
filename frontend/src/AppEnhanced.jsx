@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { ThemeProvider } from '@mui/material/styles';
-import { CssBaseline, Container, Box, Divider, IconButton } from '@mui/material';
+import { CssBaseline, Container, Box, Divider, IconButton, Typography } from '@mui/material';
 import { LiveProvider, LivePreview, LiveError } from 'react-live';
 import Cookies from 'js-cookie';
 import { darkTheme } from './theme';
