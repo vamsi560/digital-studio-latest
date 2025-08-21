@@ -33,7 +33,20 @@ import {
   InputAdornment,
   Menu,
   MenuItem,
-  Badge
+  Badge,
+  Drawer,
+  AppBar,
+  Toolbar,
+  Tabs,
+  Tab,
+  Stepper,
+  Step,
+  StepLabel,
+  StepContent,
+  Fade,
+  Zoom,
+  Slide,
+  Grow
 } from '@mui/material';
 import {
   ArrowBack,
@@ -68,85 +81,362 @@ import {
   BorderRadius,
   Close,
   Fullscreen,
-  FullscreenExit
+  FullscreenExit,
+  Dashboard,
+  ViewModule,
+  ViewList,
+  GridView,
+  Timeline,
+  Speed,
+  Rocket,
+  Lightbulb,
+  AutoAwesome,
+  Psychology,
+  Brush,
+  PaletteOutlined,
+  Layers,
+  Widgets,
+  ViewInAr,
+  SmartToy,
+  Memory,
+  Storage,
+  Cloud,
+  Security,
+  BugReport,
+  Analytics,
+  Assessment,
+  TrendingUp,
+  Check,
+  Warning,
+  Info,
+  Star,
+  Favorite,
+  ThumbUp,
+  ThumbDown,
+  Share,
+  MoreVert,
+  Menu as MenuIcon,
+  Home,
+  Work,
+  School,
+  Business,
+  Person,
+  Group,
+  Public,
+  Language,
+  Translate,
+  Accessibility,
+  Hearing,
+  Visibility as VisibilityIcon,
+  VisibilityOff,
+  Brightness4,
+  Brightness7,
+  Notifications,
+  AccountCircle,
+  Search,
+  FilterList,
+  Sort,
+  Tune,
+  ViewColumn,
+  ViewWeek,
+  ViewDay,
+  Schedule,
+  Event,
+  CalendarToday,
+  AccessTime,
+  LocationOn,
+  Phone,
+  Email,
+  Chat,
+  Forum,
+  Message,
+  Send,
+  Reply,
+  Forward,
+  Archive,
+  Delete,
+  Edit,
+  Create,
+  Save,
+  Cancel,
+  Undo,
+  Redo,
+  ContentCopy,
+  ContentCut,
+  ContentPaste,
+  Print,
+  PictureAsPdf,
+  Description,
+  Article,
+  Book,
+  LibraryBooks,
+  MenuBook,
+  Newspaper,
+  Web,
+  Computer,
+  Laptop,
+  Tablet,
+  PhoneAndroid,
+  PhoneIphone,
+  Watch,
+  Headphones,
+  Speaker,
+  Mic,
+  Videocam,
+  PhotoCamera,
+  CameraAlt,
+  CameraRoll,
+  PhotoLibrary,
+  Collections,
+  Album,
+  Slideshow,
+  Movie,
+  VideoLibrary,
+  MusicNote,
+  Audiotrack,
+  QueueMusic,
+  PlaylistPlay,
+  Radio,
+  Podcasts,
+  LiveTv,
+  Tv,
+  Monitor,
+  DisplaySettings,
+  ScreenShare,
+  Cast,
+  Airplay,
+  Bluetooth,
+  Wifi,
+  SignalCellular4Bar,
+  SignalWifi4Bar,
+  BatteryFull,
+  BatteryChargingFull,
+  Power,
+  PowerSettingsNew,
+  RestartAlt,
+  Shutdown,
+  Lock,
+  LockOpen,
+  VpnKey,
+  Key,
+  Fingerprint,
+  Face,
+  FaceRetouchingNatural,
+  AutoFixHigh,
+  AutoFixNormal,
+  AutoFixOff,
+  FilterCenterFocus,
+  CenterFocusStrong,
+  CenterFocusWeak,
+  Crop,
+  CropFree,
+  CropSquare,
+  CropPortrait,
+  CropLandscape,
+  CropRotate,
+  CropDin,
+  Transform,
+  Straighten,
+  RotateLeft,
+  RotateRight,
+  Flip,
+  FlipCameraAndroid,
+  FlipCameraIos,
+  GridOn,
+  GridOff,
+  ViewComfy,
+  ViewCompact,
+  ViewHeadline,
+  ViewQuilt,
+  ViewStream,
+  ViewAgenda,
+  ViewCarousel,
+  ViewDay,
+  ViewWeek,
+  ViewModule,
+  ViewList,
+  ViewTimeline,
+  Timeline,
+  Schedule,
+  Event,
+  EventAvailable,
+  EventBusy,
+  EventNote,
+  Today,
+  DateRange,
+  CalendarMonth,
+  CalendarToday,
+  CalendarViewDay,
+  CalendarViewWeek,
+  CalendarViewMonth,
+  AccessTime,
+  AccessTimeFilled,
+  Alarm,
+  AlarmOn,
+  AlarmOff,
+  AlarmAdd,
+  Timer,
+  TimerOff,
+  Timer10,
+  Timer3,
+  HourglassEmpty,
+  HourglassFull,
+  HourglassBottom,
+  HourglassTop,
+  WatchLater,
+  Update,
+  UpdateDisabled,
+  History,
+  HistoryEdu,
+  HistoryToggleOff,
+  WorkHistory,
+  Work,
+  WorkOff,
+  WorkOutline,
+  Business,
+  BusinessCenter,
+  Domain,
+  DomainDisabled,
+  LocationCity,
+  LocationOn,
+  LocationOff,
+  LocationSearching,
+  LocationDisabled,
+  MyLocation,
+  Place,
+  LocalShipping,
+  LocalTaxi,
+  LocalBus,
+  LocalTrain,
+  LocalSubway,
+  LocalTram,
+  LocalAirport,
+  LocalHotel,
+  LocalHospital,
+  LocalPharmacy,
+  LocalGasStation,
+  LocalCarWash,
+  LocalLaundryService,
+  LocalDining,
+  LocalBar,
+  LocalCafe,
+  LocalPizza,
+  LocalConvenienceStore,
+  LocalGroceryStore,
+  LocalMall,
+  LocalMovies,
+  LocalTheater,
+  LocalLibrary,
+  LocalSchool,
+  LocalUniversity,
+  LocalParking,
+  LocalAtm,
+  LocalPostOffice,
+  LocalPolice,
+  LocalFireDepartment,
+  LocalAmbulance,
+  LocalFlorist,
+  LocalPrintshop,
+  LocalSee,
+  LocalOffer,
+  LocalActivity,
+  LocalPlay,
+  LocalDrink
 } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
 import AdvancedReactPreview from './advanced-react-preview';
 
-// Custom styled components
-const StyledCard = styled(Card)(({ theme }) => ({
-  background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
-  borderRadius: 16,
-  backdropFilter: 'blur(10px)',
-  '&:hover': {
-    border: '1px solid rgba(255, 255, 255, 0.2)',
-    transform: 'translateY(-2px)',
-    transition: 'all 0.3s ease'
-  }
-}));
-
-const UploadArea = styled(Box)(({ theme, isDragOver }) => ({
-  border: `2px dashed ${isDragOver ? theme.palette.primary.main : 'rgba(255, 255, 255, 0.3)'}`,
-  borderRadius: 12,
-  padding: theme.spacing(4),
-  textAlign: 'center',
-  cursor: 'pointer',
-  transition: 'all 0.3s ease',
-  background: isDragOver ? 'rgba(25, 118, 210, 0.1)' : 'rgba(255, 255, 255, 0.05)',
-  '&:hover': {
-    borderColor: theme.palette.primary.main,
-    background: 'rgba(25, 118, 210, 0.1)'
-  }
-}));
-
-const FlowSlot = styled(Box)(({ theme, hasImage }) => ({
-  width: 140,
-  height: 140,
-  border: `2px dashed ${hasImage ? 'rgba(255, 255, 255, 0.3)' : 'rgba(255, 255, 255, 0.2)'}`,
-  borderRadius: 12,
+// Custom styled components with new design patterns
+const FloatingActionPanel = styled(Box)(({ theme }) => ({
+  position: 'fixed',
+  bottom: theme.spacing(3),
+  right: theme.spacing(3),
+  zIndex: 1000,
   display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
+  flexDirection: 'column',
+  gap: theme.spacing(1)
+}));
+
+const IconCard = styled(Card)(({ theme, active }) => ({
+  background: active ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' : 'rgba(255, 255, 255, 0.05)',
+  border: `2px solid ${active ? 'rgba(255, 255, 255, 0.3)' : 'rgba(255, 255, 255, 0.1)'}`,
+  borderRadius: 20,
   cursor: 'pointer',
-  transition: 'all 0.3s ease',
-  background: hasImage ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.02)',
+  transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+  backdropFilter: 'blur(20px)',
   '&:hover': {
-    borderColor: theme.palette.primary.main,
-    background: 'rgba(25, 118, 210, 0.1)'
+    transform: 'translateY(-8px) scale(1.02)',
+    boxShadow: '0 20px 40px rgba(0, 0, 0, 0.3)',
+    borderColor: 'rgba(255, 255, 255, 0.4)'
   }
 }));
 
-const ImageThumbnail = styled(Box)(({ theme }) => ({
-  width: 80,
-  height: 80,
-  border: '2px solid rgba(255, 255, 255, 0.2)',
-  borderRadius: 8,
-  cursor: 'grab',
-  overflow: 'hidden',
+const HexagonalUploadArea = styled(Box)(({ theme, isDragOver }) => ({
+  width: 200,
+  height: 200,
+  position: 'relative',
+  cursor: 'pointer',
   transition: 'all 0.3s ease',
-  '&:hover': {
-    borderColor: theme.palette.primary.main,
-    transform: 'scale(1.05)'
+  '&::before': {
+    content: '""',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    background: isDragOver ? 
+      'linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #ffeaa7, #dda0dd)' :
+      'linear-gradient(45deg, #667eea, #764ba2)',
+    clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)',
+    animation: isDragOver ? 'rotate 2s linear infinite' : 'none',
+    zIndex: -1
   },
-  '&:active': {
-    cursor: 'grabbing'
+  '&::after': {
+    content: '""',
+    position: 'absolute',
+    top: 4,
+    left: 4,
+    right: 4,
+    bottom: 4,
+    background: 'rgba(26, 26, 46, 0.9)',
+    clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)',
+    zIndex: -1
+  },
+  '@keyframes rotate': {
+    '0%': { transform: 'rotate(0deg)' },
+    '100%': { transform: 'rotate(360deg)' }
   }
 }));
 
-const WorkflowStep = styled(Box)(({ theme, status }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  gap: theme.spacing(2),
-  padding: theme.spacing(2),
-  borderRadius: 8,
-  transition: 'all 0.3s ease',
-  background: status === 'completed' ? 'rgba(76, 175, 80, 0.2)' : 
-              status === 'running' ? 'rgba(25, 118, 210, 0.2)' : 
-              'rgba(255, 255, 255, 0.05)',
-  border: `1px solid ${status === 'completed' ? 'rgba(76, 175, 80, 0.3)' : 
-                      status === 'running' ? 'rgba(25, 118, 210, 0.3)' : 
-                      'rgba(255, 255, 255, 0.1)'}`
+const CircularProgressRing = styled(Box)(({ theme, progress }) => ({
+  width: 120,
+  height: 120,
+  position: 'relative',
+  '&::before': {
+    content: '""',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    borderRadius: '50%',
+    background: `conic-gradient(from 0deg, #667eea ${progress * 3.6}deg, rgba(255, 255, 255, 0.1) ${progress * 3.6}deg)`,
+    animation: 'spin 2s linear infinite'
+  },
+  '&::after': {
+    content: '""',
+    position: 'absolute',
+    top: 8,
+    left: 8,
+    right: 8,
+    bottom: 8,
+    borderRadius: '50%',
+    background: 'rgba(26, 26, 46, 0.9)'
+  },
+  '@keyframes spin': {
+    '0%': { transform: 'rotate(0deg)' },
+    '100%': { transform: 'rotate(360deg)' }
+  }
 }));
 
 const EnhancedPrototypeView = ({ onNavigate, isJsZipLoaded }) => {
@@ -170,6 +460,9 @@ const EnhancedPrototypeView = ({ onNavigate, isJsZipLoaded }) => {
   const [previewCode, setPreviewCode] = useState('');
   const [isDragOver, setIsDragOver] = useState(false);
   const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'info' });
+  const [activeTab, setActiveTab] = useState(0);
+  const [viewMode, setViewMode] = useState('grid');
+  const [showSidebar, setShowSidebar] = useState(false);
 
   const handleFileUpload = useCallback(async (files) => {
     if (!isJsZipLoaded) {
@@ -361,164 +654,184 @@ const EnhancedPrototypeView = ({ onNavigate, isJsZipLoaded }) => {
   }, [generatedFiles]);
 
   const workflowSteps = [
-    { id: 'architect', name: 'Architect', description: 'Analyzing project structure...', icon: <Architecture /> },
-    { id: 'builder', name: 'Component Builder', description: 'Creating reusable components...', icon: <Build /> },
-    { id: 'composer', name: 'Page Composer', description: 'Assembling pages...', icon: <Assignment /> },
-    { id: 'finisher', name: 'Finisher & QA', description: 'Finalizing app and checking quality...', icon: <VerifiedUser /> }
+    { id: 'architect', name: 'Architect', description: 'Analyzing project structure...', icon: <Psychology /> },
+    { id: 'builder', name: 'Component Builder', description: 'Creating reusable components...', icon: <Widgets /> },
+    { id: 'composer', name: 'Page Composer', description: 'Assembling pages...', icon: <Layers /> },
+    { id: 'finisher', name: 'Finisher & QA', description: 'Finalizing app and checking quality...', icon: <AutoAwesome /> }
+  ];
+
+  const actionButtons = [
+    { icon: <Rocket />, label: 'Generate', action: handleGenerateCode, disabled: isLoading || flowOrder.some(f => f === null), color: 'primary' },
+    { icon: <Visibility />, label: 'Preview', action: handlePreview, disabled: Object.keys(generatedFiles).length === 0, color: 'secondary' },
+    { icon: <GetApp />, label: 'Download', action: handleDownload, disabled: Object.keys(generatedFiles).length === 0 || !isJsZipLoaded, color: 'success' }
   ];
 
   return (
     <Box sx={{ 
       minHeight: '100vh', 
-      background: 'linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%)',
+      background: 'linear-gradient(135deg, #0a0a1a 0%, #1a1a2e 50%, #16213e 100%)',
       color: 'white',
-      position: 'relative'
+      position: 'relative',
+      overflow: 'hidden'
     }}>
+      {/* Animated Background */}
+      <Box sx={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        background: 'radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%)',
+        animation: 'float 20s ease-in-out infinite',
+        zIndex: 0
+      }} />
+      
+      <style>
+        {`
+          @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+          }
+        `}
+      </style>
+
       {/* Header */}
-      <Box sx={{ 
-        position: 'sticky', 
-        top: 0, 
-        zIndex: 1000, 
-        background: 'rgba(26, 26, 46, 0.95)', 
-        backdropFilter: 'blur(10px)',
-        borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
-        py: 2
+      <AppBar position="sticky" sx={{ 
+        background: 'rgba(26, 26, 46, 0.8)', 
+        backdropFilter: 'blur(20px)',
+        borderBottom: '1px solid rgba(255, 255, 255, 0.1)'
       }}>
-        <Box sx={{ maxWidth: 1400, mx: 'auto', px: 3, display: 'flex', alignItems: 'center', gap: 2 }}>
-          <Button
-            startIcon={<ArrowBack />}
+        <Toolbar>
+          <IconButton
+            edge="start"
             onClick={() => onNavigate('landing')}
-            sx={{ 
-              color: 'white', 
-              '&:hover': { background: 'rgba(255, 255, 255, 0.1)' }
-            }}
+            sx={{ color: 'white', mr: 2 }}
           >
-            Back
-          </Button>
-          <Typography variant="h5" sx={{ fontWeight: 600, flex: 1 }}>
-            Prototype Lab
-          </Typography>
-          <Chip 
-            label="Professional Mode" 
-            color="primary" 
-            size="small"
-            icon={<Code />}
-          />
-        </Box>
-      </Box>
+            <ArrowBack />
+          </IconButton>
+          
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flex: 1 }}>
+            <AutoAwesome sx={{ color: 'primary.main' }} />
+            <Typography variant="h6" sx={{ fontWeight: 600 }}>
+              Prototype Lab
+            </Typography>
+            <Chip 
+              label="AI-Powered" 
+              size="small"
+              icon={<SmartToy />}
+              sx={{ ml: 1 }}
+            />
+          </Box>
+
+          <Box sx={{ display: 'flex', gap: 1 }}>
+            <IconButton onClick={() => setViewMode(viewMode === 'grid' ? 'list' : 'grid')}>
+              {viewMode === 'grid' ? <ViewList /> : <GridView />}
+            </IconButton>
+            <IconButton onClick={() => setShowSidebar(!showSidebar)}>
+              <MenuIcon />
+            </IconButton>
+          </Box>
+        </Toolbar>
+      </AppBar>
 
       {/* Main Content */}
-      <Box sx={{ maxWidth: 1400, mx: 'auto', p: 3 }}>
+      <Box sx={{ position: 'relative', zIndex: 1, p: 3 }}>
         <Grid container spacing={3}>
-          {/* Left Sidebar */}
-          <Grid item xs={12} lg={4}>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-              
-              {/* Figma Import */}
-              <StyledCard>
-                <CardContent>
-                  <Typography variant="h6" sx={{ mb: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
-                    <Link color="primary" />
-                    Figma Import
-                  </Typography>
-                  <TextField
-                    fullWidth
-                    size="small"
-                    placeholder="Paste Figma URL..."
-                    value={figmaUrl}
-                    onChange={(e) => setFigmaUrl(e.target.value)}
-                    InputProps={{
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <IconButton 
-                            onClick={handleFigmaImport}
-                            disabled={!figmaUrl}
-                            color="primary"
-                          >
-                            <Add />
-                          </IconButton>
-                        </InputAdornment>
-                      ),
-                    }}
-                    sx={{
-                      '& .MuiOutlinedInput-root': {
-                        color: 'white',
-                        '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.3)' },
-                        '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.5)' },
-                        '&.Mui-focused fieldset': { borderColor: 'primary.main' }
-                      }
-                    }}
-                  />
-                </CardContent>
-              </StyledCard>
+          
+          {/* Left Sidebar - Collapsible */}
+          <Grid item xs={12} lg={showSidebar ? 3 : 0}>
+            <Slide direction="right" in={showSidebar} mountOnEnter unmountOnExit>
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                
+                {/* Figma Import */}
+                <IconCard>
+                  <CardContent sx={{ textAlign: 'center', p: 2 }}>
+                    <Link sx={{ fontSize: 40, color: 'primary.main', mb: 1 }} />
+                    <Typography variant="body2" sx={{ mb: 2 }}>
+                      Import from Figma
+                    </Typography>
+                    <TextField
+                      size="small"
+                      placeholder="Figma URL..."
+                      value={figmaUrl}
+                      onChange={(e) => setFigmaUrl(e.target.value)}
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton 
+                              onClick={handleFigmaImport}
+                              disabled={!figmaUrl}
+                              size="small"
+                            >
+                              <Add />
+                            </IconButton>
+                          </InputAdornment>
+                        ),
+                      }}
+                      sx={{
+                        '& .MuiOutlinedInput-root': {
+                          color: 'white',
+                          '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.2)' },
+                          '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.4)' },
+                          '&.Mui-focused fieldset': { borderColor: 'primary.main' }
+                        }
+                      }}
+                    />
+                  </CardContent>
+                </IconCard>
 
-              {/* Stylesheet */}
-              <StyledCard>
-                <CardContent>
-                  <Typography variant="h6" sx={{ mb: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
-                    <Style color="primary" />
-                    Stylesheet
-                  </Typography>
-                  <Accordion sx={{ background: 'transparent', color: 'white' }}>
-                    <AccordionSummary expandIcon={<ExpandMore sx={{ color: 'white' }} />}>
-                      <Typography>Design Tokens</Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                        <TextField
-                          size="small"
-                          label="Primary Color"
-                          type="color"
-                          defaultValue="#4A90E2"
-                          sx={{ '& .MuiInputBase-input': { height: 40 } }}
-                        />
-                        <TextField
-                          size="small"
-                          label="Font Family"
-                          placeholder="e.g., 'Inter', sans-serif"
-                        />
-                        <TextField
-                          size="small"
-                          label="Border Radius (px)"
-                          type="number"
-                          placeholder="8"
-                        />
-                        <Button variant="contained" size="small">
-                          Apply Tokens
-                        </Button>
+                {/* Design Tokens */}
+                <IconCard>
+                  <CardContent sx={{ textAlign: 'center', p: 2 }}>
+                    <Palette sx={{ fontSize: 40, color: 'secondary.main', mb: 1 }} />
+                    <Typography variant="body2" sx={{ mb: 2 }}>
+                      Design System
+                    </Typography>
+                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                      <IconButton size="small" sx={{ color: 'primary.main' }}>
+                        <ColorLens />
+                      </IconButton>
+                      <IconButton size="small" sx={{ color: 'primary.main' }}>
+                        <FormatSize />
+                      </IconButton>
+                      <IconButton size="small" sx={{ color: 'primary.main' }}>
+                        <BorderRadius />
+                      </IconButton>
+                    </Box>
+                  </CardContent>
+                </IconCard>
+
+                {/* Upload Area */}
+                <IconCard>
+                  <CardContent sx={{ textAlign: 'center', p: 2 }}>
+                    <HexagonalUploadArea
+                      isDragOver={isDragOver}
+                      onDragOver={(e) => { e.preventDefault(); setIsDragOver(true); }}
+                      onDragLeave={() => setIsDragOver(false)}
+                      onDrop={(e) => {
+                        e.preventDefault();
+                        setIsDragOver(false);
+                        const files = Array.from(e.dataTransfer.files);
+                        handleFileUpload(files);
+                      }}
+                      onClick={() => document.getElementById('file-upload').click()}
+                    >
+                      <Box sx={{ 
+                        position: 'relative', 
+                        zIndex: 1, 
+                        display: 'flex', 
+                        flexDirection: 'column', 
+                        alignItems: 'center', 
+                        justifyContent: 'center',
+                        height: '100%',
+                        color: 'white'
+                      }}>
+                        <CloudUpload sx={{ fontSize: 48, mb: 1 }} />
+                        <Typography variant="body2" sx={{ textAlign: 'center' }}>
+                          Upload Screens
+                        </Typography>
                       </Box>
-                    </AccordionDetails>
-                  </Accordion>
-                </CardContent>
-              </StyledCard>
-
-              {/* Image Tray */}
-              <StyledCard sx={{ flex: 1 }}>
-                <CardContent>
-                  <Typography variant="h6" sx={{ mb: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
-                    <Image color="primary" />
-                    Image Tray
-                  </Typography>
-                  
-                  <UploadArea
-                    isDragOver={isDragOver}
-                    onDragOver={(e) => { e.preventDefault(); setIsDragOver(true); }}
-                    onDragLeave={() => setIsDragOver(false)}
-                    onDrop={(e) => {
-                      e.preventDefault();
-                      setIsDragOver(false);
-                      const files = Array.from(e.dataTransfer.files);
-                      handleFileUpload(files);
-                    }}
-                    onClick={() => document.getElementById('file-upload').click()}
-                  >
-                    <CloudUpload sx={{ fontSize: 48, color: 'primary.main', mb: 2 }} />
-                    <Typography variant="h6" sx={{ mb: 1 }}>
-                      Upload Screens
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      Drag & drop or click to upload PNG, JPG, or ZIP
-                    </Typography>
+                    </HexagonalUploadArea>
                     <input
                       id="file-upload"
                       type="file"
@@ -527,51 +840,103 @@ const EnhancedPrototypeView = ({ onNavigate, isJsZipLoaded }) => {
                       style={{ display: 'none' }}
                       onChange={(e) => handleFileUpload(Array.from(e.target.files))}
                     />
-                  </UploadArea>
+                  </CardContent>
+                </IconCard>
 
-                  <Box sx={{ mt: 2, maxHeight: 300, overflowY: 'auto' }}>
-                    <Grid container spacing={1}>
+                {/* Image Tray */}
+                <IconCard>
+                  <CardContent sx={{ p: 2 }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
+                      <Image sx={{ color: 'primary.main' }} />
+                      <Typography variant="body2">Image Tray</Typography>
+                    </Box>
+                    
+                    <Box sx={{ 
+                      maxHeight: 200, 
+                      overflowY: 'auto',
+                      display: 'grid',
+                      gridTemplateColumns: 'repeat(3, 1fr)',
+                      gap: 1
+                    }}>
                       {uploadedFiles.map((file, index) => (
-                        <Grid item key={index}>
-                          <ImageThumbnail
-                            draggable
-                            onDragStart={(e) => handleDragStart(e, file)}
-                          >
-                            <img 
-                              src={URL.createObjectURL(file)} 
-                              alt={file.name} 
-                              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                            />
-                          </ImageThumbnail>
-                        </Grid>
+                        <Box
+                          key={index}
+                          draggable
+                          onDragStart={(e) => handleDragStart(e, file)}
+                          sx={{
+                            width: 60,
+                            height: 60,
+                            border: '2px solid rgba(255, 255, 255, 0.2)',
+                            borderRadius: 2,
+                            cursor: 'grab',
+                            overflow: 'hidden',
+                            transition: 'all 0.3s ease',
+                            '&:hover': {
+                              borderColor: 'primary.main',
+                              transform: 'scale(1.1)'
+                            }
+                          }}
+                        >
+                          <img 
+                            src={URL.createObjectURL(file)} 
+                            alt={file.name} 
+                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                          />
+                        </Box>
                       ))}
-                    </Grid>
-                  </Box>
-                </CardContent>
-              </StyledCard>
-            </Box>
+                    </Box>
+                  </CardContent>
+                </IconCard>
+              </Box>
+            </Slide>
           </Grid>
 
           {/* Main Content Area */}
-          <Grid item xs={12} lg={8}>
+          <Grid item xs={12} lg={showSidebar ? 9 : 12}>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
               
+              {/* Project Info */}
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
+                <TextField
+                  size="small"
+                  placeholder="Project Name"
+                  value={projectName}
+                  onChange={(e) => setProjectName(e.target.value)}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <FolderOpen sx={{ color: 'primary.main' }} />
+                      </InputAdornment>
+                    ),
+                  }}
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      color: 'white',
+                      '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.2)' },
+                      '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.4)' },
+                      '&.Mui-focused fieldset': { borderColor: 'primary.main' }
+                    }
+                  }}
+                />
+              </Box>
+
               {/* Screen Flow */}
-              <StyledCard>
+              <IconCard>
                 <CardContent>
-                  <Typography variant="h6" sx={{ mb: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
-                    <DragIndicator color="primary" />
-                    Screen Flow
-                  </Typography>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 3 }}>
+                    <Timeline sx={{ color: 'primary.main' }} />
+                    <Typography variant="h6">Screen Flow</Typography>
+                  </Box>
                   
                   <Box sx={{ 
                     display: 'flex', 
                     flexWrap: 'wrap', 
                     gap: 2, 
                     minHeight: 200,
-                    p: 2,
+                    p: 3,
                     background: 'rgba(255, 255, 255, 0.02)',
-                    borderRadius: 2
+                    borderRadius: 3,
+                    border: '1px dashed rgba(255, 255, 255, 0.1)'
                   }}>
                     {flowOrder.length === 0 ? (
                       <Box sx={{ 
@@ -580,177 +945,154 @@ const EnhancedPrototypeView = ({ onNavigate, isJsZipLoaded }) => {
                         py: 4,
                         color: 'text.secondary'
                       }}>
-                        <DragIndicator sx={{ fontSize: 48, mb: 2, opacity: 0.5 }} />
-                        <Typography>Drag images from the tray to order your screens here</Typography>
+                        <DragIndicator sx={{ fontSize: 64, mb: 2, opacity: 0.3 }} />
+                        <Typography>Drag images here to create your flow</Typography>
                       </Box>
                     ) : (
                       flowOrder.map((file, index) => (
-                        <FlowSlot
+                        <Box
                           key={index}
-                          hasImage={!!file}
                           onDragOver={(e) => e.preventDefault()}
                           onDrop={(e) => handleDrop(e, index)}
                           onClick={() => file && setImagePreview(URL.createObjectURL(file))}
+                          sx={{
+                            width: 120,
+                            height: 120,
+                            border: `2px dashed ${file ? 'rgba(255, 255, 255, 0.3)' : 'rgba(255, 255, 255, 0.1)'}`,
+                            borderRadius: 3,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            cursor: 'pointer',
+                            transition: 'all 0.3s ease',
+                            background: file ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.02)',
+                            position: 'relative',
+                            '&:hover': {
+                              borderColor: 'primary.main',
+                              background: 'rgba(25, 118, 210, 0.1)'
+                            }
+                          }}
                         >
                           {file ? (
-                            <img 
-                              src={URL.createObjectURL(file)} 
-                              alt={file.name} 
-                              style={{ 
-                                width: '100%', 
-                                height: '100%', 
-                                objectFit: 'cover',
-                                borderRadius: 8
-                              }}
-                            />
+                            <>
+                              <img 
+                                src={URL.createObjectURL(file)} 
+                                alt={file.name} 
+                                style={{ 
+                                  width: '100%', 
+                                  height: '100%', 
+                                  objectFit: 'cover',
+                                  borderRadius: 8
+                                }}
+                              />
+                              <Chip 
+                                label={index + 1} 
+                                size="small" 
+                                sx={{ 
+                                  position: 'absolute', 
+                                  top: -8, 
+                                  right: -8,
+                                  background: 'primary.main'
+                                }} 
+                              />
+                            </>
                           ) : (
                             <Typography variant="h4" color="text.secondary">
                               {index + 1}
                             </Typography>
                           )}
-                        </FlowSlot>
+                        </Box>
                       ))
                     )}
                   </Box>
                 </CardContent>
-              </StyledCard>
-
-              {/* Actions */}
-              <StyledCard>
-                <CardContent>
-                  <Typography variant="h6" sx={{ mb: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
-                    <Settings color="primary" />
-                    Actions
-                  </Typography>
-                  
-                  <Grid container spacing={2} sx={{ mb: 2 }}>
-                    <Grid item xs={12} sm={6} md={3}>
-                      <TextField
-                        fullWidth
-                        size="small"
-                        label="Project Name"
-                        value={projectName}
-                        onChange={(e) => setProjectName(e.target.value)}
-                        sx={{
-                          '& .MuiOutlinedInput-root': {
-                            color: 'white',
-                            '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.3)' },
-                            '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.5)' },
-                            '&.Mui-focused fieldset': { borderColor: 'primary.main' }
-                          },
-                          '& .MuiInputLabel-root': { color: 'rgba(255, 255, 255, 0.7)' }
-                        }}
-                      />
-                    </Grid>
-                  </Grid>
-
-                  <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
-                    <Button
-                      variant="contained"
-                      startIcon={<Build />}
-                      onClick={handleGenerateCode}
-                      disabled={isLoading || flowOrder.some(f => f === null)}
-                      sx={{ minWidth: 150 }}
-                    >
-                      Generate Code
-                    </Button>
-                    <Button
-                      variant="outlined"
-                      startIcon={<Preview />}
-                      onClick={handlePreview}
-                      disabled={Object.keys(generatedFiles).length === 0}
-                      sx={{ minWidth: 120 }}
-                    >
-                      Preview
-                    </Button>
-                    <Button
-                      variant="outlined"
-                      startIcon={<GetApp />}
-                      onClick={handleDownload}
-                      disabled={Object.keys(generatedFiles).length === 0 || !isJsZipLoaded}
-                      sx={{ minWidth: 150 }}
-                    >
-                      Download
-                    </Button>
-                  </Box>
-                </CardContent>
-              </StyledCard>
+              </IconCard>
 
               {/* Workflow Status */}
               {isLoading && (
-                <StyledCard>
+                <IconCard>
                   <CardContent>
-                    <Typography variant="h6" sx={{ mb: 2 }}>
-                      Generation Progress
-                    </Typography>
-                    <Box sx={{ mb: 2 }}>
-                      <LinearProgress 
-                        variant="indeterminate" 
-                        sx={{ height: 8, borderRadius: 4 }}
-                      />
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
+                      <Speed sx={{ color: 'primary.main' }} />
+                      <Typography variant="h6">Generation Progress</Typography>
                     </Box>
-                    <List>
+                    
+                    <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
+                      <CircularProgressRing progress={75} />
+                    </Box>
+                    
+                    <Stepper orientation="vertical" sx={{ '& .MuiStepLabel-root': { color: 'white' } }}>
                       {workflowSteps.map((step) => {
                         const status = workflowStatus[step.id] || 'pending';
                         return (
-                          <ListItem key={step.id} sx={{ px: 0 }}>
-                            <ListItemIcon>
-                              <Avatar 
-                                sx={{ 
-                                  width: 32, 
-                                  height: 32,
-                                  bgcolor: status === 'completed' ? 'success.main' : 
-                                          status === 'running' ? 'primary.main' : 
-                                          'rgba(255, 255, 255, 0.2)'
-                                }}
-                              >
-                                {status === 'completed' ? <CheckCircle /> : 
-                                 status === 'running' ? <HourglassEmpty /> : 
-                                 step.icon}
-                              </Avatar>
-                            </ListItemIcon>
-                            <ListItemText
-                              primary={step.name}
-                              secondary={status === 'running' ? workflowStatus.text : 
-                                        status === 'completed' ? 'Completed' : 'Pending'}
-                              primaryTypographyProps={{ 
-                                color: status === 'pending' ? 'text.secondary' : 'white' 
-                              }}
-                            />
-                          </ListItem>
+                          <Step key={step.id} active={status === 'running'} completed={status === 'completed'}>
+                            <StepLabel 
+                              icon={status === 'completed' ? <CheckCircle color="success" /> : 
+                                    status === 'running' ? <HourglassEmpty color="primary" /> : 
+                                    step.icon}
+                            >
+                              {step.name}
+                            </StepLabel>
+                            <StepContent>
+                              <Typography variant="body2" color="text.secondary">
+                                {status === 'running' ? workflowStatus.text : 
+                                 status === 'completed' ? 'Completed successfully' : 'Waiting to start'}
+                              </Typography>
+                            </StepContent>
+                          </Step>
                         );
                       })}
-                    </List>
+                    </Stepper>
                   </CardContent>
-                </StyledCard>
+                </IconCard>
               )}
 
               {/* Generated Code */}
               {Object.keys(generatedFiles).length > 0 && !isLoading && (
-                <StyledCard>
+                <IconCard>
                   <CardContent>
-                    <Typography variant="h6" sx={{ mb: 2 }}>
-                      Generated Code
-                    </Typography>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
+                      <Code sx={{ color: 'primary.main' }} />
+                      <Typography variant="h6">Generated Code</Typography>
+                    </Box>
                     
                     {/* Live React Preview */}
                     <Box sx={{ mb: 3 }}>
-                      <Typography variant="subtitle1" sx={{ mb: 1 }}>
-                        Live React Preview
-                      </Typography>
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
+                        <ViewInAr sx={{ color: 'secondary.main' }} />
+                        <Typography variant="subtitle1">Live React Preview</Typography>
+                      </Box>
                       <AdvancedReactPreview code={previewCode} showAnalysis={true} />
                     </Box>
 
                     {/* Accuracy Result */}
                     {accuracyResult && (
-                      <Box sx={{ mb: 3, p: 2, background: 'rgba(76, 175, 80, 0.1)', borderRadius: 2 }}>
-                        <Typography variant="subtitle1" sx={{ mb: 1 }}>
-                          Estimated Accuracy
-                        </Typography>
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                          <Typography variant="h4" color="success.main" fontWeight="bold">
+                      <Box sx={{ 
+                        mb: 3, 
+                        p: 3, 
+                        background: 'linear-gradient(135deg, rgba(76, 175, 80, 0.1) 0%, rgba(76, 175, 80, 0.05) 100%)', 
+                        borderRadius: 3,
+                        border: '1px solid rgba(76, 175, 80, 0.2)'
+                      }}>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
+                          <TrendingUp sx={{ color: 'success.main' }} />
+                          <Typography variant="subtitle1">Estimated Accuracy</Typography>
+                        </Box>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 3 }}>
+                          <Box sx={{ 
+                            width: 80, 
+                            height: 80, 
+                            borderRadius: '50%', 
+                            background: 'linear-gradient(135deg, #4caf50, #66bb6a)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            fontSize: '24px',
+                            fontWeight: 'bold',
+                            color: 'white'
+                          }}>
                             {accuracyResult.score}%
-                          </Typography>
+                          </Box>
                           <Typography variant="body2" color="text.secondary">
                             {accuracyResult.justification}
                           </Typography>
@@ -763,9 +1105,17 @@ const EnhancedPrototypeView = ({ onNavigate, isJsZipLoaded }) => {
                       background: '#1e1e1e', 
                       color: '#d4d4d4',
                       maxHeight: 400,
-                      overflow: 'auto'
+                      overflow: 'auto',
+                      borderRadius: 2
                     }}>
-                      <Box sx={{ p: 2, borderBottom: '1px solid rgba(255, 255, 255, 0.1)' }}>
+                      <Box sx={{ 
+                        p: 2, 
+                        borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 1
+                      }}>
+                        <Storage sx={{ color: 'primary.main' }} />
                         <Typography variant="subtitle2">Generated Files</Typography>
                       </Box>
                       <Box sx={{ p: 2 }}>
@@ -779,12 +1129,37 @@ const EnhancedPrototypeView = ({ onNavigate, isJsZipLoaded }) => {
                       </Box>
                     </Paper>
                   </CardContent>
-                </StyledCard>
+                </IconCard>
               )}
             </Box>
           </Grid>
         </Grid>
       </Box>
+
+      {/* Floating Action Buttons */}
+      <FloatingActionPanel>
+        {actionButtons.map((button, index) => (
+          <Zoom in={true} style={{ transitionDelay: `${index * 100}ms` }}>
+            <Fab
+              key={button.label}
+              color={button.color}
+              onClick={button.action}
+              disabled={button.disabled}
+              sx={{
+                width: 56,
+                height: 56,
+                boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
+                '&:hover': {
+                  transform: 'scale(1.1)',
+                  boxShadow: '0 12px 40px rgba(0, 0, 0, 0.4)'
+                }
+              }}
+            >
+              {button.icon}
+            </Fab>
+          </Zoom>
+        ))}
+      </FloatingActionPanel>
 
       {/* Image Preview Dialog */}
       <Dialog
@@ -795,7 +1170,10 @@ const EnhancedPrototypeView = ({ onNavigate, isJsZipLoaded }) => {
       >
         <DialogTitle>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <Typography>Image Preview</Typography>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <Image sx={{ color: 'primary.main' }} />
+              <Typography>Image Preview</Typography>
+            </Box>
             <IconButton onClick={() => setImagePreview(null)}>
               <Close />
             </IconButton>
@@ -820,8 +1198,11 @@ const EnhancedPrototypeView = ({ onNavigate, isJsZipLoaded }) => {
       >
         <DialogTitle>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <Typography>Live Preview</Typography>
-            <Box sx={{ display: 'flex', gap: 1 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <Visibility sx={{ color: 'primary.main' }} />
+              <Typography>Live Preview</Typography>
+            </Box>
+            <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
               <Typography variant="body2" color="text.secondary">
                 {loadingText || 'Live Preview'}
               </Typography>
