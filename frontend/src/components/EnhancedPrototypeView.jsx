@@ -521,6 +521,106 @@ const EnhancedPrototypeView = ({ onNavigate, isJsZipLoaded }) => {
             </List>
           </SidebarSection>
 
+          {/* Image Tray - Moved to top for better accessibility */}
+          <SidebarSection>
+            <div className="section-header">
+              <Image />
+              Image Tray
+            </div>
+            
+            {/* Upload Button */}
+            <Box sx={{ mb: 2 }}>
+              <Button
+                fullWidth
+                variant="outlined"
+                component="label"
+                startIcon={<CloudUpload />}
+                sx={{
+                  borderColor: 'rgba(255, 255, 255, 0.3)',
+                  color: 'white',
+                  '&:hover': { borderColor: 'white', background: 'rgba(255, 255, 255, 0.1)' }
+                }}
+              >
+                Upload Images
+                <input
+                  type="file"
+                  multiple
+                  accept="image/*,.zip"
+                  style={{ display: 'none' }}
+                  onChange={(e) => handleFileUpload(Array.from(e.target.files))}
+                />
+              </Button>
+            </Box>
+
+            {/* Uploaded Images Grid */}
+            <Box sx={{ 
+              maxHeight: 200, 
+              overflowY: 'auto',
+              display: 'grid',
+              gridTemplateColumns: 'repeat(3, 1fr)',
+              gap: 1
+            }}>
+              {uploadedFiles.length > 0 ? (
+                uploadedFiles.map((file, index) => (
+                  <Box
+                    key={index}
+                    draggable
+                    onDragStart={(e) => handleDragStart(e, file)}
+                    sx={{
+                      width: 60,
+                      height: 60,
+                      border: '2px solid rgba(255, 255, 255, 0.2)',
+                      borderRadius: 2,
+                      cursor: 'grab',
+                      overflow: 'hidden',
+                      transition: 'all 0.3s ease',
+                      '&:hover': {
+                        borderColor: 'primary.main',
+                        transform: 'scale(1.05)'
+                      },
+                      '&:active': {
+                        cursor: 'grabbing'
+                      }
+                    }}
+                  >
+                    <img 
+                      src={URL.createObjectURL(file)} 
+                      alt={file.name} 
+                      style={{ 
+                        width: '100%', 
+                        height: '100%', 
+                        objectFit: 'cover',
+                        cursor: 'grab'
+                      }}
+                    />
+                  </Box>
+                ))
+              ) : (
+                <Box sx={{ 
+                  gridColumn: '1 / -1', 
+                  textAlign: 'center', 
+                  py: 2,
+                  color: 'text.secondary',
+                  fontSize: '0.875rem'
+                }}>
+                  No images uploaded yet
+                </Box>
+              )}
+            </Box>
+
+            {/* Instructions */}
+            {uploadedFiles.length > 0 && (
+              <Typography variant="caption" sx={{ 
+                display: 'block', 
+                mt: 1, 
+                color: 'text.secondary',
+                textAlign: 'center'
+              }}>
+                Drag images to the screen flow area
+              </Typography>
+            )}
+          </SidebarSection>
+
           {/* Styling Section */}
           <SidebarSection>
             <div className="section-header">
@@ -649,106 +749,6 @@ const EnhancedPrototypeView = ({ onNavigate, isJsZipLoaded }) => {
                 }
               }}
             />
-          </SidebarSection>
-
-          {/* Image Tray */}
-          <SidebarSection>
-            <div className="section-header">
-              <Image />
-              Image Tray
-            </div>
-            
-            {/* Upload Button */}
-            <Box sx={{ mb: 2 }}>
-              <Button
-                fullWidth
-                variant="outlined"
-                component="label"
-                startIcon={<CloudUpload />}
-                sx={{
-                  borderColor: 'rgba(255, 255, 255, 0.3)',
-                  color: 'white',
-                  '&:hover': { borderColor: 'white', background: 'rgba(255, 255, 255, 0.1)' }
-                }}
-              >
-                Upload Images
-                <input
-                  type="file"
-                  multiple
-                  accept="image/*,.zip"
-                  style={{ display: 'none' }}
-                  onChange={(e) => handleFileUpload(Array.from(e.target.files))}
-                />
-              </Button>
-            </Box>
-
-            {/* Uploaded Images Grid */}
-            <Box sx={{ 
-              maxHeight: 300, 
-              overflowY: 'auto',
-              display: 'grid',
-              gridTemplateColumns: 'repeat(3, 1fr)',
-              gap: 1
-            }}>
-              {uploadedFiles.length > 0 ? (
-                uploadedFiles.map((file, index) => (
-                  <Box
-                    key={index}
-                    draggable
-                    onDragStart={(e) => handleDragStart(e, file)}
-                    sx={{
-                      width: 60,
-                      height: 60,
-                      border: '2px solid rgba(255, 255, 255, 0.2)',
-                      borderRadius: 2,
-                      cursor: 'grab',
-                      overflow: 'hidden',
-                      transition: 'all 0.3s ease',
-                      '&:hover': {
-                        borderColor: 'primary.main',
-                        transform: 'scale(1.05)'
-                      },
-                      '&:active': {
-                        cursor: 'grabbing'
-                      }
-                    }}
-                  >
-                    <img 
-                      src={URL.createObjectURL(file)} 
-                      alt={file.name} 
-                      style={{ 
-                        width: '100%', 
-                        height: '100%', 
-                        objectFit: 'cover',
-                        cursor: 'grab'
-                      }}
-                    />
-                  </Box>
-                ))
-              ) : (
-                <Box sx={{ 
-                  gridColumn: '1 / -1', 
-                  textAlign: 'center', 
-                  py: 2,
-                  color: 'text.secondary',
-                  fontSize: '0.875rem'
-                }}>
-                  No images uploaded yet
-                </Box>
-              )}
-            </Box>
-
-            {/* Instructions */}
-            {uploadedFiles.length > 0 && (
-              <Typography variant="caption" sx={{ 
-                display: 'block', 
-                mt: 1, 
-                color: 'text.secondary',
-                textAlign: 'center'
-              }}>
-                Drag images to the screen flow area
-              </Typography>
-            )}
           </SidebarSection>
         </Box>
 
