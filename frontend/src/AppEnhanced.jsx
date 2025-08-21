@@ -356,83 +356,217 @@ const AppEnhanced = () => {
     );
   }
 
-  // Landing View
+  // Landing View - "Introducing" page with three lab cards
   if (currentView === 'landing') {
-    const services = [
+    const labs = [
       {
-        title: 'Design to Code',
-        description: 'Transform Figma designs into production-ready React components',
-        icon: <Code />,
-        onClick: () => handleNavigate('main'),
-      },
-      {
-        title: 'AI Code Generation',
-        description: 'Generate intelligent code with advanced AI assistance',
-        icon: <AutoAwesome />,
-        onClick: () => handleNavigate('main'),
-      },
-      {
-        title: 'Component Library',
-        description: 'Build and manage reusable component systems',
+        title: 'Prototype Lab',
         icon: <ViewModule />,
-        onClick: () => handleNavigate('main'),
+        onClick: () => handleNavigate('app-lab'),
       },
       {
-        title: 'Code Analysis',
-        description: 'Analyze and optimize your codebase',
-        icon: <Analytics />,
-        onClick: () => handleNavigate('main'),
+        title: 'App Lab',
+        icon: <Build />,
+        onClick: () => handleNavigate('app-lab'),
       },
       {
-        title: 'Performance Testing',
-        description: 'Test and optimize application performance',
-        icon: <Speed />,
-        onClick: () => handleNavigate('main'),
-        comingSoon: true,
-      },
-      {
-        title: 'Security Audit',
-        description: 'Automated security analysis and recommendations',
-        icon: <Security />,
-        onClick: () => handleNavigate('main'),
-        comingSoon: true,
+        title: 'Integration Lab',
+        icon: <Refresh />,
+        onClick: () => handleNavigate('app-lab'),
       },
     ];
 
     return (
       <ThemeProvider theme={darkTheme}>
         <CssBaseline />
-        <Container maxWidth="xl" sx={{ py: 4 }}>
-          <EnhancedHeader
-            title="VM Digital Studio"
-            subtitle="Professional design-to-code platform"
-          />
-          
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 4 }}>
-            <IconButton
-              component="a"
-              href="https://github.com"
-              target="_blank"
-              sx={{ color: 'text.secondary' }}
+        <Box
+          sx={{
+            minHeight: '100vh',
+            background: 'linear-gradient(135deg, #0D0F18 0%, #111827 100%)',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            p: 4,
+            textAlign: 'center',
+          }}
+        >
+          {/* Header with VM logo */}
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 6 }}>
+            <Box
+              sx={{
+                width: 40,
+                height: 40,
+                borderRadius: 1,
+                background: 'rgba(255, 255, 255, 0.1)',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: 'white',
+                fontWeight: 700,
+                fontSize: '1.2rem',
+              }}
             >
-              <GitHub />
-            </IconButton>
+              VM
+            </Box>
+            <Typography variant="h4" sx={{ color: '#00ff88', fontWeight: 600 }}>
+              Digital Studio
+            </Typography>
           </Box>
           
-          <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: 'repeat(2, 1fr)', lg: 'repeat(3, 1fr)' }, gap: 3 }}>
-            {services.map((service, index) => (
-              <EnhancedServiceCard
-                key={index}
-                title={service.title}
-                description={service.description}
-                icon={service.icon}
-                onClick={service.onClick}
-                disabled={service.comingSoon}
-                comingSoon={service.comingSoon}
-              />
+          {/* Main title */}
+          <Typography variant="h2" sx={{ fontWeight: 700, mb: 2, color: 'white' }}>
+            Introducing
+          </Typography>
+          
+          {/* Subtitle */}
+          <Typography variant="h5" sx={{ color: 'text.secondary', mb: 8 }}>
+            We do ui/ux design for
+          </Typography>
+          
+          {/* Three lab cards */}
+          <Box sx={{ display: 'flex', gap: 4, flexWrap: 'wrap', justifyContent: 'center' }}>
+            {labs.map((lab, index) => (
+              <Box
+                key={lab.title}
+                onClick={lab.onClick}
+                sx={{
+                  width: 200,
+                  height: 200,
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  borderRadius: 3,
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s ease',
+                  '&:hover': {
+                    background: 'rgba(255, 255, 255, 0.1)',
+                    transform: 'translateY(-8px)',
+                    borderColor: '#00ff88',
+                  },
+                }}
+              >
+                <Box sx={{ mb: 2, color: 'white' }}>
+                  {React.cloneElement(lab.icon, { sx: { fontSize: 48 } })}
+                </Box>
+                <Typography variant="h6" sx={{ color: 'white', fontWeight: 600 }}>
+                  {lab.title}
+                </Typography>
+              </Box>
             ))}
           </Box>
-        </Container>
+        </Box>
+      </ThemeProvider>
+    );
+  }
+
+  // App Lab View - "Choose Your Platform" page
+  if (currentView === 'app-lab') {
+    const platforms = [
+      {
+        title: 'Android',
+        icon: <Build />,
+        onClick: () => handleNavigate('main'),
+      },
+      {
+        title: 'iOS',
+        icon: <Build />,
+        onClick: () => handleNavigate('main'),
+      },
+      {
+        title: 'Progressive Web App',
+        icon: <Build />,
+        onClick: () => handleNavigate('main'),
+      },
+    ];
+
+    return (
+      <ThemeProvider theme={darkTheme}>
+        <CssBaseline />
+        <Box
+          sx={{
+            minHeight: '100vh',
+            background: 'linear-gradient(135deg, #0D0F18 0%, #111827 100%)',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            p: 4,
+            textAlign: 'center',
+          }}
+        >
+          {/* Header */}
+          <Box sx={{ position: 'absolute', top: 20, left: 20, right: 20, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <Typography variant="h6" sx={{ color: 'text.secondary' }}>
+              App Lab
+            </Typography>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+              <Typography
+                variant="body2"
+                onClick={() => handleNavigate('landing')}
+                sx={{
+                  color: 'text.secondary',
+                  cursor: 'pointer',
+                  '&:hover': { color: 'white' },
+                }}
+              >
+                ← Back
+              </Typography>
+              <IconButton
+                component="a"
+                href="https://github.com"
+                target="_blank"
+                sx={{ color: 'text.secondary' }}
+              >
+                <GitHub />
+              </IconButton>
+            </Box>
+          </Box>
+          
+          {/* Main title */}
+          <Typography variant="h2" sx={{ fontWeight: 700, mb: 8, color: 'white' }}>
+            Choose Your Platform
+          </Typography>
+          
+          {/* Platform buttons */}
+          <Box sx={{ display: 'flex', gap: 4, flexWrap: 'wrap', justifyContent: 'center' }}>
+            {platforms.map((platform, index) => (
+              <Box
+                key={platform.title}
+                onClick={platform.onClick}
+                sx={{
+                  width: 200,
+                  height: 200,
+                  background: 'rgba(0, 100, 200, 0.2)',
+                  borderRadius: 3,
+                  border: '1px solid rgba(0, 100, 200, 0.3)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s ease',
+                  '&:hover': {
+                    background: 'rgba(0, 100, 200, 0.3)',
+                    transform: 'translateY(-8px)',
+                    borderColor: '#00ff88',
+                  },
+                }}
+              >
+                <Box sx={{ mb: 2, color: 'white' }}>
+                  {React.cloneElement(platform.icon, { sx: { fontSize: 48 } })}
+                </Box>
+                <Typography variant="h6" sx={{ color: 'white', fontWeight: 600 }}>
+                  {platform.title}
+                </Typography>
+              </Box>
+            ))}
+          </Box>
+        </Box>
       </ThemeProvider>
     );
   }
