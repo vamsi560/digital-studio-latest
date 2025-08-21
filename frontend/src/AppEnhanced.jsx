@@ -476,7 +476,7 @@ const AppEnhanced = () => {
     );
   }
 
-  // Prototype Lab View - Redesigned with rich UI
+  // Prototype Lab View - Futuristic Immersive Design
   if (currentView === 'prototype-lab') {
 
     return (
@@ -485,8 +485,9 @@ const AppEnhanced = () => {
         <Box
           sx={{
             minHeight: '100vh',
-            background: 'linear-gradient(135deg, #0A0A0A 0%, #1A1A1A 50%, #0D0D0D 100%)',
+            background: 'linear-gradient(135deg, #0B0B0F 0%, #1A1A2E 25%, #16213E 50%, #0F3460 75%, #0B0B0F 100%)',
             position: 'relative',
+            overflow: 'hidden',
             '&::before': {
               content: '""',
               position: 'absolute',
@@ -494,118 +495,230 @@ const AppEnhanced = () => {
               left: 0,
               right: 0,
               bottom: 0,
-              background: 'radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.1) 0%, transparent 50%)',
+              background: `
+                radial-gradient(circle at 10% 20%, rgba(120, 119, 198, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(255, 119, 198, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(64, 224, 208, 0.05) 0%, transparent 60%),
+                linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.02) 50%, transparent 70%)
+              `,
               pointerEvents: 'none',
+              animation: 'pulse 8s ease-in-out infinite',
+            },
+            '&::after': {
+              content: '""',
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              background: 'url("data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23ffffff" fill-opacity="0.02"%3E%3Ccircle cx="30" cy="30" r="1"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")',
+              pointerEvents: 'none',
+            },
+            '@keyframes pulse': {
+              '0%, 100%': { opacity: 0.8 },
+              '50%': { opacity: 1 },
+            },
+            '@keyframes rotate': {
+              '0%': { transform: 'translate(-50%, -50%) rotate(0deg)' },
+              '100%': { transform: 'translate(-50%, -50%) rotate(360deg)' },
+            },
+            '@keyframes shimmer': {
+              '0%': { left: '-100%' },
+              '100%': { left: '100%' },
             },
           }}
         >
-          {/* Compact Header */}
+          {/* Futuristic Header */}
           <Box
             sx={{
-              background: 'rgba(0, 0, 0, 0.9)',
-              backdropFilter: 'blur(20px)',
-              borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+              background: 'linear-gradient(180deg, rgba(0, 0, 0, 0.95) 0%, rgba(26, 26, 46, 0.9) 100%)',
+              backdropFilter: 'blur(30px)',
+              borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
               position: 'sticky',
               top: 0,
               zIndex: 1000,
+              '&::before': {
+                content: '""',
+                position: 'absolute',
+                bottom: 0,
+                left: 0,
+                right: 0,
+                height: '1px',
+                background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent)',
+              }
             }}
           >
             <Container maxWidth="xl">
-              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', py: 1.5 }}>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', py: 2 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 3 }}>
                   <IconButton
                     onClick={() => handleNavigate('landing')}
                     size="small"
                     sx={{
-                      color: 'text.secondary',
-                      '&:hover': { color: 'primary.main', transform: 'scale(1.1)' },
-                      transition: 'all 0.2s ease',
+                      color: 'rgba(255, 255, 255, 0.7)',
+                      background: 'rgba(255, 255, 255, 0.05)',
+                      border: '1px solid rgba(255, 255, 255, 0.1)',
+                      '&:hover': { 
+                        color: '#40E0D0',
+                        background: 'rgba(64, 224, 208, 0.1)',
+                        borderColor: '#40E0D0',
+                        transform: 'scale(1.1)',
+                      },
+                      transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                     }}
                   >
                     <ArrowBack fontSize="small" />
                   </IconButton>
-                  <Box>
-                    <Typography variant="h6" sx={{ fontWeight: 700, background: 'linear-gradient(45deg, #fff, #888)', backgroundClip: 'text', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-                      Prototype Lab
+                  <Box sx={{ position: 'relative' }}>
+                    <Typography variant="h5" sx={{ 
+                      fontWeight: 800, 
+                      background: 'linear-gradient(135deg, #40E0D0, #FF6B9D, #4ECDC4)',
+                      backgroundClip: 'text',
+                      WebkitBackgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                      textShadow: '0 0 30px rgba(64, 224, 208, 0.5)',
+                    }}>
+                      PROTOTYPE LAB
                     </Typography>
-                    <Typography variant="caption" color="text.secondary">
-                      Design to React Components
+                    <Typography variant="caption" sx={{ 
+                      color: 'rgba(255, 255, 255, 0.6)',
+                      fontWeight: 500,
+                      letterSpacing: '1px',
+                      textTransform: 'uppercase'
+                    }}>
+                      Design → React Components
                     </Typography>
                   </Box>
                 </Box>
                 
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, px: 1.5, py: 0.5, borderRadius: 1.5, background: 'rgba(0, 255, 136, 0.1)', border: '1px solid rgba(0, 255, 136, 0.3)' }}>
-                    <Box sx={{ width: 6, height: 6, borderRadius: '50%', background: '#00ff88' }} />
-                    <Typography variant="caption" sx={{ color: '#00ff88', fontSize: '0.7rem' }}>Live</Typography>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                  <Box sx={{ 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    gap: 1.5, 
+                    px: 2, 
+                    py: 1, 
+                    background: 'linear-gradient(135deg, rgba(64, 224, 208, 0.2), rgba(255, 107, 157, 0.2))',
+                    borderRadius: '20px',
+                    border: '1px solid rgba(64, 224, 208, 0.3)',
+                    backdropFilter: 'blur(10px)',
+                    position: 'relative',
+                    overflow: 'hidden',
+                    '&::before': {
+                      content: '""',
+                      position: 'absolute',
+                      top: 0,
+                      left: '-100%',
+                      width: '100%',
+                      height: '100%',
+                      background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent)',
+                      animation: 'shimmer 2s infinite',
+                    }
+                  }}>
+                    <Box sx={{ 
+                      width: 8, 
+                      height: 8, 
+                      borderRadius: '50%', 
+                      background: 'linear-gradient(135deg, #40E0D0, #FF6B9D)',
+                      boxShadow: '0 0 10px rgba(64, 224, 208, 0.8)',
+                      animation: 'pulse 2s infinite'
+                    }} />
+                    <Typography variant="caption" sx={{ 
+                      color: '#40E0D0', 
+                      fontSize: '0.75rem',
+                      fontWeight: 600,
+                      letterSpacing: '0.5px'
+                    }}>
+                      LIVE
+                    </Typography>
                   </Box>
                 </Box>
               </Box>
             </Container>
           </Box>
 
-          <Container maxWidth="xl" sx={{ py: 3, position: 'relative', zIndex: 1 }}>
-            {/* Floating Action Bar */}
+          <Container maxWidth="xl" sx={{ py: 4, position: 'relative', zIndex: 1 }}>
+            {/* Orbital Action Ring */}
             <Box sx={{ 
               display: 'flex', 
-              gap: 1.5, 
-              mb: 4, 
-              flexWrap: 'wrap',
               justifyContent: 'center',
-              '& > *': {
-                backdropFilter: 'blur(20px)',
+              mb: 6,
+              position: 'relative',
+              '&::before': {
+                content: '""',
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                width: '300px',
+                height: '300px',
                 border: '1px solid rgba(255, 255, 255, 0.1)',
-                borderRadius: '50px',
-                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                '&:hover': {
-                  transform: 'translateY(-4px) scale(1.05)',
-                  borderColor: 'rgba(255, 255, 255, 0.3)',
-                }
+                borderRadius: '50%',
+                animation: 'rotate 20s linear infinite',
+              },
+              '&::after': {
+                content: '""',
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                width: '200px',
+                height: '200px',
+                border: '1px solid rgba(64, 224, 208, 0.2)',
+                borderRadius: '50%',
+                animation: 'rotate 15s linear infinite reverse',
               }
             }}>
-              {/* Figma Import Button */}
-              <Box
-                onClick={() => setShowFigmaModal(true)}
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 1.5,
-                  px: 3,
-                  py: 1.5,
-                  background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)',
-                  cursor: 'pointer',
-                  position: 'relative',
-                  overflow: 'hidden',
-                  '&::before': {
-                    content: '""',
-                    position: 'absolute',
-                    top: 0,
-                    left: '-100%',
-                    width: '100%',
-                    height: '100%',
-                    background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent)',
-                    transition: 'left 0.5s',
-                  },
-                  '&:hover::before': {
-                    left: '100%',
-                  },
-                }}
-              >
-                {/* Figma Icon */}
-                <Box sx={{ 
-                  width: 24, 
-                  height: 24, 
-                  position: 'relative',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center'
-                }}>
-                  <Box sx={{
-                    width: 20,
-                    height: 20,
-                    background: 'linear-gradient(135deg, #F24E1E 0%, #FF7262 100%)',
-                    borderRadius: '3px',
+              <Box sx={{ 
+                display: 'flex', 
+                gap: 2, 
+                flexWrap: 'wrap',
+                justifyContent: 'center',
+                alignItems: 'center',
+                position: 'relative',
+                zIndex: 2
+              }}>
+                {/* Figma Orb */}
+                <Box
+                  onClick={() => setShowFigmaModal(true)}
+                  sx={{
+                    width: 80,
+                    height: 80,
+                    background: 'linear-gradient(135deg, rgba(242, 78, 30, 0.2), rgba(255, 114, 98, 0.2))',
+                    borderRadius: '50%',
+                    border: '2px solid rgba(242, 78, 30, 0.4)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    cursor: 'pointer',
                     position: 'relative',
+                    overflow: 'hidden',
+                    transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                    '&:hover': {
+                      transform: 'scale(1.1) translateY(-10px)',
+                      boxShadow: '0 20px 40px rgba(242, 78, 30, 0.4)',
+                      borderColor: '#F24E1E',
+                    },
+                    '&::before': {
+                      content: '""',
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      background: 'radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.1) 0%, transparent 70%)',
+                      borderRadius: '50%',
+                    }
+                  }}
+                >
+                  <Box sx={{
+                    width: 24,
+                    height: 24,
+                    background: 'linear-gradient(135deg, #F24E1E, #FF7262)',
+                    borderRadius: '4px',
+                    position: 'relative',
+                    mb: 1,
                     '&::before': {
                       content: '""',
                       position: 'absolute',
@@ -627,59 +740,58 @@ const AppEnhanced = () => {
                       borderRadius: '1px',
                     }
                   }} />
+                  <Typography variant="caption" sx={{ 
+                    color: 'white', 
+                    fontWeight: 600, 
+                    fontSize: '0.7rem',
+                    textAlign: 'center',
+                    textShadow: '0 1px 2px rgba(0, 0, 0, 0.5)'
+                  }}>
+                    FIGMA
+                  </Typography>
                 </Box>
-                <Typography variant="body2" sx={{ 
-                  color: 'white', 
-                  fontWeight: 500, 
-                  fontSize: '0.85rem',
-                  textShadow: '0 1px 2px rgba(0, 0, 0, 0.3)'
-                }}>
-                  Import Figma
-                </Typography>
-              </Box>
 
-              {/* Styles Button */}
-              <Box
-                onClick={() => setShowStylesModal(true)}
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 1.5,
-                  px: 3,
-                  py: 1.5,
-                  background: 'linear-gradient(135deg, rgba(147, 51, 234, 0.1) 0%, rgba(79, 70, 229, 0.05) 100%)',
-                  cursor: 'pointer',
-                  position: 'relative',
-                  overflow: 'hidden',
-                  '&::before': {
-                    content: '""',
-                    position: 'absolute',
-                    top: 0,
-                    left: '-100%',
-                    width: '100%',
-                    height: '100%',
-                    background: 'linear-gradient(90deg, transparent, rgba(147, 51, 234, 0.1), transparent)',
-                    transition: 'left 0.5s',
-                  },
-                  '&:hover::before': {
-                    left: '100%',
-                  },
-                }}
-              >
-                <Box sx={{ 
-                  width: 24, 
-                  height: 24, 
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  position: 'relative'
-                }}>
+                {/* Styles Orb */}
+                <Box
+                  onClick={() => setShowStylesModal(true)}
+                  sx={{
+                    width: 80,
+                    height: 80,
+                    background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(168, 85, 247, 0.2))',
+                    borderRadius: '50%',
+                    border: '2px solid rgba(139, 92, 246, 0.4)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    cursor: 'pointer',
+                    position: 'relative',
+                    overflow: 'hidden',
+                    transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                    '&:hover': {
+                      transform: 'scale(1.1) translateY(-10px)',
+                      boxShadow: '0 20px 40px rgba(139, 92, 246, 0.4)',
+                      borderColor: '#8B5CF6',
+                    },
+                    '&::before': {
+                      content: '""',
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      background: 'radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.1) 0%, transparent 70%)',
+                      borderRadius: '50%',
+                    }
+                  }}
+                >
                   <Box sx={{
-                    width: 18,
-                    height: 18,
-                    background: 'linear-gradient(135deg, #8B5CF6 0%, #A855F7 100%)',
+                    width: 20,
+                    height: 20,
+                    background: 'linear-gradient(135deg, #8B5CF6, #A855F7)',
                     borderRadius: '50%',
                     position: 'relative',
+                    mb: 1,
                     '&::before': {
                       content: '""',
                       position: 'absolute',
@@ -692,60 +804,59 @@ const AppEnhanced = () => {
                       borderRadius: '50%',
                     }
                   }} />
+                  <Typography variant="caption" sx={{ 
+                    color: 'white', 
+                    fontWeight: 600, 
+                    fontSize: '0.7rem',
+                    textAlign: 'center',
+                    textShadow: '0 1px 2px rgba(0, 0, 0, 0.5)'
+                  }}>
+                    STYLES
+                  </Typography>
                 </Box>
-                <Typography variant="body2" sx={{ 
-                  color: 'white', 
-                  fontWeight: 500, 
-                  fontSize: '0.85rem',
-                  textShadow: '0 1px 2px rgba(0, 0, 0, 0.3)'
-                }}>
-                  Styles
-                </Typography>
-              </Box>
 
-              {/* Tokens Button */}
-              <Box
-                onClick={() => setShowTokensModal(true)}
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 1.5,
-                  px: 3,
-                  py: 1.5,
-                  background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(37, 99, 235, 0.05) 100%)',
-                  cursor: 'pointer',
-                  position: 'relative',
-                  overflow: 'hidden',
-                  '&::before': {
-                    content: '""',
-                    position: 'absolute',
-                    top: 0,
-                    left: '-100%',
-                    width: '100%',
-                    height: '100%',
-                    background: 'linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent)',
-                    transition: 'left 0.5s',
-                  },
-                  '&:hover::before': {
-                    left: '100%',
-                  },
-                }}
-              >
-                <Box sx={{ 
-                  width: 24, 
-                  height: 24, 
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  position: 'relative'
-                }}>
+                {/* Tokens Orb */}
+                <Box
+                  onClick={() => setShowTokensModal(true)}
+                  sx={{
+                    width: 80,
+                    height: 80,
+                    background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(37, 99, 235, 0.2))',
+                    borderRadius: '50%',
+                    border: '2px solid rgba(59, 130, 246, 0.4)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    cursor: 'pointer',
+                    position: 'relative',
+                    overflow: 'hidden',
+                    transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                    '&:hover': {
+                      transform: 'scale(1.1) translateY(-10px)',
+                      boxShadow: '0 20px 40px rgba(59, 130, 246, 0.4)',
+                      borderColor: '#3B82F6',
+                    },
+                    '&::before': {
+                      content: '""',
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      background: 'radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.1) 0%, transparent 70%)',
+                      borderRadius: '50%',
+                    }
+                  }}
+                >
                   <Box sx={{
-                    width: 16,
-                    height: 16,
-                    background: 'linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%)',
+                    width: 18,
+                    height: 18,
+                    background: 'linear-gradient(135deg, #3B82F6, #1D4ED8)',
                     borderRadius: '3px',
                     position: 'relative',
                     transform: 'rotate(45deg)',
+                    mb: 1,
                     '&::before': {
                       content: '""',
                       position: 'absolute',
@@ -758,55 +869,68 @@ const AppEnhanced = () => {
                       borderRadius: '50%',
                     }
                   }} />
+                  <Typography variant="caption" sx={{ 
+                    color: 'white', 
+                    fontWeight: 600, 
+                    fontSize: '0.7rem',
+                    textAlign: 'center',
+                    textShadow: '0 1px 2px rgba(0, 0, 0, 0.5)'
+                  }}>
+                    TOKENS
+                  </Typography>
                 </Box>
-                <Typography variant="body2" sx={{ 
-                  color: 'white', 
-                  fontWeight: 500, 
-                  fontSize: '0.85rem',
-                  textShadow: '0 1px 2px rgba(0, 0, 0, 0.3)'
-                }}>
-                  Tokens
-                </Typography>
               </Box>
             </Box>
 
-            {/* Creative Layout - No Traditional Boxes */}
+            {/* Futuristic Workspace Layout */}
             <Box sx={{ 
               display: 'grid', 
-              gridTemplateColumns: { xs: '1fr', lg: '300px 1fr' }, 
-              gap: 4,
-              position: 'relative'
+              gridTemplateColumns: { xs: '1fr', lg: '350px 1fr' }, 
+              gap: 6,
+              position: 'relative',
+              '&::before': {
+                content: '""',
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                width: '100%',
+                height: '100%',
+                background: 'radial-gradient(ellipse at center, rgba(64, 224, 208, 0.03) 0%, transparent 70%)',
+                pointerEvents: 'none',
+              }
             }}>
-              {/* Left Sidebar - Floating Elements */}
+              {/* Left Control Panel - Holographic Interface */}
               <Box sx={{ 
                 display: 'flex', 
                 flexDirection: 'column', 
-                gap: 3,
+                gap: 4,
                 position: 'relative'
               }}>
-                {/* Upload Area - Floating Panel */}
+                {/* Upload Hologram */}
                 <Box sx={{
                   position: 'relative',
                   '&::before': {
                     content: '""',
                     position: 'absolute',
-                    top: '-1px',
-                    left: '-1px',
-                    right: '-1px',
-                    bottom: '-1px',
-                    background: 'linear-gradient(135deg, #667eea, #764ba2, #f093fb, #f5576c)',
-                    borderRadius: '16px',
+                    top: '-2px',
+                    left: '-2px',
+                    right: '-2px',
+                    bottom: '-2px',
+                    background: 'linear-gradient(135deg, #40E0D0, #FF6B9D, #4ECDC4, #40E0D0)',
+                    borderRadius: '20px',
                     zIndex: -1,
                     opacity: 0.3,
-                    filter: 'blur(8px)',
+                    filter: 'blur(10px)',
+                    animation: 'pulse 3s ease-in-out infinite',
                   }
                 }}>
                   <Box sx={{
-                    background: 'rgba(255, 255, 255, 0.08)',
-                    backdropFilter: 'blur(20px)',
-                    borderRadius: '15px',
-                    p: 3,
-                    border: '1px solid rgba(255, 255, 255, 0.15)',
+                    background: 'linear-gradient(135deg, rgba(64, 224, 208, 0.1), rgba(255, 107, 157, 0.05))',
+                    backdropFilter: 'blur(25px)',
+                    borderRadius: '18px',
+                    p: 4,
+                    border: '1px solid rgba(64, 224, 208, 0.2)',
                     position: 'relative',
                     overflow: 'hidden',
                     '&::after': {
@@ -815,46 +939,50 @@ const AppEnhanced = () => {
                       top: 0,
                       left: 0,
                       right: 0,
-                      height: '1px',
-                      background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent)',
+                      height: '2px',
+                      background: 'linear-gradient(90deg, transparent, rgba(64, 224, 208, 0.5), transparent)',
                     }
                   }}>
-                    {/* Upload Icon */}
+                    {/* Holographic Upload Icon */}
                     <Box sx={{ 
                       display: 'flex', 
                       alignItems: 'center', 
-                      gap: 2, 
-                      mb: 2,
+                      gap: 3, 
+                      mb: 3,
                       position: 'relative'
                     }}>
                       <Box sx={{
-                        width: 32,
-                        height: 32,
-                        background: 'linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%)',
-                        borderRadius: '8px',
+                        width: 40,
+                        height: 40,
+                        background: 'linear-gradient(135deg, #40E0D0, #FF6B9D)',
+                        borderRadius: '12px',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
                         position: 'relative',
+                        boxShadow: '0 0 20px rgba(64, 224, 208, 0.4)',
                         '&::before': {
                           content: '""',
                           position: 'absolute',
                           top: '50%',
                           left: '50%',
                           transform: 'translate(-50%, -50%)',
-                          width: '16px',
-                          height: '16px',
+                          width: '20px',
+                          height: '20px',
                           background: 'white',
-                          borderRadius: '2px',
+                          borderRadius: '3px',
                           clipPath: 'polygon(0 0, 100% 0, 100% 70%, 70% 100%, 0 100%)',
                         }
                       }} />
-                      <Typography variant="h6" sx={{ 
-                        fontWeight: 600, 
-                        color: 'white',
-                        textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)'
+                      <Typography variant="h5" sx={{ 
+                        fontWeight: 700, 
+                        background: 'linear-gradient(135deg, #40E0D0, #FF6B9D)',
+                        backgroundClip: 'text',
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                        textShadow: '0 0 20px rgba(64, 224, 208, 0.3)',
                       }}>
-                        Upload Images
+                        UPLOAD
                       </Typography>
                     </Box>
                     
@@ -865,22 +993,34 @@ const AppEnhanced = () => {
                     />
                     
                     {uploadedFiles.length > 0 && (
-                      <Box sx={{ mt: 2 }}>
+                      <Box sx={{ mt: 3 }}>
                         <Box sx={{
                           display: 'flex',
                           alignItems: 'center',
-                          gap: 1,
-                          mb: 1,
-                          px: 1.5,
-                          py: 0.5,
-                          background: 'rgba(34, 197, 94, 0.2)',
-                          borderRadius: '20px',
-                          border: '1px solid rgba(34, 197, 94, 0.3)',
-                          width: 'fit-content'
+                          gap: 2,
+                          mb: 2,
+                          px: 2,
+                          py: 1,
+                          background: 'linear-gradient(135deg, rgba(64, 224, 208, 0.2), rgba(255, 107, 157, 0.2))',
+                          borderRadius: '25px',
+                          border: '1px solid rgba(64, 224, 208, 0.4)',
+                          width: 'fit-content',
+                          backdropFilter: 'blur(10px)',
                         }}>
-                          <Box sx={{ width: 6, height: 6, borderRadius: '50%', background: '#22C55E' }} />
-                          <Typography variant="caption" sx={{ color: '#22C55E', fontWeight: 600 }}>
-                            {uploadedFiles.length} image{uploadedFiles.length !== 1 ? 's' : ''} uploaded
+                          <Box sx={{ 
+                            width: 8, 
+                            height: 8, 
+                            borderRadius: '50%', 
+                            background: 'linear-gradient(135deg, #40E0D0, #FF6B9D)',
+                            boxShadow: '0 0 10px rgba(64, 224, 208, 0.8)',
+                            animation: 'pulse 2s infinite'
+                          }} />
+                          <Typography variant="body2" sx={{ 
+                            color: '#40E0D0', 
+                            fontWeight: 700,
+                            textShadow: '0 0 10px rgba(64, 224, 208, 0.5)'
+                          }}>
+                            {uploadedFiles.length} IMAGE{uploadedFiles.length !== 1 ? 'S' : ''} READY
                           </Typography>
                         </Box>
                         <EnhancedImageTray
