@@ -48,7 +48,8 @@ import {
   Slide,
   Grow,
   ListItemButton,
-  Collapse
+  Collapse,
+  CircularProgress
 } from '@mui/material';
 import {
   ArrowBack,
@@ -164,6 +165,8 @@ const EnhancedPrototypeView = ({ onNavigate, isJsZipLoaded }) => {
   const [draggedItem, setDraggedItem] = useState(null);
   const [stylesheetContent, setStylesheetContent] = useState('');
   const [designTokens, setDesignTokens] = useState({});
+  const [components, setComponents] = useState([]);
+  const [screens, setScreens] = useState([]);
   const [imagePreview, setImagePreview] = useState(null);
   const [isTooltipVisible, setIsTooltipVisible] = useState(false);
   const [isPreviewing, setIsPreviewing] = useState(false);
@@ -258,36 +261,92 @@ const EnhancedPrototypeView = ({ onNavigate, isJsZipLoaded }) => {
     if (!figmaUrl) return;
     setIsLoading(true);
     setError('');
-    setWorkflowStatus({ text: 'Importing from Figma...', architect: 'running' });
+    setWorkflowStatus({ text: 'Connecting to Figma MCP...', architect: 'running' });
+    
     try {
-      const response = await fetch('/api/import-figma', {
+      // Use the new Figma MCP endpoint
+      const response = await fetch('/api/figma-mcp', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ figmaUrl }),
+        body: JSON.stringify({ 
+          figmaUrl,
+          framework: selectedFramework,
+          styling: selectedStyling,
+          architecture: selectedArchitecture
+        }),
       });
+      
       if (!response.ok) {
         const err = await response.json();
-        throw new Error(`Figma API error: ${err.error || response.statusText}`);
+        throw new Error(`Figma MCP error: ${err.error || response.statusText}`);
       }
-      const images = await response.json();
-      const imageFiles = images.map(img => {
-        const byteString = atob(img.data);
-        const ab = new ArrayBuffer(byteString.length);
-        const ia = new Uint8Array(ab);
-        for (let i = 0; i < byteString.length; i++) {
-          ia[i] = byteString.charCodeAt(i);
+      
+      const result = await response.json();
+      
+      if (!result.success) {
+        throw new Error('Figma MCP integration failed');
+      }
+      
+      // Update workflow status
+      setWorkflowStatus({ text: 'Extracting design tokens and components...', architect: 'running' });
+      
+      // Store the extracted design data
+      setDesignTokens(result.designTokens);
+      setComponents(result.components);
+      setScreens(result.screens);
+      
+      // Convert images to files for display
+      if (result.images && result.images.length > 0) {
+        const imageFiles = await Promise.all(result.images.map(async (img) => {
+          try {
+            const imgResponse = await fetch(img.url);
+            const blob = await imgResponse.blob();
+            return new File([blob], `${img.name}.png`, { type: 'image/png' });
+          } catch (error) {
+            console.error('Failed to fetch image:', img.name, error);
+            return null;
+          }
+        }));
+        
+        const validFiles = imageFiles.filter(file => file !== null);
+        if (validFiles.length > 0) {
+          setUploadedFiles(validFiles);
+          setFlowOrder(new Array(validFiles.length).fill(null));
         }
-        const blob = new Blob([ab], { type: img.mimeType });
-        return new File([blob], img.fileName, { type: img.mimeType });
+      }
+      
+      // Store the generated code
+      if (result.generatedCode) {
+        setGeneratedFiles(result.generatedCode);
+        setShowGeneratedCode(true);
+        
+        // Extract preview code for live preview
+        const previewFile = Object.keys(result.generatedCode).find(key => 
+          key.includes('App.') || key.includes('main.') || key.includes('index.')
+        );
+        if (previewFile) {
+          setPreviewCode(result.generatedCode[previewFile]);
+        }
+      }
+      
+      setWorkflowStatus({ text: 'Code generated successfully!', architect: 'completed' });
+      setSnackbar({ 
+        open: true, 
+        message: `Successfully extracted ${result.components.length} components and ${result.screens.length} screens from Figma!`, 
+        severity: 'success' 
       });
-      handleFileUpload(imageFiles);
+      
     } catch (error) {
-      console.error('Figma import failed:', error);
-      setError(`Figma import failed: ${error.message}`);
-      setSnackbar({ open: true, message: `Figma import failed: ${error.message}`, severity: 'error' });
+      console.error('Figma MCP import failed:', error);
+      setError(`Figma MCP import failed: ${error.message}`);
+      setSnackbar({ 
+        open: true, 
+        message: `Figma MCP import failed: ${error.message}`, 
+        severity: 'error' 
+      });
+      setWorkflowStatus({});
     } finally {
       setIsLoading(false);
-      setWorkflowStatus({});
     }
   };
 
@@ -695,8 +754,16 @@ const EnhancedPrototypeView = ({ onNavigate, isJsZipLoaded }) => {
             <SidebarSection>
               <div className="section-header">
                 <Link />
-                Figma Import
+                Figma MCP Integration
               </div>
+              <Typography variant="caption" sx={{ 
+                display: 'block', 
+                mb: 2, 
+                color: 'text.secondary',
+                lineHeight: 1.4
+              }}>
+                Connect to Figma and extract design tokens, components, and generate code directly
+              </Typography>
               <TextField
                 fullWidth
                 size="small"
@@ -708,8 +775,12 @@ const EnhancedPrototypeView = ({ onNavigate, isJsZipLoaded }) => {
                     <InputAdornment position="end">
                       <IconButton 
                         onClick={handleFigmaImport}
-                        disabled={!figmaUrl}
+                        disabled={!figmaUrl || isLoading}
                         size="small"
+                        sx={{
+                          color: 'primary.main',
+                          '&:hover': { background: 'rgba(25, 118, 210, 0.1)' }
+                        }}
                       >
                         <Add />
                       </IconButton>
@@ -725,6 +796,14 @@ const EnhancedPrototypeView = ({ onNavigate, isJsZipLoaded }) => {
                   }
                 }}
               />
+              {isLoading && (
+                <Box sx={{ mt: 1, display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <CircularProgress size={16} />
+                  <Typography variant="caption" sx={{ color: 'text.secondary' }}>
+                    Extracting design tokens and components...
+                  </Typography>
+                </Box>
+              )}
             </SidebarSection>
           )}
 
@@ -750,6 +829,122 @@ const EnhancedPrototypeView = ({ onNavigate, isJsZipLoaded }) => {
               }}
             />
           </SidebarSection>
+
+          {/* Design Tokens & Components - Show when extracted from Figma */}
+          {(Object.keys(designTokens).length > 0 || components.length > 0 || screens.length > 0) && (
+            <SidebarSection>
+              <div className="section-header">
+                <AutoAwesome />
+                Extracted Design
+              </div>
+              
+              {/* Design Tokens Summary */}
+              {Object.keys(designTokens).length > 0 && (
+                <Box sx={{ mb: 2 }}>
+                  <Typography variant="subtitle2" sx={{ color: 'text.secondary', mb: 1 }}>
+                    Design Tokens
+                  </Typography>
+                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                    {Object.entries(designTokens).map(([category, tokens]) => (
+                      <Chip
+                        key={category}
+                        label={`${category}: ${Object.keys(tokens).length}`}
+                        size="small"
+                        sx={{
+                          background: 'rgba(255, 255, 255, 0.1)',
+                          color: 'white',
+                          fontSize: '0.75rem'
+                        }}
+                      />
+                    ))}
+                  </Box>
+                </Box>
+              )}
+
+              {/* Components Summary */}
+              {components.length > 0 && (
+                <Box sx={{ mb: 2 }}>
+                  <Typography variant="subtitle2" sx={{ color: 'text.secondary', mb: 1 }}>
+                    Components ({components.length})
+                  </Typography>
+                  <Box sx={{ maxHeight: 100, overflowY: 'auto' }}>
+                    {components.slice(0, 5).map((component, index) => (
+                      <Box
+                        key={component.id}
+                        sx={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: 1,
+                          p: 0.5,
+                          borderRadius: 1,
+                          background: 'rgba(255, 255, 255, 0.05)',
+                          mb: 0.5
+                        }}
+                      >
+                        <Widgets sx={{ fontSize: 16, color: 'primary.main' }} />
+                        <Typography variant="caption" sx={{ color: 'text.secondary' }}>
+                          {component.name}
+                        </Typography>
+                      </Box>
+                    ))}
+                    {components.length > 5 && (
+                      <Typography variant="caption" sx={{ color: 'text.secondary', fontStyle: 'italic' }}>
+                        +{components.length - 5} more components
+                      </Typography>
+                    )}
+                  </Box>
+                </Box>
+              )}
+
+              {/* Screens Summary */}
+              {screens.length > 0 && (
+                <Box sx={{ mb: 2 }}>
+                  <Typography variant="subtitle2" sx={{ color: 'text.secondary', mb: 1 }}>
+                    Screens ({screens.length})
+                  </Typography>
+                  <Box sx={{ maxHeight: 100, overflowY: 'auto' }}>
+                    {screens.slice(0, 5).map((screen, index) => (
+                      <Box
+                        key={screen.id}
+                        sx={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: 1,
+                          p: 0.5,
+                          borderRadius: 1,
+                          background: 'rgba(255, 255, 255, 0.05)',
+                          mb: 0.5
+                        }}
+                      >
+                        <Image sx={{ fontSize: 16, color: 'primary.main' }} />
+                        <Typography variant="caption" sx={{ color: 'text.secondary' }}>
+                          {screen.name}
+                        </Typography>
+                      </Box>
+                    ))}
+                    {screens.length > 5 && (
+                      <Typography variant="caption" sx={{ color: 'text.secondary', fontStyle: 'italic' }}>
+                        +{screens.length - 5} more screens
+                      </Typography>
+                    )}
+                  </Box>
+                </Box>
+              )}
+
+              {/* Success Indicator */}
+              <Box sx={{ 
+                p: 1, 
+                background: 'rgba(76, 175, 80, 0.1)', 
+                borderRadius: 1,
+                border: '1px solid rgba(76, 175, 80, 0.2)'
+              }}>
+                <Typography variant="caption" sx={{ color: 'success.main', display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                  <CheckCircle sx={{ fontSize: 16 }} />
+                  Design extracted successfully
+                </Typography>
+              </Box>
+            </SidebarSection>
+          )}
         </Box>
 
         {/* Main Content Area */}
@@ -935,6 +1130,119 @@ const EnhancedPrototypeView = ({ onNavigate, isJsZipLoaded }) => {
                       >
                         Download
                       </Button>
+                    </Box>
+                  </CardContent>
+                </Card>
+              )}
+
+              {/* Design Tokens & Components Display - Show when extracted from Figma MCP */}
+              {(Object.keys(designTokens).length > 0 || components.length > 0 || screens.length > 0) && (
+                <Card sx={{ background: 'rgba(255, 255, 255, 0.05)', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
+                  <CardContent>
+                    <Typography variant="h6" sx={{ mb: 3, display: 'flex', alignItems: 'center', gap: 1 }}>
+                      <AutoAwesome sx={{ color: 'primary.main' }} />
+                      Extracted Design Data
+                    </Typography>
+                    
+                    <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 3 }}>
+                      
+                      {/* Design Tokens */}
+                      {Object.keys(designTokens).length > 0 && (
+                        <Box>
+                          <Typography variant="subtitle1" sx={{ mb: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
+                            <ColorLens sx={{ fontSize: 20, color: 'primary.main' }} />
+                            Design Tokens
+                          </Typography>
+                          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                            {Object.entries(designTokens).map(([category, tokens]) => (
+                              <Chip
+                                key={category}
+                                label={`${category}: ${Object.keys(tokens).length}`}
+                                size="small"
+                                sx={{
+                                  background: 'rgba(25, 118, 210, 0.2)',
+                                  color: 'primary.main',
+                                  border: '1px solid rgba(25, 118, 210, 0.3)'
+                                }}
+                              />
+                            ))}
+                          </Box>
+                        </Box>
+                      )}
+
+                      {/* Components */}
+                      {components.length > 0 && (
+                        <Box>
+                          <Typography variant="subtitle1" sx={{ mb: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
+                            <Widgets sx={{ fontSize: 20, color: 'primary.main' }} />
+                            Components ({components.length})
+                          </Typography>
+                          <Box sx={{ maxHeight: 200, overflowY: 'auto' }}>
+                            {components.map((component) => (
+                              <Box
+                                key={component.id}
+                                sx={{
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  gap: 1,
+                                  p: 1,
+                                  borderRadius: 1,
+                                  background: 'rgba(255, 255, 255, 0.05)',
+                                  mb: 1,
+                                  border: '1px solid rgba(255, 255, 255, 0.1)'
+                                }}
+                              >
+                                <Widgets sx={{ fontSize: 16, color: 'primary.main' }} />
+                                <Box sx={{ flex: 1 }}>
+                                  <Typography variant="body2" sx={{ color: 'white', fontWeight: 500 }}>
+                                    {component.name}
+                                  </Typography>
+                                  <Typography variant="caption" sx={{ color: 'text.secondary' }}>
+                                    {component.type} • {component.path}
+                                  </Typography>
+                                </Box>
+                              </Box>
+                            ))}
+                          </Box>
+                        </Box>
+                      )}
+
+                      {/* Screens */}
+                      {screens.length > 0 && (
+                        <Box>
+                          <Typography variant="subtitle1" sx={{ mb: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
+                            <Image sx={{ fontSize: 20, color: 'primary.main' }} />
+                            Screens ({screens.length})
+                          </Typography>
+                          <Box sx={{ maxHeight: 200, overflowY: 'auto' }}>
+                            {screens.map((screen) => (
+                              <Box
+                                key={screen.id}
+                                sx={{
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  gap: 1,
+                                  p: 1,
+                                  borderRadius: 1,
+                                  background: 'rgba(255, 255, 255, 0.05)',
+                                  mb: 1,
+                                  border: '1px solid rgba(255, 255, 255, 0.1)'
+                                }}
+                              >
+                                <Image sx={{ fontSize: 16, color: 'primary.main' }} />
+                                <Box sx={{ flex: 1 }}>
+                                  <Typography variant="body2" sx={{ color: 'white', fontWeight: 500 }}>
+                                    {screen.name}
+                                  </Typography>
+                                  <Typography variant="caption" sx={{ color: 'text.secondary' }}>
+                                    {screen.width}×{screen.height}px • {screen.children} children
+                                  </Typography>
+                                </Box>
+                              </Box>
+                            ))}
+                          </Box>
+                        </Box>
+                      )}
                     </Box>
                   </CardContent>
                 </Card>
