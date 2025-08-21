@@ -545,93 +545,315 @@ const AppEnhanced = () => {
           </Box>
 
           <Container maxWidth="xl" sx={{ py: 3, position: 'relative', zIndex: 1 }}>
-            {/* Quick Actions Bar */}
-            <Box sx={{ display: 'flex', gap: 2, mb: 3, flexWrap: 'wrap' }}>
+            {/* Floating Action Bar */}
+            <Box sx={{ 
+              display: 'flex', 
+              gap: 1.5, 
+              mb: 4, 
+              flexWrap: 'wrap',
+              justifyContent: 'center',
+              '& > *': {
+                backdropFilter: 'blur(20px)',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                borderRadius: '50px',
+                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                '&:hover': {
+                  transform: 'translateY(-4px) scale(1.05)',
+                  borderColor: 'rgba(255, 255, 255, 0.3)',
+                }
+              }
+            }}>
+              {/* Figma Import Button */}
               <Box
                 onClick={() => setShowFigmaModal(true)}
                 sx={{
                   display: 'flex',
                   alignItems: 'center',
-                  gap: 1,
-                  px: 2,
-                  py: 1,
-                  borderRadius: 2,
-                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                  gap: 1.5,
+                  px: 3,
+                  py: 1.5,
+                  background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)',
                   cursor: 'pointer',
-                  transition: 'all 0.2s ease',
-                  '&:hover': { transform: 'translateY(-2px)', boxShadow: '0 4px 12px rgba(102, 126, 234, 0.4)' },
+                  position: 'relative',
+                  overflow: 'hidden',
+                  '&::before': {
+                    content: '""',
+                    position: 'absolute',
+                    top: 0,
+                    left: '-100%',
+                    width: '100%',
+                    height: '100%',
+                    background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent)',
+                    transition: 'left 0.5s',
+                  },
+                  '&:hover::before': {
+                    left: '100%',
+                  },
                 }}
               >
-                <Box sx={{ width: 16, height: 16, background: 'white', borderRadius: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <Typography variant="caption" sx={{ color: '#667eea', fontWeight: 700, fontSize: '0.6rem' }}>F</Typography>
+                {/* Figma Icon */}
+                <Box sx={{ 
+                  width: 24, 
+                  height: 24, 
+                  position: 'relative',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}>
+                  <Box sx={{
+                    width: 20,
+                    height: 20,
+                    background: 'linear-gradient(135deg, #F24E1E 0%, #FF7262 100%)',
+                    borderRadius: '3px',
+                    position: 'relative',
+                    '&::before': {
+                      content: '""',
+                      position: 'absolute',
+                      top: '2px',
+                      left: '2px',
+                      width: '8px',
+                      height: '8px',
+                      background: 'white',
+                      borderRadius: '1px',
+                    },
+                    '&::after': {
+                      content: '""',
+                      position: 'absolute',
+                      top: '2px',
+                      right: '2px',
+                      width: '8px',
+                      height: '8px',
+                      background: 'white',
+                      borderRadius: '1px',
+                    }
+                  }} />
                 </Box>
-                <Typography variant="body2" sx={{ color: 'white', fontWeight: 600, fontSize: '0.8rem' }}>
+                <Typography variant="body2" sx={{ 
+                  color: 'white', 
+                  fontWeight: 500, 
+                  fontSize: '0.85rem',
+                  textShadow: '0 1px 2px rgba(0, 0, 0, 0.3)'
+                }}>
                   Import Figma
                 </Typography>
               </Box>
 
+              {/* Styles Button */}
               <Box
                 onClick={() => setShowStylesModal(true)}
                 sx={{
                   display: 'flex',
                   alignItems: 'center',
-                  gap: 1,
-                  px: 2,
-                  py: 1,
-                  borderRadius: 2,
-                  background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+                  gap: 1.5,
+                  px: 3,
+                  py: 1.5,
+                  background: 'linear-gradient(135deg, rgba(147, 51, 234, 0.1) 0%, rgba(79, 70, 229, 0.05) 100%)',
                   cursor: 'pointer',
-                  transition: 'all 0.2s ease',
-                  '&:hover': { transform: 'translateY(-2px)', boxShadow: '0 4px 12px rgba(240, 147, 251, 0.4)' },
+                  position: 'relative',
+                  overflow: 'hidden',
+                  '&::before': {
+                    content: '""',
+                    position: 'absolute',
+                    top: 0,
+                    left: '-100%',
+                    width: '100%',
+                    height: '100%',
+                    background: 'linear-gradient(90deg, transparent, rgba(147, 51, 234, 0.1), transparent)',
+                    transition: 'left 0.5s',
+                  },
+                  '&:hover::before': {
+                    left: '100%',
+                  },
                 }}
               >
-                <Palette sx={{ color: 'white', fontSize: 16 }} />
-                <Typography variant="body2" sx={{ color: 'white', fontWeight: 600, fontSize: '0.8rem' }}>
+                <Box sx={{ 
+                  width: 24, 
+                  height: 24, 
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  position: 'relative'
+                }}>
+                  <Box sx={{
+                    width: 18,
+                    height: 18,
+                    background: 'linear-gradient(135deg, #8B5CF6 0%, #A855F7 100%)',
+                    borderRadius: '50%',
+                    position: 'relative',
+                    '&::before': {
+                      content: '""',
+                      position: 'absolute',
+                      top: '50%',
+                      left: '50%',
+                      transform: 'translate(-50%, -50%)',
+                      width: '8px',
+                      height: '8px',
+                      background: 'white',
+                      borderRadius: '50%',
+                    }
+                  }} />
+                </Box>
+                <Typography variant="body2" sx={{ 
+                  color: 'white', 
+                  fontWeight: 500, 
+                  fontSize: '0.85rem',
+                  textShadow: '0 1px 2px rgba(0, 0, 0, 0.3)'
+                }}>
                   Styles
                 </Typography>
               </Box>
 
+              {/* Tokens Button */}
               <Box
                 onClick={() => setShowTokensModal(true)}
                 sx={{
                   display: 'flex',
                   alignItems: 'center',
-                  gap: 1,
-                  px: 2,
-                  py: 1,
-                  borderRadius: 2,
-                  background: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+                  gap: 1.5,
+                  px: 3,
+                  py: 1.5,
+                  background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(37, 99, 235, 0.05) 100%)',
                   cursor: 'pointer',
-                  transition: 'all 0.2s ease',
-                  '&:hover': { transform: 'translateY(-2px)', boxShadow: '0 4px 12px rgba(79, 172, 254, 0.4)' },
+                  position: 'relative',
+                  overflow: 'hidden',
+                  '&::before': {
+                    content: '""',
+                    position: 'absolute',
+                    top: 0,
+                    left: '-100%',
+                    width: '100%',
+                    height: '100%',
+                    background: 'linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent)',
+                    transition: 'left 0.5s',
+                  },
+                  '&:hover::before': {
+                    left: '100%',
+                  },
                 }}
               >
-                <ColorLens sx={{ color: 'white', fontSize: 16 }} />
-                <Typography variant="body2" sx={{ color: 'white', fontWeight: 600, fontSize: '0.8rem' }}>
+                <Box sx={{ 
+                  width: 24, 
+                  height: 24, 
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  position: 'relative'
+                }}>
+                  <Box sx={{
+                    width: 16,
+                    height: 16,
+                    background: 'linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%)',
+                    borderRadius: '3px',
+                    position: 'relative',
+                    transform: 'rotate(45deg)',
+                    '&::before': {
+                      content: '""',
+                      position: 'absolute',
+                      top: '50%',
+                      left: '50%',
+                      transform: 'translate(-50%, -50%)',
+                      width: '6px',
+                      height: '6px',
+                      background: 'white',
+                      borderRadius: '50%',
+                    }
+                  }} />
+                </Box>
+                <Typography variant="body2" sx={{ 
+                  color: 'white', 
+                  fontWeight: 500, 
+                  fontSize: '0.85rem',
+                  textShadow: '0 1px 2px rgba(0, 0, 0, 0.3)'
+                }}>
                   Tokens
                 </Typography>
               </Box>
             </Box>
 
-            <Box sx={{ display: 'flex', flexDirection: { xs: 'column', lg: 'row' }, gap: 3 }}>
-              {/* Left Panel - Compact Controls */}
-              <Box sx={{ width: { xs: '100%', lg: 320 }, flexShrink: 0 }}>
-                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-                  {/* Image Upload Section */}
-                  <Box
-                    sx={{
-                      background: 'rgba(255, 255, 255, 0.05)',
-                      borderRadius: 2,
-                      p: 2.5,
-                      border: '1px solid rgba(255, 255, 255, 0.1)',
-                      backdropFilter: 'blur(10px)',
-                    }}
-                  >
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 2 }}>
-                      <Box sx={{ p: 0.5, borderRadius: 1, background: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)' }}>
-                        <Image sx={{ color: 'white', fontSize: 16 }} />
-                      </Box>
-                      <Typography variant="subtitle2" sx={{ fontWeight: 600, color: 'white' }}>
+            {/* Creative Layout - No Traditional Boxes */}
+            <Box sx={{ 
+              display: 'grid', 
+              gridTemplateColumns: { xs: '1fr', lg: '300px 1fr' }, 
+              gap: 4,
+              position: 'relative'
+            }}>
+              {/* Left Sidebar - Floating Elements */}
+              <Box sx={{ 
+                display: 'flex', 
+                flexDirection: 'column', 
+                gap: 3,
+                position: 'relative'
+              }}>
+                {/* Upload Area - Floating Panel */}
+                <Box sx={{
+                  position: 'relative',
+                  '&::before': {
+                    content: '""',
+                    position: 'absolute',
+                    top: '-1px',
+                    left: '-1px',
+                    right: '-1px',
+                    bottom: '-1px',
+                    background: 'linear-gradient(135deg, #667eea, #764ba2, #f093fb, #f5576c)',
+                    borderRadius: '16px',
+                    zIndex: -1,
+                    opacity: 0.3,
+                    filter: 'blur(8px)',
+                  }
+                }}>
+                  <Box sx={{
+                    background: 'rgba(255, 255, 255, 0.08)',
+                    backdropFilter: 'blur(20px)',
+                    borderRadius: '15px',
+                    p: 3,
+                    border: '1px solid rgba(255, 255, 255, 0.15)',
+                    position: 'relative',
+                    overflow: 'hidden',
+                    '&::after': {
+                      content: '""',
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      height: '1px',
+                      background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent)',
+                    }
+                  }}>
+                    {/* Upload Icon */}
+                    <Box sx={{ 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      gap: 2, 
+                      mb: 2,
+                      position: 'relative'
+                    }}>
+                      <Box sx={{
+                        width: 32,
+                        height: 32,
+                        background: 'linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%)',
+                        borderRadius: '8px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        position: 'relative',
+                        '&::before': {
+                          content: '""',
+                          position: 'absolute',
+                          top: '50%',
+                          left: '50%',
+                          transform: 'translate(-50%, -50%)',
+                          width: '16px',
+                          height: '16px',
+                          background: 'white',
+                          borderRadius: '2px',
+                          clipPath: 'polygon(0 0, 100% 0, 100% 70%, 70% 100%, 0 100%)',
+                        }
+                      }} />
+                      <Typography variant="h6" sx={{ 
+                        fontWeight: 600, 
+                        color: 'white',
+                        textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)'
+                      }}>
                         Upload Images
                       </Typography>
                     </Box>
@@ -644,9 +866,23 @@ const AppEnhanced = () => {
                     
                     {uploadedFiles.length > 0 && (
                       <Box sx={{ mt: 2 }}>
-                        <Typography variant="caption" color="text.secondary" sx={{ mb: 1, display: 'block' }}>
-                          {uploadedFiles.length} image{uploadedFiles.length !== 1 ? 's' : ''} uploaded
-                        </Typography>
+                        <Box sx={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: 1,
+                          mb: 1,
+                          px: 1.5,
+                          py: 0.5,
+                          background: 'rgba(34, 197, 94, 0.2)',
+                          borderRadius: '20px',
+                          border: '1px solid rgba(34, 197, 94, 0.3)',
+                          width: 'fit-content'
+                        }}>
+                          <Box sx={{ width: 6, height: 6, borderRadius: '50%', background: '#22C55E' }} />
+                          <Typography variant="caption" sx={{ color: '#22C55E', fontWeight: 600 }}>
+                            {uploadedFiles.length} image{uploadedFiles.length !== 1 ? 's' : ''} uploaded
+                          </Typography>
+                        </Box>
                         <EnhancedImageTray
                           images={uploadedFiles}
                           onImageDragStart={handleDragStart}
@@ -657,22 +893,77 @@ const AppEnhanced = () => {
                       </Box>
                     )}
                   </Box>
+                </Box>
 
-                  {/* Actions Section */}
-                  <Box
-                    sx={{
-                      background: 'rgba(255, 255, 255, 0.05)',
-                      borderRadius: 2,
-                      p: 2.5,
-                      border: '1px solid rgba(255, 255, 255, 0.1)',
-                      backdropFilter: 'blur(10px)',
-                    }}
-                  >
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 2 }}>
-                      <Box sx={{ p: 0.5, borderRadius: 1, background: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)' }}>
-                        <Rocket sx={{ color: 'white', fontSize: 16 }} />
-                      </Box>
-                      <Typography variant="subtitle2" sx={{ fontWeight: 600, color: 'white' }}>
+                {/* Actions Area - Floating Panel */}
+                <Box sx={{
+                  position: 'relative',
+                  '&::before': {
+                    content: '""',
+                    position: 'absolute',
+                    top: '-1px',
+                    left: '-1px',
+                    right: '-1px',
+                    bottom: '-1px',
+                    background: 'linear-gradient(135deg, #10B981, #059669, #34D399, #6EE7B7)',
+                    borderRadius: '16px',
+                    zIndex: -1,
+                    opacity: 0.3,
+                    filter: 'blur(8px)',
+                  }
+                }}>
+                  <Box sx={{
+                    background: 'rgba(255, 255, 255, 0.08)',
+                    backdropFilter: 'blur(20px)',
+                    borderRadius: '15px',
+                    p: 3,
+                    border: '1px solid rgba(255, 255, 255, 0.15)',
+                    position: 'relative',
+                    overflow: 'hidden',
+                    '&::after': {
+                      content: '""',
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      height: '1px',
+                      background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent)',
+                    }
+                  }}>
+                    {/* Generate Icon */}
+                    <Box sx={{ 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      gap: 2, 
+                      mb: 2 
+                    }}>
+                      <Box sx={{
+                        width: 32,
+                        height: 32,
+                        background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+                        borderRadius: '8px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        position: 'relative',
+                        '&::before': {
+                          content: '""',
+                          position: 'absolute',
+                          top: '50%',
+                          left: '50%',
+                          transform: 'translate(-50%, -50%)',
+                          width: '16px',
+                          height: '16px',
+                          background: 'white',
+                          borderRadius: '50%',
+                          boxShadow: '0 0 0 2px rgba(255, 255, 255, 0.3)',
+                        }
+                      }} />
+                      <Typography variant="h6" sx={{ 
+                        fontWeight: 600, 
+                        color: 'white',
+                        textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)'
+                      }}>
                         Generate Code
                       </Typography>
                     </Box>
@@ -684,51 +975,133 @@ const AppEnhanced = () => {
                       loading={isLoading}
                     />
                   </Box>
-
-                  {/* Status Section */}
-                  {Object.keys(workflowStatus).length > 0 && (
-                    <Box
-                      sx={{
-                        background: 'rgba(255, 255, 255, 0.05)',
-                        borderRadius: 2,
-                        p: 2.5,
-                        border: '1px solid rgba(255, 255, 255, 0.1)',
-                        backdropFilter: 'blur(10px)',
-                      }}
-                    >
-                      <EnhancedWorkflowStatus
-                        status={workflowStatus}
-                        error={error}
-                      />
-                    </Box>
-                  )}
                 </Box>
+
+                {/* Status Area */}
+                {Object.keys(workflowStatus).length > 0 && (
+                  <Box sx={{
+                    background: 'rgba(255, 255, 255, 0.05)',
+                    backdropFilter: 'blur(20px)',
+                    borderRadius: '12px',
+                    p: 2.5,
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    position: 'relative',
+                    overflow: 'hidden',
+                    '&::before': {
+                      content: '""',
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      width: '4px',
+                      height: '100%',
+                      background: 'linear-gradient(180deg, #3B82F6, #1D4ED8)',
+                      borderRadius: '0 2px 2px 0',
+                    }
+                  }}>
+                    <EnhancedWorkflowStatus
+                      status={workflowStatus}
+                      error={error}
+                    />
+                  </Box>
+                )}
               </Box>
               
-              {/* Right Panel - Main Content */}
-              <Box sx={{ flexGrow: 1 }}>
-                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-                  {/* Screen Flow */}
-                  <Box
-                    sx={{
-                      background: 'rgba(255, 255, 255, 0.05)',
-                      borderRadius: 2,
-                      p: 2.5,
-                      border: '1px solid rgba(255, 255, 255, 0.1)',
-                      backdropFilter: 'blur(10px)',
-                      minHeight: 300,
-                    }}
-                  >
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 2 }}>
-                      <Box sx={{ p: 0.5, borderRadius: 1, background: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)' }}>
-                        <DragIndicator sx={{ color: 'white', fontSize: 16 }} />
-                      </Box>
-                      <Typography variant="subtitle2" sx={{ fontWeight: 600, color: 'white' }}>
+              {/* Right Content - Main Area */}
+              <Box sx={{ 
+                display: 'flex', 
+                flexDirection: 'column', 
+                gap: 4,
+                position: 'relative'
+              }}>
+                {/* Screen Flow - Floating Canvas */}
+                <Box sx={{
+                  position: 'relative',
+                  minHeight: 400,
+                  '&::before': {
+                    content: '""',
+                    position: 'absolute',
+                    top: '-2px',
+                    left: '-2px',
+                    right: '-2px',
+                    bottom: '-2px',
+                    background: 'linear-gradient(135deg, #EC4899, #F43F5E, #F97316, #EAB308)',
+                    borderRadius: '20px',
+                    zIndex: -1,
+                    opacity: 0.2,
+                    filter: 'blur(12px)',
+                  }
+                }}>
+                  <Box sx={{
+                    background: 'rgba(255, 255, 255, 0.06)',
+                    backdropFilter: 'blur(25px)',
+                    borderRadius: '18px',
+                    p: 4,
+                    border: '1px solid rgba(255, 255, 255, 0.12)',
+                    position: 'relative',
+                    overflow: 'hidden',
+                    minHeight: 400,
+                    '&::after': {
+                      content: '""',
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      height: '2px',
+                      background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent)',
+                    }
+                  }}>
+                    {/* Flow Header */}
+                    <Box sx={{ 
+                      display: 'flex', 
+                      alignItems: 'center', 
+                      gap: 2, 
+                      mb: 3,
+                      position: 'relative'
+                    }}>
+                      <Box sx={{
+                        width: 36,
+                        height: 36,
+                        background: 'linear-gradient(135deg, #8B5CF6 0%, #A855F7 100%)',
+                        borderRadius: '10px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        position: 'relative',
+                        '&::before': {
+                          content: '""',
+                          position: 'absolute',
+                          top: '50%',
+                          left: '50%',
+                          transform: 'translate(-50%, -50%)',
+                          width: '18px',
+                          height: '18px',
+                          background: 'white',
+                          borderRadius: '2px',
+                          clipPath: 'polygon(0 0, 100% 0, 100% 70%, 70% 100%, 0 100%)',
+                        }
+                      }} />
+                      <Typography variant="h5" sx={{ 
+                        fontWeight: 700, 
+                        color: 'white',
+                        textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)'
+                      }}>
                         Screen Flow
                       </Typography>
                       {flowOrder.length > 0 && (
-                        <Box sx={{ ml: 'auto', px: 1, py: 0.5, borderRadius: 1, background: 'rgba(0, 255, 136, 0.2)', border: '1px solid rgba(0, 255, 136, 0.3)' }}>
-                          <Typography variant="caption" sx={{ color: '#00ff88', fontWeight: 600 }}>
+                        <Box sx={{ 
+                          ml: 'auto', 
+                          px: 2, 
+                          py: 1, 
+                          background: 'rgba(34, 197, 94, 0.2)', 
+                          borderRadius: '20px',
+                          border: '1px solid rgba(34, 197, 94, 0.4)',
+                          backdropFilter: 'blur(10px)'
+                        }}>
+                          <Typography variant="body2" sx={{ 
+                            color: '#22C55E', 
+                            fontWeight: 700,
+                            textShadow: '0 1px 2px rgba(0, 0, 0, 0.3)'
+                          }}>
                             {flowOrder.filter(Boolean).length} screens
                           </Typography>
                         </Box>
@@ -740,25 +1113,30 @@ const AppEnhanced = () => {
                       isDragOver={!!draggedItem}
                     >
                       {flowOrder.length > 0 ? (
-                        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
+                        <Box sx={{ 
+                          display: 'grid', 
+                          gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))',
+                          gap: 3,
+                          p: 2
+                        }}>
                           {flowOrder.map((file, index) => (
                             file && (
                               <Box
                                 key={index}
                                 sx={{
-                                  width: 120,
-                                  height: 120,
-                                  borderRadius: 2,
+                                  aspectRatio: '1',
+                                  borderRadius: '12px',
                                   overflow: 'hidden',
                                   border: '2px solid rgba(255, 255, 255, 0.2)',
                                   position: 'relative',
                                   background: 'rgba(255, 255, 255, 0.05)',
                                   backdropFilter: 'blur(10px)',
-                                  transition: 'all 0.3s ease',
+                                  transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                                  cursor: 'pointer',
                                   '&:hover': {
-                                    transform: 'translateY(-4px) scale(1.02)',
-                                    borderColor: 'primary.main',
-                                    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
+                                    transform: 'translateY(-8px) scale(1.05)',
+                                    borderColor: '#8B5CF6',
+                                    boxShadow: '0 20px 40px rgba(139, 92, 246, 0.3)',
                                   },
                                 }}
                               >
@@ -774,10 +1152,15 @@ const AppEnhanced = () => {
                                     left: 0,
                                     right: 0,
                                     background: 'linear-gradient(transparent, rgba(0, 0, 0, 0.8))',
-                                    p: 0.5,
+                                    p: 1.5,
                                   }}
                                 >
-                                  <Typography variant="caption" sx={{ color: 'white', fontSize: '0.6rem' }}>
+                                  <Typography variant="caption" sx={{ 
+                                    color: 'white', 
+                                    fontSize: '0.7rem',
+                                    fontWeight: 500,
+                                    textShadow: '0 1px 2px rgba(0, 0, 0, 0.8)'
+                                  }}>
                                     {file.name}
                                   </Typography>
                                 </Box>
@@ -791,34 +1174,36 @@ const AppEnhanced = () => {
                                   }}
                                   sx={{
                                     position: 'absolute',
-                                    top: 4,
-                                    right: 4,
-                                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                                    top: 8,
+                                    right: 8,
+                                    backgroundColor: 'rgba(239, 68, 68, 0.9)',
                                     color: 'white',
                                     backdropFilter: 'blur(10px)',
-                                    width: 20,
-                                    height: 20,
+                                    width: 24,
+                                    height: 24,
                                     '&:hover': { 
-                                      backgroundColor: 'rgba(255, 0, 0, 0.8)',
+                                      backgroundColor: 'rgba(220, 38, 38, 1)',
                                       transform: 'scale(1.1)',
                                     },
                                     transition: 'all 0.2s ease',
                                   }}
                                 >
-                                  <Close sx={{ fontSize: 12 }} />
+                                  <Close sx={{ fontSize: 14 }} />
                                 </IconButton>
                                 <Box
                                   sx={{
                                     position: 'absolute',
-                                    top: 4,
-                                    left: 4,
-                                    px: 0.5,
-                                    py: 0.25,
-                                    borderRadius: 0.5,
-                                    background: 'rgba(0, 255, 136, 0.9)',
-                                    color: 'black',
-                                    fontSize: '0.6rem',
-                                    fontWeight: 600,
+                                    top: 8,
+                                    left: 8,
+                                    px: 1,
+                                    py: 0.5,
+                                    borderRadius: '8px',
+                                    background: 'linear-gradient(135deg, #22C55E, #16A34A)',
+                                    color: 'white',
+                                    fontSize: '0.7rem',
+                                    fontWeight: 700,
+                                    textShadow: '0 1px 2px rgba(0, 0, 0, 0.3)',
+                                    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
                                   }}
                                 >
                                   {index + 1}
@@ -831,40 +1216,138 @@ const AppEnhanced = () => {
                         <Box
                           sx={{
                             textAlign: 'center',
-                            py: 6,
-                            border: '2px dashed rgba(255, 255, 255, 0.2)',
-                            borderRadius: 2,
+                            py: 8,
+                            border: '2px dashed rgba(255, 255, 255, 0.3)',
+                            borderRadius: '16px',
                             background: 'rgba(255, 255, 255, 0.02)',
+                            backdropFilter: 'blur(10px)',
+                            position: 'relative',
+                            overflow: 'hidden',
+                            '&::before': {
+                              content: '""',
+                              position: 'absolute',
+                              top: '50%',
+                              left: '50%',
+                              transform: 'translate(-50%, -50%)',
+                              width: '80px',
+                              height: '80px',
+                              background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(168, 85, 247, 0.1))',
+                              borderRadius: '50%',
+                              filter: 'blur(20px)',
+                            }
                           }}
                         >
-                          <DragIndicator sx={{ fontSize: 32, color: 'text.secondary', mb: 1 }} />
-                          <Typography variant="subtitle2" color="text.secondary" sx={{ mb: 0.5 }}>
+                          <Box sx={{
+                            width: 64,
+                            height: 64,
+                            background: 'linear-gradient(135deg, #8B5CF6, #A855F7)',
+                            borderRadius: '16px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            margin: '0 auto 16px',
+                            position: 'relative',
+                            '&::before': {
+                              content: '""',
+                              position: 'absolute',
+                              top: '50%',
+                              left: '50%',
+                              transform: 'translate(-50%, -50%)',
+                              width: '32px',
+                              height: '32px',
+                              background: 'white',
+                              borderRadius: '4px',
+                              clipPath: 'polygon(0 0, 100% 0, 100% 70%, 70% 100%, 0 100%)',
+                            }
+                          }} />
+                          <Typography variant="h6" color="white" sx={{ 
+                            mb: 1,
+                            fontWeight: 600,
+                            textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)'
+                          }}>
                             Arrange Your Screens
                           </Typography>
-                          <Typography variant="caption" color="text.secondary">
+                          <Typography variant="body2" sx={{ 
+                            color: 'rgba(255, 255, 255, 0.7)',
+                            textShadow: '0 1px 2px rgba(0, 0, 0, 0.3)'
+                          }}>
                             Drag images from the tray to create your screen flow
                           </Typography>
                         </Box>
                       )}
                     </EnhancedDropZone>
                   </Box>
-                  
-                  {/* Generated Code Preview */}
-                  {Object.keys(generatedFiles).length > 0 && (
-                    <Box
-                      sx={{
-                        background: 'rgba(255, 255, 255, 0.05)',
-                        borderRadius: 2,
-                        p: 2.5,
-                        border: '1px solid rgba(255, 255, 255, 0.1)',
-                        backdropFilter: 'blur(10px)',
-                      }}
-                    >
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 2 }}>
-                        <Box sx={{ p: 0.5, borderRadius: 1, background: 'linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)' }}>
-                          <Code sx={{ color: 'white', fontSize: 16 }} />
-                        </Box>
-                        <Typography variant="subtitle2" sx={{ fontWeight: 600, color: 'white' }}>
+                </Box>
+                
+                {/* Generated Code Preview */}
+                {Object.keys(generatedFiles).length > 0 && (
+                  <Box sx={{
+                    position: 'relative',
+                    '&::before': {
+                      content: '""',
+                      position: 'absolute',
+                      top: '-2px',
+                      left: '-2px',
+                      right: '-2px',
+                      bottom: '-2px',
+                      background: 'linear-gradient(135deg, #F59E0B, #D97706, #F97316, #EA580C)',
+                      borderRadius: '20px',
+                      zIndex: -1,
+                      opacity: 0.2,
+                      filter: 'blur(12px)',
+                    }
+                  }}>
+                    <Box sx={{
+                      background: 'rgba(255, 255, 255, 0.06)',
+                      backdropFilter: 'blur(25px)',
+                      borderRadius: '18px',
+                      p: 4,
+                      border: '1px solid rgba(255, 255, 255, 0.12)',
+                      position: 'relative',
+                      overflow: 'hidden',
+                      '&::after': {
+                        content: '""',
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        height: '2px',
+                        background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent)',
+                      }
+                    }}>
+                      <Box sx={{ 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        gap: 2, 
+                        mb: 3 
+                      }}>
+                        <Box sx={{
+                          width: 36,
+                          height: 36,
+                          background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+                          borderRadius: '10px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          position: 'relative',
+                          '&::before': {
+                            content: '""',
+                            position: 'absolute',
+                            top: '50%',
+                            left: '50%',
+                            transform: 'translate(-50%, -50%)',
+                            width: '20px',
+                            height: '20px',
+                            background: 'white',
+                            borderRadius: '2px',
+                            clipPath: 'polygon(0 0, 100% 0, 100% 70%, 70% 100%, 0 100%)',
+                          }
+                        }} />
+                        <Typography variant="h5" sx={{ 
+                          fontWeight: 700, 
+                          color: 'white',
+                          textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)'
+                        }}>
                           Generated Code Preview
                         </Typography>
                       </Box>
@@ -874,8 +1357,8 @@ const AppEnhanced = () => {
                         className="w-full"
                       />
                     </Box>
-                  )}
-                </Box>
+                  </Box>
+                )}
               </Box>
             </Box>
           </Container>
@@ -1330,47 +1813,160 @@ const AppEnhanced = () => {
           </Box>
 
           <Container maxWidth="xl" sx={{ py: 3, position: 'relative', zIndex: 1 }}>
-            {/* Quick Actions Bar */}
-            <Box sx={{ display: 'flex', gap: 2, mb: 3, flexWrap: 'wrap' }}>
+            {/* Floating Action Bar */}
+            <Box sx={{ 
+              display: 'flex', 
+              gap: 1.5, 
+              mb: 4, 
+              flexWrap: 'wrap',
+              justifyContent: 'center',
+              '& > *': {
+                backdropFilter: 'blur(20px)',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                borderRadius: '50px',
+                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                '&:hover': {
+                  transform: 'translateY(-4px) scale(1.05)',
+                  borderColor: 'rgba(255, 255, 255, 0.3)',
+                }
+              }
+            }}>
+              {/* Figma Import Button */}
               <Box
                 onClick={() => setShowFigmaModal(true)}
                 sx={{
                   display: 'flex',
                   alignItems: 'center',
-                  gap: 1,
-                  px: 2,
-                  py: 1,
-                  borderRadius: 2,
-                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                  gap: 1.5,
+                  px: 3,
+                  py: 1.5,
+                  background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)',
                   cursor: 'pointer',
-                  transition: 'all 0.2s ease',
-                  '&:hover': { transform: 'translateY(-2px)', boxShadow: '0 4px 12px rgba(102, 126, 234, 0.4)' },
+                  position: 'relative',
+                  overflow: 'hidden',
+                  '&::before': {
+                    content: '""',
+                    position: 'absolute',
+                    top: 0,
+                    left: '-100%',
+                    width: '100%',
+                    height: '100%',
+                    background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent)',
+                    transition: 'left 0.5s',
+                  },
+                  '&:hover::before': {
+                    left: '100%',
+                  },
                 }}
               >
-                <Box sx={{ width: 16, height: 16, background: 'white', borderRadius: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <Typography variant="caption" sx={{ color: '#667eea', fontWeight: 700, fontSize: '0.6rem' }}>F</Typography>
+                {/* Figma Icon */}
+                <Box sx={{ 
+                  width: 24, 
+                  height: 24, 
+                  position: 'relative',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}>
+                  <Box sx={{
+                    width: 20,
+                    height: 20,
+                    background: 'linear-gradient(135deg, #F24E1E 0%, #FF7262 100%)',
+                    borderRadius: '3px',
+                    position: 'relative',
+                    '&::before': {
+                      content: '""',
+                      position: 'absolute',
+                      top: '2px',
+                      left: '2px',
+                      width: '8px',
+                      height: '8px',
+                      background: 'white',
+                      borderRadius: '1px',
+                    },
+                    '&::after': {
+                      content: '""',
+                      position: 'absolute',
+                      top: '2px',
+                      right: '2px',
+                      width: '8px',
+                      height: '8px',
+                      background: 'white',
+                      borderRadius: '1px',
+                    }
+                  }} />
                 </Box>
-                <Typography variant="body2" sx={{ color: 'white', fontWeight: 600, fontSize: '0.8rem' }}>
+                <Typography variant="body2" sx={{ 
+                  color: 'white', 
+                  fontWeight: 500, 
+                  fontSize: '0.85rem',
+                  textShadow: '0 1px 2px rgba(0, 0, 0, 0.3)'
+                }}>
                   Import Figma
                 </Typography>
               </Box>
 
+              {/* Platform Button */}
               <Box
                 sx={{
                   display: 'flex',
                   alignItems: 'center',
-                  gap: 1,
-                  px: 2,
-                  py: 1,
-                  borderRadius: 2,
-                  background: `linear-gradient(135deg, ${currentView === 'android-lab' ? '#3DDC84' : currentView === 'ios-lab' ? '#007AFF' : '#FF6B35'}, ${currentView === 'android-lab' ? '#2E7D32' : currentView === 'ios-lab' ? '#0051D5' : '#E65100'})`,
+                  gap: 1.5,
+                  px: 3,
+                  py: 1.5,
+                  background: `linear-gradient(135deg, ${currentView === 'android-lab' ? 'rgba(52, 211, 153, 0.2)' : currentView === 'ios-lab' ? 'rgba(59, 130, 246, 0.2)' : 'rgba(251, 146, 60, 0.2)'}, ${currentView === 'android-lab' ? 'rgba(16, 185, 129, 0.1)' : currentView === 'ios-lab' ? 'rgba(37, 99, 235, 0.1)' : 'rgba(245, 101, 101, 0.1)'})`,
                   cursor: 'pointer',
-                  transition: 'all 0.2s ease',
-                  '&:hover': { transform: 'translateY(-2px)' },
+                  position: 'relative',
+                  overflow: 'hidden',
+                  '&::before': {
+                    content: '""',
+                    position: 'absolute',
+                    top: 0,
+                    left: '-100%',
+                    width: '100%',
+                    height: '100%',
+                    background: `linear-gradient(90deg, transparent, ${currentView === 'android-lab' ? 'rgba(52, 211, 153, 0.1)' : currentView === 'ios-lab' ? 'rgba(59, 130, 246, 0.1)' : 'rgba(251, 146, 60, 0.1)'}, transparent)`,
+                    transition: 'left 0.5s',
+                  },
+                  '&:hover::before': {
+                    left: '100%',
+                  },
                 }}
               >
-                <Build sx={{ color: 'white', fontSize: 16 }} />
-                <Typography variant="body2" sx={{ color: 'white', fontWeight: 600, fontSize: '0.8rem' }}>
+                {/* Platform Icon */}
+                <Box sx={{ 
+                  width: 24, 
+                  height: 24, 
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  position: 'relative'
+                }}>
+                  <Box sx={{
+                    width: 20,
+                    height: 20,
+                    background: `linear-gradient(135deg, ${currentView === 'android-lab' ? '#34D399' : currentView === 'ios-lab' ? '#3B82F6' : '#FB923C'}, ${currentView === 'android-lab' ? '#10B981' : currentView === 'ios-lab' ? '#2563EB' : '#F97316'})`,
+                    borderRadius: currentView === 'android-lab' ? '2px' : currentView === 'ios-lab' ? '50%' : '3px',
+                    position: 'relative',
+                    '&::before': {
+                      content: '""',
+                      position: 'absolute',
+                      top: '50%',
+                      left: '50%',
+                      transform: 'translate(-50%, -50%)',
+                      width: currentView === 'android-lab' ? '12px' : currentView === 'ios-lab' ? '8px' : '10px',
+                      height: currentView === 'android-lab' ? '12px' : currentView === 'ios-lab' ? '8px' : '10px',
+                      background: 'white',
+                      borderRadius: currentView === 'android-lab' ? '1px' : currentView === 'ios-lab' ? '50%' : '1px',
+                    }
+                  }} />
+                </Box>
+                <Typography variant="body2" sx={{ 
+                  color: 'white', 
+                  fontWeight: 500, 
+                  fontSize: '0.85rem',
+                  textShadow: '0 1px 2px rgba(0, 0, 0, 0.3)'
+                }}>
                   {platformName}
                 </Typography>
               </Box>
