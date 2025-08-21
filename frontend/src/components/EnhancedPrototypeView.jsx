@@ -95,6 +95,7 @@ import {
   Storage,
   TrendingUp,
   Menu as MenuIcon,
+  Brush,
   Bolt
 } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
