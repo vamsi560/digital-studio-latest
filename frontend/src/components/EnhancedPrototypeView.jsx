@@ -237,6 +237,7 @@ const EnhancedPrototypeView = ({ onNavigate, isJsZipLoaded }) => {
     }
     const combinedFiles = [...uploadedFiles, ...newFiles];
     setUploadedFiles(combinedFiles);
+    // Initialize flow order with the correct number of slots
     setFlowOrder(new Array(combinedFiles.length).fill(null));
     setSnackbar({ open: true, message: `${newFiles.length} images uploaded successfully!`, severity: 'success' });
   }, [uploadedFiles, isJsZipLoaded]);
@@ -649,43 +650,296 @@ const EnhancedPrototypeView = ({ onNavigate, isJsZipLoaded }) => {
               }}
             />
           </SidebarSection>
+
+          {/* Image Tray */}
+          <SidebarSection>
+            <div className="section-header">
+              <Image />
+              Image Tray
+            </div>
+            
+            {/* Upload Button */}
+            <Box sx={{ mb: 2 }}>
+              <Button
+                fullWidth
+                variant="outlined"
+                component="label"
+                startIcon={<CloudUpload />}
+                sx={{
+                  borderColor: 'rgba(255, 255, 255, 0.3)',
+                  color: 'white',
+                  '&:hover': { borderColor: 'white', background: 'rgba(255, 255, 255, 0.1)' }
+                }}
+              >
+                Upload Images
+                <input
+                  type="file"
+                  multiple
+                  accept="image/*,.zip"
+                  style={{ display: 'none' }}
+                  onChange={(e) => handleFileUpload(Array.from(e.target.files))}
+                />
+              </Button>
+            </Box>
+
+            {/* Uploaded Images Grid */}
+            <Box sx={{ 
+              maxHeight: 300, 
+              overflowY: 'auto',
+              display: 'grid',
+              gridTemplateColumns: 'repeat(3, 1fr)',
+              gap: 1
+            }}>
+              {uploadedFiles.length > 0 ? (
+                uploadedFiles.map((file, index) => (
+                  <Box
+                    key={index}
+                    draggable
+                    onDragStart={(e) => handleDragStart(e, file)}
+                    sx={{
+                      width: 60,
+                      height: 60,
+                      border: '2px solid rgba(255, 255, 255, 0.2)',
+                      borderRadius: 2,
+                      cursor: 'grab',
+                      overflow: 'hidden',
+                      transition: 'all 0.3s ease',
+                      '&:hover': {
+                        borderColor: 'primary.main',
+                        transform: 'scale(1.05)'
+                      },
+                      '&:active': {
+                        cursor: 'grabbing'
+                      }
+                    }}
+                  >
+                    <img 
+                      src={URL.createObjectURL(file)} 
+                      alt={file.name} 
+                      style={{ 
+                        width: '100%', 
+                        height: '100%', 
+                        objectFit: 'cover',
+                        cursor: 'grab'
+                      }}
+                    />
+                  </Box>
+                ))
+              ) : (
+                <Box sx={{ 
+                  gridColumn: '1 / -1', 
+                  textAlign: 'center', 
+                  py: 2,
+                  color: 'text.secondary',
+                  fontSize: '0.875rem'
+                }}>
+                  No images uploaded yet
+                </Box>
+              )}
+            </Box>
+
+            {/* Instructions */}
+            {uploadedFiles.length > 0 && (
+              <Typography variant="caption" sx={{ 
+                display: 'block', 
+                mt: 1, 
+                color: 'text.secondary',
+                textAlign: 'center'
+              }}>
+                Drag images to the screen flow area
+              </Typography>
+            )}
+          </SidebarSection>
         </Box>
 
         {/* Main Content Area */}
         <Box sx={{ flex: 1, padding: 4, overflowY: 'auto' }}>
           {!showGeneratedCode ? (
-            /* Upload Area */
-            <UploadArea
-              isDragOver={isDragOver}
-              onDragOver={(e) => { e.preventDefault(); setIsDragOver(true); }}
-              onDragLeave={() => setIsDragOver(false)}
-              onDrop={(e) => {
-                e.preventDefault();
-                setIsDragOver(false);
-                const files = Array.from(e.dataTransfer.files);
-                handleFileUpload(files);
-              }}
-              onClick={() => document.getElementById('file-upload').click()}
-            >
-              <CloudUpload sx={{ fontSize: 80, color: 'primary.main', mb: 3 }} />
-              <Typography variant="h4" sx={{ fontWeight: 600, mb: 2 }}>
-                Upload Your Designs
-              </Typography>
-              <Typography variant="body1" sx={{ color: 'rgba(255, 255, 255, 0.7)', mb: 4 }}>
-                Drag & drop your screen designs or click to browse
-              </Typography>
-              <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.5)' }}>
-                Supports JPG, PNG, SVG, WebP
-              </Typography>
-              <input
-                id="file-upload"
-                type="file"
-                multiple
-                accept="image/*,.zip"
-                style={{ display: 'none' }}
-                onChange={(e) => handleFileUpload(Array.from(e.target.files))}
-              />
-            </UploadArea>
+            /* Screen Flow and Upload Area */
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+              
+              {/* Screen Flow */}
+              <Card sx={{ background: 'rgba(255, 255, 255, 0.05)', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
+                <CardContent>
+                  <Typography variant="h6" sx={{ mb: 3, display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <Timeline sx={{ color: 'primary.main' }} />
+                    Screen Flow
+                  </Typography>
+                  
+                  <Box sx={{ 
+                    display: 'flex', 
+                    flexWrap: 'wrap', 
+                    gap: 2, 
+                    minHeight: 200,
+                    p: 3,
+                    background: 'rgba(255, 255, 255, 0.02)',
+                    borderRadius: 2,
+                    border: '1px dashed rgba(255, 255, 255, 0.1)'
+                  }}>
+                    {uploadedFiles.length === 0 ? (
+                      <Box sx={{ 
+                        width: '100%', 
+                        textAlign: 'center', 
+                        py: 4,
+                        color: 'text.secondary'
+                      }}>
+                        <DragIndicator sx={{ fontSize: 64, mb: 2, opacity: 0.3 }} />
+                        <Typography>Upload images first, then drag them here to order your screens</Typography>
+                      </Box>
+                    ) : (
+                      // Show slots based on uploaded files
+                      Array.from({ length: uploadedFiles.length }, (_, index) => (
+                        <Box
+                          key={index}
+                          onDragOver={(e) => e.preventDefault()}
+                          onDrop={(e) => handleDrop(e, index)}
+                          onClick={() => flowOrder[index] && setImagePreview(URL.createObjectURL(flowOrder[index]))}
+                          sx={{
+                            width: 120,
+                            height: 120,
+                            border: `2px dashed ${flowOrder[index] ? 'rgba(255, 255, 255, 0.3)' : 'rgba(255, 255, 255, 0.1)'}`,
+                            borderRadius: 3,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            cursor: 'pointer',
+                            transition: 'all 0.3s ease',
+                            background: flowOrder[index] ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.02)',
+                            position: 'relative',
+                            '&:hover': {
+                              borderColor: 'primary.main',
+                              background: 'rgba(25, 118, 210, 0.1)'
+                            }
+                          }}
+                        >
+                          {flowOrder[index] ? (
+                            <>
+                              <img 
+                                src={URL.createObjectURL(flowOrder[index])} 
+                                alt={flowOrder[index].name} 
+                                style={{ 
+                                  width: '100%', 
+                                  height: '100%', 
+                                  objectFit: 'cover',
+                                  borderRadius: 8
+                                }}
+                              />
+                              <Chip 
+                                label={index + 1} 
+                                size="small" 
+                                sx={{ 
+                                  position: 'absolute', 
+                                  top: -8, 
+                                  right: -8,
+                                  background: 'primary.main'
+                                }} 
+                              />
+                            </>
+                          ) : (
+                            <Typography variant="h4" color="text.secondary">
+                              {index + 1}
+                            </Typography>
+                          )}
+                        </Box>
+                      ))
+                    )}
+                  </Box>
+                </CardContent>
+              </Card>
+
+              {/* Upload Area - Only show if no images uploaded */}
+              {uploadedFiles.length === 0 && (
+                <Card sx={{ background: 'rgba(255, 255, 255, 0.05)', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
+                  <CardContent>
+                    <UploadArea
+                      isDragOver={isDragOver}
+                      onDragOver={(e) => { e.preventDefault(); setIsDragOver(true); }}
+                      onDragLeave={() => setIsDragOver(false)}
+                      onDrop={(e) => {
+                        e.preventDefault();
+                        setIsDragOver(false);
+                        const files = Array.from(e.dataTransfer.files);
+                        handleFileUpload(files);
+                      }}
+                      onClick={() => document.getElementById('file-upload').click()}
+                      sx={{ minHeight: 300 }}
+                    >
+                      <CloudUpload sx={{ fontSize: 80, color: 'primary.main', mb: 3 }} />
+                      <Typography variant="h4" sx={{ fontWeight: 600, mb: 2 }}>
+                        Upload Your Designs
+                      </Typography>
+                      <Typography variant="body1" sx={{ color: 'rgba(255, 255, 255, 0.7)', mb: 4 }}>
+                        Drag & drop your screen designs or click to browse
+                      </Typography>
+                      <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.5)' }}>
+                        Supports JPG, PNG, SVG, WebP
+                      </Typography>
+                      <input
+                        id="file-upload"
+                        type="file"
+                        multiple
+                        accept="image/*,.zip"
+                        style={{ display: 'none' }}
+                        onChange={(e) => handleFileUpload(Array.from(e.target.files))}
+                      />
+                    </UploadArea>
+                  </CardContent>
+                </Card>
+              )}
+
+              {/* Action Buttons */}
+              {uploadedFiles.length > 0 && (
+                <Card sx={{ background: 'rgba(255, 255, 255, 0.05)', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
+                  <CardContent>
+                    <Typography variant="h6" sx={{ mb: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
+                      <Settings sx={{ color: 'primary.main' }} />
+                      Actions
+                    </Typography>
+                    
+                    <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
+                      <Button
+                        variant="contained"
+                        startIcon={<Bolt />}
+                        onClick={handleGenerateCode}
+                        disabled={isLoading || flowOrder.some(f => f === null)}
+                        sx={{ 
+                          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                          '&:hover': { background: 'linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%)' }
+                        }}
+                      >
+                        Generate Code
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        startIcon={<Visibility />}
+                        onClick={handlePreview}
+                        disabled={Object.keys(generatedFiles).length === 0}
+                        sx={{ 
+                          borderColor: 'rgba(255, 255, 255, 0.3)',
+                          color: 'white',
+                          '&:hover': { borderColor: 'white', background: 'rgba(255, 255, 255, 0.1)' }
+                        }}
+                      >
+                        Preview
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        startIcon={<GetApp />}
+                        onClick={handleDownload}
+                        disabled={Object.keys(generatedFiles).length === 0 || !isJsZipLoaded}
+                        sx={{ 
+                          borderColor: 'rgba(255, 255, 255, 0.3)',
+                          color: 'white',
+                          '&:hover': { borderColor: 'white', background: 'rgba(255, 255, 255, 0.1)' }
+                        }}
+                      >
+                        Download
+                      </Button>
+                    </Box>
+                  </CardContent>
+                </Card>
+              )}
+            </Box>
           ) : (
             /* Generated Code Display */
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
