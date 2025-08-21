@@ -46,7 +46,9 @@ import {
   Fade,
   Zoom,
   Slide,
-  Grow
+  Grow,
+  ListItemButton,
+  Collapse
 } from '@mui/material';
 import {
   ArrowBack,
@@ -341,105 +343,144 @@ import {
   LocalOffer,
   LocalActivity,
   LocalPlay,
-  LocalDrink
+  LocalDrink,
+  LocalPizza,
+  LocalDining,
+  LocalBar,
+  LocalCafe,
+  LocalConvenienceStore,
+  LocalGroceryStore,
+  LocalMall,
+  LocalMovies,
+  LocalTheater,
+  LocalLibrary,
+  LocalSchool,
+  LocalUniversity,
+  LocalParking,
+  LocalAtm,
+  LocalPostOffice,
+  LocalPolice,
+  LocalFireDepartment,
+  LocalAmbulance,
+  LocalFlorist,
+  LocalPrintshop,
+  LocalSee,
+  LocalOffer,
+  LocalActivity,
+  LocalPlay,
+  LocalDrink,
+  Bolt,
+  Star,
+  StarBorder,
+  StarHalf,
+  StarRate,
+  StarOutline,
+  StarPurple500,
+  StarYellow500,
+  StarBlue500,
+  StarGreen500,
+  StarRed500,
+  StarOrange500,
+  StarPink500,
+  StarIndigo500,
+  StarTeal500,
+  StarCyan500,
+  StarLime500,
+  StarAmber500,
+  StarDeepOrange500,
+  StarDeepPurple500,
+  StarLightBlue500,
+  StarLightGreen500,
+  StarLimeA400,
+  StarOrangeA400,
+  StarPinkA400,
+  StarPurpleA400,
+  StarRedA400,
+  StarYellowA400,
+  StarBlueA400,
+  StarGreenA400,
+  StarIndigoA400,
+  StarTealA400,
+  StarCyanA400,
+  StarAmberA400,
+  StarDeepOrangeA400,
+  StarDeepPurpleA400,
+  StarLightBlueA400,
+  StarLightGreenA400,
+  StarLimeA700,
+  StarOrangeA700,
+  StarPinkA700,
+  StarPurpleA700,
+  StarRedA700,
+  StarYellowA700,
+  StarBlueA700,
+  StarGreenA700,
+  StarIndigoA700,
+  StarTealA700,
+  StarCyanA700,
+  StarAmberA700,
+  StarDeepOrangeA700,
+  StarDeepPurpleA700,
+  StarLightBlueA700,
+  StarLightGreenA700
 } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
 import AdvancedReactPreview from './advanced-react-preview';
 
-// Custom styled components with new design patterns
-const FloatingActionPanel = styled(Box)(({ theme }) => ({
-  position: 'fixed',
-  bottom: theme.spacing(3),
-  right: theme.spacing(3),
-  zIndex: 1000,
-  display: 'flex',
-  flexDirection: 'column',
-  gap: theme.spacing(1)
-}));
-
-const IconCard = styled(Card)(({ theme, active }) => ({
-  background: active ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' : 'rgba(255, 255, 255, 0.05)',
-  border: `2px solid ${active ? 'rgba(255, 255, 255, 0.3)' : 'rgba(255, 255, 255, 0.1)'}`,
-  borderRadius: 20,
-  cursor: 'pointer',
-  transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-  backdropFilter: 'blur(20px)',
-  '&:hover': {
-    transform: 'translateY(-8px) scale(1.02)',
-    boxShadow: '0 20px 40px rgba(0, 0, 0, 0.3)',
-    borderColor: 'rgba(255, 255, 255, 0.4)'
+// Custom styled components
+const SidebarSection = styled(Box)(({ theme }) => ({
+  marginBottom: theme.spacing(3),
+  '& .section-header': {
+    display: 'flex',
+    alignItems: 'center',
+    gap: theme.spacing(1),
+    padding: theme.spacing(1, 2),
+    color: 'rgba(255, 255, 255, 0.7)',
+    fontSize: '0.875rem',
+    fontWeight: 600,
+    textTransform: 'uppercase',
+    letterSpacing: '0.5px'
   }
 }));
 
-const HexagonalUploadArea = styled(Box)(({ theme, isDragOver }) => ({
-  width: 200,
-  height: 200,
-  position: 'relative',
+const SidebarOption = styled(ListItemButton)(({ theme, selected }) => ({
+  margin: theme.spacing(0.5, 1),
+  borderRadius: theme.spacing(1),
+  padding: theme.spacing(1, 2),
+  background: selected ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' : 'transparent',
+  color: selected ? 'white' : 'rgba(255, 255, 255, 0.8)',
+  transition: 'all 0.3s ease',
+  '&:hover': {
+    background: selected ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' : 'rgba(255, 255, 255, 0.1)',
+    transform: 'translateX(4px)'
+  },
+  '& .MuiListItemIcon-root': {
+    color: selected ? 'white' : 'rgba(255, 255, 255, 0.6)',
+    minWidth: 36
+  }
+}));
+
+const UploadArea = styled(Box)(({ theme, isDragOver }) => ({
+  border: `2px dashed ${isDragOver ? theme.palette.primary.main : 'rgba(255, 255, 255, 0.2)'}`,
+  borderRadius: theme.spacing(3),
+  padding: theme.spacing(8, 4),
+  textAlign: 'center',
   cursor: 'pointer',
   transition: 'all 0.3s ease',
-  '&::before': {
-    content: '""',
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    background: isDragOver ? 
-      'linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #ffeaa7, #dda0dd)' :
-      'linear-gradient(45deg, #667eea, #764ba2)',
-    clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)',
-    animation: isDragOver ? 'rotate 2s linear infinite' : 'none',
-    zIndex: -1
-  },
-  '&::after': {
-    content: '""',
-    position: 'absolute',
-    top: 4,
-    left: 4,
-    right: 4,
-    bottom: 4,
-    background: 'rgba(26, 26, 46, 0.9)',
-    clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)',
-    zIndex: -1
-  },
-  '@keyframes rotate': {
-    '0%': { transform: 'rotate(0deg)' },
-    '100%': { transform: 'rotate(360deg)' }
-  }
-}));
-
-const CircularProgressRing = styled(Box)(({ theme, progress }) => ({
-  width: 120,
-  height: 120,
-  position: 'relative',
-  '&::before': {
-    content: '""',
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    borderRadius: '50%',
-    background: `conic-gradient(from 0deg, #667eea ${progress * 3.6}deg, rgba(255, 255, 255, 0.1) ${progress * 3.6}deg)`,
-    animation: 'spin 2s linear infinite'
-  },
-  '&::after': {
-    content: '""',
-    position: 'absolute',
-    top: 8,
-    left: 8,
-    right: 8,
-    bottom: 8,
-    borderRadius: '50%',
-    background: 'rgba(26, 26, 46, 0.9)'
-  },
-  '@keyframes spin': {
-    '0%': { transform: 'rotate(0deg)' },
-    '100%': { transform: 'rotate(360deg)' }
+  background: isDragOver ? 'rgba(102, 126, 234, 0.1)' : 'rgba(255, 255, 255, 0.02)',
+  minHeight: 400,
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+  '&:hover': {
+    borderColor: theme.palette.primary.main,
+    background: 'rgba(102, 126, 234, 0.05)'
   }
 }));
 
 const EnhancedPrototypeView = ({ onNavigate, isJsZipLoaded }) => {
+  // Existing state
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [flowOrder, setFlowOrder] = useState([]);
   const [generatedFiles, setGeneratedFiles] = useState({});
@@ -460,10 +501,46 @@ const EnhancedPrototypeView = ({ onNavigate, isJsZipLoaded }) => {
   const [previewCode, setPreviewCode] = useState('');
   const [isDragOver, setIsDragOver] = useState(false);
   const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'info' });
-  const [activeTab, setActiveTab] = useState(0);
-  const [viewMode, setViewMode] = useState('grid');
-  const [showSidebar, setShowSidebar] = useState(false);
 
+  // New state for the enhanced UI
+  const [selectedFramework, setSelectedFramework] = useState('react');
+  const [selectedStyling, setSelectedStyling] = useState('tailwind');
+  const [selectedArchitecture, setSelectedArchitecture] = useState('component-based');
+  const [selectedImportSource, setSelectedImportSource] = useState('figma');
+  const [showGeneratedCode, setShowGeneratedCode] = useState(false);
+
+  // Framework options
+  const frameworks = [
+    { id: 'react', name: 'React', icon: <Code />, color: '#61DAFB' },
+    { id: 'vue', name: 'Vue.js', icon: <Code />, color: '#4FC08D' },
+    { id: 'angular', name: 'Angular', icon: <Code />, color: '#DD0031' },
+    { id: 'svelte', name: 'Svelte', icon: <Code />, color: '#FF3E00' }
+  ];
+
+  // Styling options
+  const stylingOptions = [
+    { id: 'tailwind', name: 'Tailwind CSS', icon: <Palette /> },
+    { id: 'styled-components', name: 'Styled Components', icon: <Style /> },
+    { id: 'pure-css', name: 'Pure CSS', icon: <Brush /> },
+    { id: 'scss', name: 'SCSS', icon: <ColorLens /> }
+  ];
+
+  // Architecture options
+  const architectureOptions = [
+    { id: 'component-based', name: 'Component-based', icon: <Widgets />, color: '#4CAF50' },
+    { id: 'modular', name: 'Modular', icon: <Layers /> },
+    { id: 'atomic-design', name: 'Atomic Design', icon: <Architecture /> },
+    { id: 'mvc-pattern', name: 'MVC Pattern', icon: <Build /> }
+  ];
+
+  // Import sources
+  const importSources = [
+    { id: 'figma', name: 'Figma', icon: <Link /> },
+    { id: 'sketch', name: 'Sketch', icon: <Image /> },
+    { id: 'adobe-xd', name: 'Adobe XD', icon: <Image /> }
+  ];
+
+  // Existing functions
   const handleFileUpload = useCallback(async (files) => {
     if (!isJsZipLoaded) {
       setSnackbar({ open: true, message: "Zip library not loaded yet. Please wait.", severity: 'warning' });
@@ -552,6 +629,11 @@ const EnhancedPrototypeView = ({ onNavigate, isJsZipLoaded }) => {
     if (stylesheetContent) formData.append('stylesheet', stylesheetContent);
     if (Object.keys(designTokens).length > 0) formData.append('designTokens', JSON.stringify(designTokens));
     formData.append('projectName', projectName);
+    
+    // Add new configuration options
+    formData.append('framework', selectedFramework);
+    formData.append('styling', selectedStyling);
+    formData.append('architecture', selectedArchitecture);
 
     try {
       setWorkflowStatus({ text: 'Architect: Analyzing project structure...', architect: 'running' });
@@ -576,6 +658,7 @@ const EnhancedPrototypeView = ({ onNavigate, isJsZipLoaded }) => {
       setAccuracyResult(data.accuracyResult);
       setWorkflowStatus({ text: 'Done!', architect: 'completed', builder: 'completed', composer: 'completed', finisher: 'completed' });
       setSnackbar({ open: true, message: 'Code generated successfully!', severity: 'success' });
+      setShowGeneratedCode(true);
 
     } catch (error) {
       console.error('Error generating code:', error);
@@ -653,415 +736,318 @@ const EnhancedPrototypeView = ({ onNavigate, isJsZipLoaded }) => {
     }
   }, [generatedFiles]);
 
-  const workflowSteps = [
-    { id: 'architect', name: 'Architect', description: 'Analyzing project structure...', icon: <Psychology /> },
-    { id: 'builder', name: 'Component Builder', description: 'Creating reusable components...', icon: <Widgets /> },
-    { id: 'composer', name: 'Page Composer', description: 'Assembling pages...', icon: <Layers /> },
-    { id: 'finisher', name: 'Finisher & QA', description: 'Finalizing app and checking quality...', icon: <AutoAwesome /> }
-  ];
-
-  const actionButtons = [
-    { icon: <Rocket />, label: 'Generate', action: handleGenerateCode, disabled: isLoading || flowOrder.some(f => f === null), color: 'primary' },
-    { icon: <Visibility />, label: 'Preview', action: handlePreview, disabled: Object.keys(generatedFiles).length === 0, color: 'secondary' },
-    { icon: <GetApp />, label: 'Download', action: handleDownload, disabled: Object.keys(generatedFiles).length === 0 || !isJsZipLoaded, color: 'success' }
-  ];
-
   return (
     <Box sx={{ 
       minHeight: '100vh', 
       background: 'linear-gradient(135deg, #0a0a1a 0%, #1a1a2e 50%, #16213e 100%)',
       color: 'white',
-      position: 'relative',
-      overflow: 'hidden'
+      display: 'flex',
+      flexDirection: 'column'
     }}>
-      {/* Animated Background */}
-      <Box sx={{
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        background: 'radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%)',
-        animation: 'float 20s ease-in-out infinite',
-        zIndex: 0
-      }} />
-      
-      <style>
-        {`
-          @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(180deg); }
-          }
-        `}
-      </style>
-
       {/* Header */}
-      <AppBar position="sticky" sx={{ 
-        background: 'rgba(26, 26, 46, 0.8)', 
+      <AppBar position="static" sx={{ 
+        background: 'rgba(26, 26, 46, 0.95)', 
         backdropFilter: 'blur(20px)',
         borderBottom: '1px solid rgba(255, 255, 255, 0.1)'
       }}>
         <Toolbar>
-          <IconButton
-            edge="start"
-            onClick={() => onNavigate('landing')}
-            sx={{ color: 'white', mr: 2 }}
-          >
-            <ArrowBack />
-          </IconButton>
-          
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flex: 1 }}>
-            <AutoAwesome sx={{ color: 'primary.main' }} />
-            <Typography variant="h6" sx={{ fontWeight: 600 }}>
-              Prototype Lab
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, flex: 1 }}>
+            <Box sx={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              gap: 1,
+              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+              padding: '8px 16px',
+              borderRadius: 2
+            }}>
+              <Bolt sx={{ color: 'white' }} />
+              <Typography variant="h6" sx={{ fontWeight: 600 }}>
+                Digital Studio
+              </Typography>
+            </Box>
+            <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.7)' }}>
+              Design to Code Platform
             </Typography>
-            <Chip 
-              label="AI-Powered" 
-              size="small"
-              icon={<SmartToy />}
-              sx={{ ml: 1 }}
-            />
           </Box>
 
-          <Box sx={{ display: 'flex', gap: 1 }}>
-            <IconButton onClick={() => setViewMode(viewMode === 'grid' ? 'list' : 'grid')}>
-              {viewMode === 'grid' ? <ViewList /> : <GridView />}
-            </IconButton>
-            <IconButton onClick={() => setShowSidebar(!showSidebar)}>
-              <MenuIcon />
-            </IconButton>
+          <Box sx={{ display: 'flex', gap: 2 }}>
+            <Button
+              variant="contained"
+              startIcon={<Bolt />}
+              onClick={handleGenerateCode}
+              disabled={isLoading || flowOrder.some(f => f === null)}
+              sx={{ 
+                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                '&:hover': { background: 'linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%)' }
+              }}
+            >
+              Generate Code
+            </Button>
+            <Button
+              variant="outlined"
+              startIcon={<Visibility />}
+              onClick={handlePreview}
+              disabled={Object.keys(generatedFiles).length === 0}
+              sx={{ 
+                borderColor: 'rgba(255, 255, 255, 0.3)',
+                color: 'white',
+                '&:hover': { borderColor: 'white', background: 'rgba(255, 255, 255, 0.1)' }
+              }}
+            >
+              Preview
+            </Button>
+            <Button
+              variant="outlined"
+              startIcon={<GetApp />}
+              onClick={handleDownload}
+              disabled={Object.keys(generatedFiles).length === 0 || !isJsZipLoaded}
+              sx={{ 
+                borderColor: 'rgba(255, 255, 255, 0.3)',
+                color: 'white',
+                '&:hover': { borderColor: 'white', background: 'rgba(255, 255, 255, 0.1)' }
+              }}
+            >
+              Download
+            </Button>
           </Box>
         </Toolbar>
       </AppBar>
 
       {/* Main Content */}
-      <Box sx={{ position: 'relative', zIndex: 1, p: 3 }}>
-        <Grid container spacing={3}>
-          
-          {/* Left Sidebar - Collapsible */}
-          <Grid item xs={12} lg={showSidebar ? 3 : 0}>
-            <Slide direction="right" in={showSidebar} mountOnEnter unmountOnExit>
-              <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                
-                {/* Figma Import */}
-                <IconCard>
-                  <CardContent sx={{ textAlign: 'center', p: 2 }}>
-                    <Link sx={{ fontSize: 40, color: 'primary.main', mb: 1 }} />
-                    <Typography variant="body2" sx={{ mb: 2 }}>
-                      Import from Figma
-                    </Typography>
-                    <TextField
-                      size="small"
-                      placeholder="Figma URL..."
-                      value={figmaUrl}
-                      onChange={(e) => setFigmaUrl(e.target.value)}
-                      InputProps={{
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <IconButton 
-                              onClick={handleFigmaImport}
-                              disabled={!figmaUrl}
-                              size="small"
-                            >
-                              <Add />
-                            </IconButton>
-                          </InputAdornment>
-                        ),
-                      }}
-                      sx={{
-                        '& .MuiOutlinedInput-root': {
-                          color: 'white',
-                          '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.2)' },
-                          '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.4)' },
-                          '&.Mui-focused fieldset': { borderColor: 'primary.main' }
-                        }
-                      }}
-                    />
-                  </CardContent>
-                </IconCard>
+      <Box sx={{ display: 'flex', flex: 1 }}>
+        {/* Left Sidebar */}
+        <Box sx={{ 
+          width: 320, 
+          background: 'rgba(255, 255, 255, 0.05)', 
+          borderRight: '1px solid rgba(255, 255, 255, 0.1)',
+          padding: 3,
+          overflowY: 'auto'
+        }}>
+          {/* Framework Section */}
+          <SidebarSection>
+            <div className="section-header">
+              <Code />
+              Framework
+            </div>
+            <List dense>
+              {frameworks.map((framework) => (
+                <ListItem key={framework.id} disablePadding>
+                  <SidebarOption
+                    selected={selectedFramework === framework.id}
+                    onClick={() => setSelectedFramework(framework.id)}
+                  >
+                    <ListItemIcon>
+                      {framework.icon}
+                    </ListItemIcon>
+                    <ListItemText primary={framework.name} />
+                  </SidebarOption>
+                </ListItem>
+              ))}
+            </List>
+          </SidebarSection>
 
-                {/* Design Tokens */}
-                <IconCard>
-                  <CardContent sx={{ textAlign: 'center', p: 2 }}>
-                    <Palette sx={{ fontSize: 40, color: 'secondary.main', mb: 1 }} />
-                    <Typography variant="body2" sx={{ mb: 2 }}>
-                      Design System
-                    </Typography>
-                    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-                      <IconButton size="small" sx={{ color: 'primary.main' }}>
-                        <ColorLens />
+          {/* Styling Section */}
+          <SidebarSection>
+            <div className="section-header">
+              <Palette />
+              Styling
+            </div>
+            <List dense>
+              {stylingOptions.map((option) => (
+                <ListItem key={option.id} disablePadding>
+                  <SidebarOption
+                    selected={selectedStyling === option.id}
+                    onClick={() => setSelectedStyling(option.id)}
+                  >
+                    <ListItemIcon>
+                      {option.icon}
+                    </ListItemIcon>
+                    <ListItemText primary={option.name} />
+                  </SidebarOption>
+                </ListItem>
+              ))}
+            </List>
+          </SidebarSection>
+
+          {/* Architecture Section */}
+          <SidebarSection>
+            <div className="section-header">
+              <Architecture />
+              Architecture
+            </div>
+            <List dense>
+              {architectureOptions.map((option) => (
+                <ListItem key={option.id} disablePadding>
+                  <SidebarOption
+                    selected={selectedArchitecture === option.id}
+                    onClick={() => setSelectedArchitecture(option.id)}
+                  >
+                    <ListItemIcon>
+                      {option.icon}
+                    </ListItemIcon>
+                    <ListItemText primary={option.name} />
+                  </SidebarOption>
+                </ListItem>
+              ))}
+            </List>
+          </SidebarSection>
+
+          {/* Import From Section */}
+          <SidebarSection>
+            <div className="section-header">
+              <Settings />
+              Import From
+            </div>
+            <List dense>
+              {importSources.map((source) => (
+                <ListItem key={source.id} disablePadding>
+                  <SidebarOption
+                    selected={selectedImportSource === source.id}
+                    onClick={() => setSelectedImportSource(source.id)}
+                  >
+                    <ListItemIcon>
+                      {source.icon}
+                    </ListItemIcon>
+                    <ListItemText primary={source.name} />
+                  </SidebarOption>
+                </ListItem>
+              ))}
+            </List>
+          </SidebarSection>
+
+          {/* Figma Import */}
+          {selectedImportSource === 'figma' && (
+            <SidebarSection>
+              <div className="section-header">
+                <Link />
+                Figma Import
+              </div>
+              <TextField
+                fullWidth
+                size="small"
+                placeholder="Paste Figma URL..."
+                value={figmaUrl}
+                onChange={(e) => setFigmaUrl(e.target.value)}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton 
+                        onClick={handleFigmaImport}
+                        disabled={!figmaUrl}
+                        size="small"
+                      >
+                        <Add />
                       </IconButton>
-                      <IconButton size="small" sx={{ color: 'primary.main' }}>
-                        <FormatSize />
-                      </IconButton>
-                      <IconButton size="small" sx={{ color: 'primary.main' }}>
-                        <BorderRadius />
-                      </IconButton>
-                    </Box>
-                  </CardContent>
-                </IconCard>
+                    </InputAdornment>
+                  ),
+                }}
+                sx={{
+                  '& .MuiOutlinedInput-root': {
+                    color: 'white',
+                    '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.2)' },
+                    '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.4)' },
+                    '&.Mui-focused fieldset': { borderColor: 'primary.main' }
+                  }
+                }}
+              />
+            </SidebarSection>
+          )}
 
-                {/* Upload Area */}
-                <IconCard>
-                  <CardContent sx={{ textAlign: 'center', p: 2 }}>
-                    <HexagonalUploadArea
-                      isDragOver={isDragOver}
-                      onDragOver={(e) => { e.preventDefault(); setIsDragOver(true); }}
-                      onDragLeave={() => setIsDragOver(false)}
-                      onDrop={(e) => {
-                        e.preventDefault();
-                        setIsDragOver(false);
-                        const files = Array.from(e.dataTransfer.files);
-                        handleFileUpload(files);
-                      }}
-                      onClick={() => document.getElementById('file-upload').click()}
-                    >
-                      <Box sx={{ 
-                        position: 'relative', 
-                        zIndex: 1, 
-                        display: 'flex', 
-                        flexDirection: 'column', 
-                        alignItems: 'center', 
-                        justifyContent: 'center',
-                        height: '100%',
-                        color: 'white'
-                      }}>
-                        <CloudUpload sx={{ fontSize: 48, mb: 1 }} />
-                        <Typography variant="body2" sx={{ textAlign: 'center' }}>
-                          Upload Screens
-                        </Typography>
-                      </Box>
-                    </HexagonalUploadArea>
-                    <input
-                      id="file-upload"
-                      type="file"
-                      multiple
-                      accept="image/*,.zip"
-                      style={{ display: 'none' }}
-                      onChange={(e) => handleFileUpload(Array.from(e.target.files))}
-                    />
-                  </CardContent>
-                </IconCard>
+          {/* Project Name */}
+          <SidebarSection>
+            <div className="section-header">
+              <FolderOpen />
+              Project Settings
+            </div>
+            <TextField
+              fullWidth
+              size="small"
+              placeholder="Project Name"
+              value={projectName}
+              onChange={(e) => setProjectName(e.target.value)}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  color: 'white',
+                  '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.2)' },
+                  '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.4)' },
+                  '&.Mui-focused fieldset': { borderColor: 'primary.main' }
+                }
+              }}
+            />
+          </SidebarSection>
+        </Box>
 
-                {/* Image Tray */}
-                <IconCard>
-                  <CardContent sx={{ p: 2 }}>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
-                      <Image sx={{ color: 'primary.main' }} />
-                      <Typography variant="body2">Image Tray</Typography>
-                    </Box>
-                    
-                    <Box sx={{ 
-                      maxHeight: 200, 
-                      overflowY: 'auto',
-                      display: 'grid',
-                      gridTemplateColumns: 'repeat(3, 1fr)',
-                      gap: 1
-                    }}>
-                      {uploadedFiles.map((file, index) => (
-                        <Box
-                          key={index}
-                          draggable
-                          onDragStart={(e) => handleDragStart(e, file)}
-                          sx={{
-                            width: 60,
-                            height: 60,
-                            border: '2px solid rgba(255, 255, 255, 0.2)',
-                            borderRadius: 2,
-                            cursor: 'grab',
-                            overflow: 'hidden',
-                            transition: 'all 0.3s ease',
-                            '&:hover': {
-                              borderColor: 'primary.main',
-                              transform: 'scale(1.1)'
-                            }
-                          }}
-                        >
-                          <img 
-                            src={URL.createObjectURL(file)} 
-                            alt={file.name} 
-                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                          />
-                        </Box>
-                      ))}
-                    </Box>
-                  </CardContent>
-                </IconCard>
-              </Box>
-            </Slide>
-          </Grid>
-
-          {/* Main Content Area */}
-          <Grid item xs={12} lg={showSidebar ? 9 : 12}>
+        {/* Main Content Area */}
+        <Box sx={{ flex: 1, padding: 4, overflowY: 'auto' }}>
+          {!showGeneratedCode ? (
+            /* Upload Area */
+            <UploadArea
+              isDragOver={isDragOver}
+              onDragOver={(e) => { e.preventDefault(); setIsDragOver(true); }}
+              onDragLeave={() => setIsDragOver(false)}
+              onDrop={(e) => {
+                e.preventDefault();
+                setIsDragOver(false);
+                const files = Array.from(e.dataTransfer.files);
+                handleFileUpload(files);
+              }}
+              onClick={() => document.getElementById('file-upload').click()}
+            >
+              <CloudUpload sx={{ fontSize: 80, color: 'primary.main', mb: 3 }} />
+              <Typography variant="h4" sx={{ fontWeight: 600, mb: 2 }}>
+                Upload Your Designs
+              </Typography>
+              <Typography variant="body1" sx={{ color: 'rgba(255, 255, 255, 0.7)', mb: 4 }}>
+                Drag & drop your screen designs or click to browse
+              </Typography>
+              <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.5)' }}>
+                Supports JPG, PNG, SVG, WebP
+              </Typography>
+              <input
+                id="file-upload"
+                type="file"
+                multiple
+                accept="image/*,.zip"
+                style={{ display: 'none' }}
+                onChange={(e) => handleFileUpload(Array.from(e.target.files))}
+              />
+            </UploadArea>
+          ) : (
+            /* Generated Code Display */
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-              
-              {/* Project Info */}
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
-                <TextField
-                  size="small"
-                  placeholder="Project Name"
-                  value={projectName}
-                  onChange={(e) => setProjectName(e.target.value)}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <FolderOpen sx={{ color: 'primary.main' }} />
-                      </InputAdornment>
-                    ),
-                  }}
-                  sx={{
-                    '& .MuiOutlinedInput-root': {
-                      color: 'white',
-                      '& fieldset': { borderColor: 'rgba(255, 255, 255, 0.2)' },
-                      '&:hover fieldset': { borderColor: 'rgba(255, 255, 255, 0.4)' },
-                      '&.Mui-focused fieldset': { borderColor: 'primary.main' }
-                    }
-                  }}
-                />
-              </Box>
-
-              {/* Screen Flow */}
-              <IconCard>
-                <CardContent>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 3 }}>
-                    <Timeline sx={{ color: 'primary.main' }} />
-                    <Typography variant="h6">Screen Flow</Typography>
-                  </Box>
-                  
-                  <Box sx={{ 
-                    display: 'flex', 
-                    flexWrap: 'wrap', 
-                    gap: 2, 
-                    minHeight: 200,
-                    p: 3,
-                    background: 'rgba(255, 255, 255, 0.02)',
-                    borderRadius: 3,
-                    border: '1px dashed rgba(255, 255, 255, 0.1)'
-                  }}>
-                    {flowOrder.length === 0 ? (
-                      <Box sx={{ 
-                        width: '100%', 
-                        textAlign: 'center', 
-                        py: 4,
-                        color: 'text.secondary'
-                      }}>
-                        <DragIndicator sx={{ fontSize: 64, mb: 2, opacity: 0.3 }} />
-                        <Typography>Drag images here to create your flow</Typography>
-                      </Box>
-                    ) : (
-                      flowOrder.map((file, index) => (
-                        <Box
-                          key={index}
-                          onDragOver={(e) => e.preventDefault()}
-                          onDrop={(e) => handleDrop(e, index)}
-                          onClick={() => file && setImagePreview(URL.createObjectURL(file))}
-                          sx={{
-                            width: 120,
-                            height: 120,
-                            border: `2px dashed ${file ? 'rgba(255, 255, 255, 0.3)' : 'rgba(255, 255, 255, 0.1)'}`,
-                            borderRadius: 3,
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            cursor: 'pointer',
-                            transition: 'all 0.3s ease',
-                            background: file ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.02)',
-                            position: 'relative',
-                            '&:hover': {
-                              borderColor: 'primary.main',
-                              background: 'rgba(25, 118, 210, 0.1)'
-                            }
-                          }}
-                        >
-                          {file ? (
-                            <>
-                              <img 
-                                src={URL.createObjectURL(file)} 
-                                alt={file.name} 
-                                style={{ 
-                                  width: '100%', 
-                                  height: '100%', 
-                                  objectFit: 'cover',
-                                  borderRadius: 8
-                                }}
-                              />
-                              <Chip 
-                                label={index + 1} 
-                                size="small" 
-                                sx={{ 
-                                  position: 'absolute', 
-                                  top: -8, 
-                                  right: -8,
-                                  background: 'primary.main'
-                                }} 
-                              />
-                            </>
-                          ) : (
-                            <Typography variant="h4" color="text.secondary">
-                              {index + 1}
-                            </Typography>
-                          )}
-                        </Box>
-                      ))
-                    )}
-                  </Box>
-                </CardContent>
-              </IconCard>
-
               {/* Workflow Status */}
               {isLoading && (
-                <IconCard>
+                <Card sx={{ background: 'rgba(255, 255, 255, 0.05)', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
                   <CardContent>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
+                    <Typography variant="h6" sx={{ mb: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
                       <Speed sx={{ color: 'primary.main' }} />
-                      <Typography variant="h6">Generation Progress</Typography>
-                    </Box>
-                    
-                    <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
-                      <CircularProgressRing progress={75} />
-                    </Box>
-                    
-                    <Stepper orientation="vertical" sx={{ '& .MuiStepLabel-root': { color: 'white' } }}>
-                      {workflowSteps.map((step) => {
-                        const status = workflowStatus[step.id] || 'pending';
-                        return (
-                          <Step key={step.id} active={status === 'running'} completed={status === 'completed'}>
-                            <StepLabel 
-                              icon={status === 'completed' ? <CheckCircle color="success" /> : 
-                                    status === 'running' ? <HourglassEmpty color="primary" /> : 
-                                    step.icon}
-                            >
-                              {step.name}
-                            </StepLabel>
-                            <StepContent>
-                              <Typography variant="body2" color="text.secondary">
-                                {status === 'running' ? workflowStatus.text : 
-                                 status === 'completed' ? 'Completed successfully' : 'Waiting to start'}
-                              </Typography>
-                            </StepContent>
-                          </Step>
-                        );
-                      })}
-                    </Stepper>
+                      Generation Progress
+                    </Typography>
+                    <LinearProgress 
+                      variant="indeterminate" 
+                      sx={{ height: 8, borderRadius: 4, mb: 2 }}
+                    />
+                    <Typography variant="body2" color="text.secondary">
+                      {workflowStatus.text || 'Processing...'}
+                    </Typography>
                   </CardContent>
-                </IconCard>
+                </Card>
               )}
 
               {/* Generated Code */}
               {Object.keys(generatedFiles).length > 0 && !isLoading && (
-                <IconCard>
+                <Card sx={{ background: 'rgba(255, 255, 255, 0.05)', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
                   <CardContent>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
+                    <Typography variant="h6" sx={{ mb: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
                       <Code sx={{ color: 'primary.main' }} />
-                      <Typography variant="h6">Generated Code</Typography>
-                    </Box>
+                      Generated Code
+                    </Typography>
                     
                     {/* Live React Preview */}
                     <Box sx={{ mb: 3 }}>
-                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
-                        <ViewInAr sx={{ color: 'secondary.main' }} />
-                        <Typography variant="subtitle1">Live React Preview</Typography>
-                      </Box>
+                      <Typography variant="subtitle1" sx={{ mb: 1 }}>
+                        Live React Preview
+                      </Typography>
                       <AdvancedReactPreview code={previewCode} showAnalysis={true} />
                     </Box>
 
@@ -1069,30 +1055,18 @@ const EnhancedPrototypeView = ({ onNavigate, isJsZipLoaded }) => {
                     {accuracyResult && (
                       <Box sx={{ 
                         mb: 3, 
-                        p: 3, 
-                        background: 'linear-gradient(135deg, rgba(76, 175, 80, 0.1) 0%, rgba(76, 175, 80, 0.05) 100%)', 
-                        borderRadius: 3,
+                        p: 2, 
+                        background: 'rgba(76, 175, 80, 0.1)', 
+                        borderRadius: 2,
                         border: '1px solid rgba(76, 175, 80, 0.2)'
                       }}>
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
-                          <TrendingUp sx={{ color: 'success.main' }} />
-                          <Typography variant="subtitle1">Estimated Accuracy</Typography>
-                        </Box>
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 3 }}>
-                          <Box sx={{ 
-                            width: 80, 
-                            height: 80, 
-                            borderRadius: '50%', 
-                            background: 'linear-gradient(135deg, #4caf50, #66bb6a)',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            fontSize: '24px',
-                            fontWeight: 'bold',
-                            color: 'white'
-                          }}>
+                        <Typography variant="subtitle1" sx={{ mb: 1 }}>
+                          Estimated Accuracy
+                        </Typography>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                          <Typography variant="h4" color="success.main" fontWeight="bold">
                             {accuracyResult.score}%
-                          </Box>
+                          </Typography>
                           <Typography variant="body2" color="text.secondary">
                             {accuracyResult.justification}
                           </Typography>
@@ -1129,37 +1103,12 @@ const EnhancedPrototypeView = ({ onNavigate, isJsZipLoaded }) => {
                       </Box>
                     </Paper>
                   </CardContent>
-                </IconCard>
+                </Card>
               )}
             </Box>
-          </Grid>
-        </Grid>
+          )}
+        </Box>
       </Box>
-
-      {/* Floating Action Buttons */}
-      <FloatingActionPanel>
-        {actionButtons.map((button, index) => (
-          <Zoom in={true} style={{ transitionDelay: `${index * 100}ms` }}>
-            <Fab
-              key={button.label}
-              color={button.color}
-              onClick={button.action}
-              disabled={button.disabled}
-              sx={{
-                width: 56,
-                height: 56,
-                boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
-                '&:hover': {
-                  transform: 'scale(1.1)',
-                  boxShadow: '0 12px 40px rgba(0, 0, 0, 0.4)'
-                }
-              }}
-            >
-              {button.icon}
-            </Fab>
-          </Zoom>
-        ))}
-      </FloatingActionPanel>
 
       {/* Image Preview Dialog */}
       <Dialog
@@ -1170,10 +1119,7 @@ const EnhancedPrototypeView = ({ onNavigate, isJsZipLoaded }) => {
       >
         <DialogTitle>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-              <Image sx={{ color: 'primary.main' }} />
-              <Typography>Image Preview</Typography>
-            </Box>
+            <Typography>Image Preview</Typography>
             <IconButton onClick={() => setImagePreview(null)}>
               <Close />
             </IconButton>
@@ -1198,10 +1144,7 @@ const EnhancedPrototypeView = ({ onNavigate, isJsZipLoaded }) => {
       >
         <DialogTitle>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-              <Visibility sx={{ color: 'primary.main' }} />
-              <Typography>Live Preview</Typography>
-            </Box>
+            <Typography>Live Preview</Typography>
             <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
               <Typography variant="body2" color="text.secondary">
                 {loadingText || 'Live Preview'}
