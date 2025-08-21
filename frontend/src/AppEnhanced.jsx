@@ -184,9 +184,16 @@ const AppEnhanced = () => {
     if (Object.keys(designTokens).length > 0) formData.append('designTokens', JSON.stringify(designTokens));
     formData.append('projectName', projectName);
 
+    // Determine which endpoint to use based on current view
+    let endpoint = '/api/generate-code'; // Default for prototype lab
+    if (['android-lab', 'ios-lab', 'pwa-lab'].includes(currentView)) {
+      endpoint = '/api/generate-native-code';
+      formData.append('platform', currentView.replace('-lab', ''));
+    }
+
     try {
       setWorkflowStatus({ text: 'Architect: Analyzing project structure...', architect: 'running' });
-      const response = await fetch('/api/generate-code', {
+      const response = await fetch(endpoint, {
         method: 'POST',
         body: formData,
       });
@@ -362,7 +369,7 @@ const AppEnhanced = () => {
       {
         title: 'Prototype Lab',
         icon: <ViewModule />,
-        onClick: () => handleNavigate('app-lab'),
+        onClick: () => handleNavigate('prototype-lab'),
       },
       {
         title: 'App Lab',
@@ -372,7 +379,7 @@ const AppEnhanced = () => {
       {
         title: 'Integration Lab',
         icon: <Refresh />,
-        onClick: () => handleNavigate('app-lab'),
+        onClick: () => handleNavigate('integration-lab'),
       },
     ];
 
@@ -464,23 +471,408 @@ const AppEnhanced = () => {
     );
   }
 
+  // Prototype Lab View - Direct to image upload page
+  if (currentView === 'prototype-lab') {
+    return (
+      <ThemeProvider theme={darkTheme}>
+        <CssBaseline />
+        <Box
+          sx={{
+            minHeight: '100vh',
+            background: 'linear-gradient(135deg, #0A0A0A 0%, #1A1A1A 50%, #0D0D0D 100%)',
+            position: 'relative',
+            '&::before': {
+              content: '""',
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              background: 'radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.1) 0%, transparent 50%)',
+              pointerEvents: 'none',
+            },
+          }}
+        >
+          {/* Header */}
+          <Box
+            sx={{
+              background: 'rgba(0, 0, 0, 0.8)',
+              backdropFilter: 'blur(20px)',
+              borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+              position: 'sticky',
+              top: 0,
+              zIndex: 1000,
+            }}
+          >
+            <Container maxWidth="xl">
+              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', py: 2 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                  <IconButton
+                    onClick={() => handleNavigate('landing')}
+                    sx={{
+                      color: 'text.secondary',
+                      '&:hover': { color: 'primary.main', transform: 'scale(1.1)' },
+                      transition: 'all 0.2s ease',
+                    }}
+                  >
+                    <ArrowBack />
+                  </IconButton>
+                  <Box>
+                    <Typography variant="h5" sx={{ fontWeight: 700, background: 'linear-gradient(45deg, #fff, #888)', backgroundClip: 'text', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                      Prototype Lab
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Transform designs into production-ready React components
+                    </Typography>
+                  </Box>
+                </Box>
+                
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, px: 2, py: 1, borderRadius: 2, background: 'rgba(255, 255, 255, 0.05)' }}>
+                    <Box sx={{ width: 8, height: 8, borderRadius: '50%', background: '#00ff88' }} />
+                    <Typography variant="caption" color="text.secondary">Live</Typography>
+                  </Box>
+                </Box>
+              </Box>
+            </Container>
+          </Box>
+
+          <Container maxWidth="xl" sx={{ py: 4, position: 'relative', zIndex: 1 }}>
+            <Box sx={{ display: 'flex', flexDirection: { xs: 'column', xl: 'row' }, gap: 4 }}>
+              {/* Left Panel - Enhanced Controls */}
+              <Box sx={{ width: { xs: '100%', xl: 380 }, flexShrink: 0 }}>
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                  {/* Import Section */}
+                  <Box
+                    sx={{
+                      background: 'rgba(255, 255, 255, 0.03)',
+                      borderRadius: 3,
+                      p: 3,
+                      border: '1px solid rgba(255, 255, 255, 0.1)',
+                      backdropFilter: 'blur(10px)',
+                    }}
+                  >
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
+                      <Box sx={{ p: 1, borderRadius: 2, background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>
+                        <Upload sx={{ color: 'white', fontSize: 20 }} />
+                      </Box>
+                      <Typography variant="h6" sx={{ fontWeight: 600, background: 'linear-gradient(45deg, #fff, #ccc)', backgroundClip: 'text', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                        IMPORT DESIGN
+                      </Typography>
+                    </Box>
+                    <EnhancedFigmaInput
+                      value={figmaUrl}
+                      onChange={setFigmaUrl}
+                      onImport={handleFigmaImport}
+                      loading={isLoading}
+                    />
+                  </Box>
+                  
+                  {/* Stylesheet Section */}
+                  <Box
+                    sx={{
+                      background: 'rgba(255, 255, 255, 0.03)',
+                      borderRadius: 3,
+                      p: 3,
+                      border: '1px solid rgba(255, 255, 255, 0.1)',
+                      backdropFilter: 'blur(10px)',
+                    }}
+                  >
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
+                      <Box sx={{ p: 1, borderRadius: 2, background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)' }}>
+                        <Palette sx={{ color: 'white', fontSize: 20 }} />
+                      </Box>
+                      <Typography variant="h6" sx={{ fontWeight: 600, background: 'linear-gradient(45deg, #fff, #ccc)', backgroundClip: 'text', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                        STYLES & TOKENS
+                      </Typography>
+                    </Box>
+                    <EnhancedStylesheetSection
+                      onFileUpload={setStylesheetContent}
+                      onManualStyles={() => setIsTooltipVisible(!isTooltipVisible)}
+                      designTokens={designTokens}
+                      onDesignTokensChange={setDesignTokens}
+                    />
+                  </Box>
+                  
+                  {/* Image Tray */}
+                  <Box
+                    sx={{
+                      background: 'rgba(255, 255, 255, 0.03)',
+                      borderRadius: 3,
+                      p: 3,
+                      border: '1px solid rgba(255, 255, 255, 0.1)',
+                      backdropFilter: 'blur(10px)',
+                      flexGrow: 1,
+                      minHeight: 0,
+                    }}
+                  >
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
+                      <Box sx={{ p: 1, borderRadius: 2, background: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)' }}>
+                        <Image sx={{ color: 'white', fontSize: 20 }} />
+                      </Box>
+                      <Typography variant="h6" sx={{ fontWeight: 600, background: 'linear-gradient(45deg, #fff, #ccc)', backgroundClip: 'text', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                        IMAGE TRAY
+                      </Typography>
+                    </Box>
+                    
+                    <EnhancedFileUpload
+                      onFileUpload={handleFileUpload}
+                      disabled={!isJsZipLoaded}
+                      accept="image/*,.zip"
+                    />
+                    
+                    {uploadedFiles.length > 0 && (
+                      <Box sx={{ mt: 3 }}>
+                        <EnhancedImageTray
+                          images={uploadedFiles}
+                          onImageDragStart={handleDragStart}
+                          onImageRemove={(index) => {
+                            setUploadedFiles(prev => prev.filter((_, i) => i !== index));
+                          }}
+                        />
+                      </Box>
+                    )}
+                  </Box>
+                </Box>
+              </Box>
+              
+              {/* Right Panel - Enhanced Main Content */}
+              <Box sx={{ flexGrow: 1 }}>
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                  {/* Screen Flow */}
+                  <Box
+                    sx={{
+                      background: 'rgba(255, 255, 255, 0.03)',
+                      borderRadius: 3,
+                      p: 3,
+                      border: '1px solid rgba(255, 255, 255, 0.1)',
+                      backdropFilter: 'blur(10px)',
+                    }}
+                  >
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
+                      <Box sx={{ p: 1, borderRadius: 2, background: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)' }}>
+                        <DragIndicator sx={{ color: 'white', fontSize: 20 }} />
+                      </Box>
+                      <Typography variant="h6" sx={{ fontWeight: 600, background: 'linear-gradient(45deg, #fff, #ccc)', backgroundClip: 'text', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                        SCREEN FLOW
+                      </Typography>
+                    </Box>
+                    
+                    <EnhancedDropZone
+                      onDrop={(e, index) => handleDrop(e, index)}
+                      isDragOver={!!draggedItem}
+                    >
+                      {flowOrder.length > 0 ? (
+                        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 3 }}>
+                          {flowOrder.map((file, index) => (
+                            file && (
+                              <Box
+                                key={index}
+                                sx={{
+                                  width: 140,
+                                  height: 140,
+                                  borderRadius: 3,
+                                  overflow: 'hidden',
+                                  border: '2px solid rgba(255, 255, 255, 0.2)',
+                                  position: 'relative',
+                                  background: 'rgba(255, 255, 255, 0.05)',
+                                  backdropFilter: 'blur(10px)',
+                                  transition: 'all 0.3s ease',
+                                  '&:hover': {
+                                    transform: 'translateY(-4px) scale(1.02)',
+                                    borderColor: 'primary.main',
+                                    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
+                                  },
+                                }}
+                              >
+                                <img
+                                  src={URL.createObjectURL(file)}
+                                  alt={file.name}
+                                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                />
+                                <Box
+                                  sx={{
+                                    position: 'absolute',
+                                    bottom: 0,
+                                    left: 0,
+                                    right: 0,
+                                    background: 'linear-gradient(transparent, rgba(0, 0, 0, 0.8))',
+                                    p: 1,
+                                  }}
+                                >
+                                  <Typography variant="caption" sx={{ color: 'white', fontSize: '0.7rem' }}>
+                                    {file.name}
+                                  </Typography>
+                                </Box>
+                                <IconButton
+                                  size="small"
+                                  onClick={() => {
+                                    const newOrder = [...flowOrder];
+                                    newOrder[index] = null;
+                                    setFlowOrder(newOrder);
+                                    setUploadedFiles(prev => [...prev, file]);
+                                  }}
+                                  sx={{
+                                    position: 'absolute',
+                                    top: 8,
+                                    right: 8,
+                                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                                    color: 'white',
+                                    backdropFilter: 'blur(10px)',
+                                    '&:hover': { 
+                                      backgroundColor: 'rgba(255, 0, 0, 0.8)',
+                                      transform: 'scale(1.1)',
+                                    },
+                                    transition: 'all 0.2s ease',
+                                  }}
+                                >
+                                  <Close fontSize="small" />
+                                </IconButton>
+                                <Box
+                                  sx={{
+                                    position: 'absolute',
+                                    top: 8,
+                                    left: 8,
+                                    px: 1,
+                                    py: 0.5,
+                                    borderRadius: 1,
+                                    background: 'rgba(0, 255, 136, 0.9)',
+                                    color: 'black',
+                                    fontSize: '0.7rem',
+                                    fontWeight: 600,
+                                  }}
+                                >
+                                  {index + 1}
+                                </Box>
+                              </Box>
+                            )
+                          ))}
+                        </Box>
+                      ) : (
+                        <Box
+                          sx={{
+                            textAlign: 'center',
+                            py: 8,
+                            border: '2px dashed rgba(255, 255, 255, 0.2)',
+                            borderRadius: 3,
+                            background: 'rgba(255, 255, 255, 0.02)',
+                          }}
+                        >
+                          <DragIndicator sx={{ fontSize: 48, color: 'text.secondary', mb: 2 }} />
+                          <Typography variant="h6" color="text.secondary" sx={{ mb: 1 }}>
+                            Arrange Your Screens
+                          </Typography>
+                          <Typography variant="body2" color="text.secondary">
+                            Drag images from the tray to create your screen flow
+                          </Typography>
+                        </Box>
+                      )}
+                    </EnhancedDropZone>
+                  </Box>
+                  
+                  {/* Actions */}
+                  <Box
+                    sx={{
+                      background: 'rgba(255, 255, 255, 0.03)',
+                      borderRadius: 3,
+                      p: 3,
+                      border: '1px solid rgba(255, 255, 255, 0.1)',
+                      backdropFilter: 'blur(10px)',
+                    }}
+                  >
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
+                      <Box sx={{ p: 1, borderRadius: 2, background: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)' }}>
+                        <Rocket sx={{ color: 'white', fontSize: 20 }} />
+                      </Box>
+                      <Typography variant="h6" sx={{ fontWeight: 600, background: 'linear-gradient(45deg, #fff, #ccc)', backgroundClip: 'text', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                        GENERATE & EXPORT
+                      </Typography>
+                    </Box>
+                    
+                    <EnhancedActionButtons
+                      onGenerate={handleGenerateCode}
+                      onPreview={handlePreview}
+                      onDownload={handleDownload}
+                      loading={isLoading}
+                    />
+                  </Box>
+                  
+                  {/* Workflow Status */}
+                  {Object.keys(workflowStatus).length > 0 && (
+                    <Box
+                      sx={{
+                        background: 'rgba(255, 255, 255, 0.03)',
+                        borderRadius: 3,
+                        p: 3,
+                        border: '1px solid rgba(255, 255, 255, 0.1)',
+                        backdropFilter: 'blur(10px)',
+                      }}
+                    >
+                      <EnhancedWorkflowStatus
+                        status={workflowStatus}
+                        error={error}
+                      />
+                    </Box>
+                  )}
+                  
+                  {/* Error Display */}
+                  <EnhancedErrorDisplay
+                    message={error}
+                    onRetry={() => setError('')}
+                  />
+                  
+                  {/* Generated Code Preview */}
+                  {Object.keys(generatedFiles).length > 0 && (
+                    <Box
+                      sx={{
+                        background: 'rgba(255, 255, 255, 0.03)',
+                        borderRadius: 3,
+                        p: 3,
+                        border: '1px solid rgba(255, 255, 255, 0.1)',
+                        backdropFilter: 'blur(10px)',
+                      }}
+                    >
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
+                        <Box sx={{ p: 1, borderRadius: 2, background: 'linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)' }}>
+                          <Code sx={{ color: 'white', fontSize: 20 }} />
+                        </Box>
+                        <Typography variant="h6" sx={{ fontWeight: 600, background: 'linear-gradient(45deg, #fff, #ccc)', backgroundClip: 'text', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                        GENERATED CODE PREVIEW
+                        </Typography>
+                      </Box>
+                      
+                      <AdvancedReactPreview
+                        code={previewCode}
+                        className="w-full"
+                      />
+                    </Box>
+                  )}
+                </Box>
+              </Box>
+            </Box>
+          </Container>
+        </Box>
+      </ThemeProvider>
+    );
+  }
+
   // App Lab View - "Choose Your Platform" page
   if (currentView === 'app-lab') {
     const platforms = [
       {
         title: 'Android',
         icon: <Build />,
-        onClick: () => handleNavigate('main'),
+        onClick: () => handleNavigate('android-lab'),
       },
       {
         title: 'iOS',
         icon: <Build />,
-        onClick: () => handleNavigate('main'),
+        onClick: () => handleNavigate('ios-lab'),
       },
       {
         title: 'Progressive Web App',
         icon: <Build />,
-        onClick: () => handleNavigate('main'),
+        onClick: () => handleNavigate('pwa-lab'),
       },
     ];
 
@@ -566,6 +958,447 @@ const AppEnhanced = () => {
               </Box>
             ))}
           </Box>
+        </Box>
+      </ThemeProvider>
+    );
+  }
+
+  // Integration Lab View
+  if (currentView === 'integration-lab') {
+    return (
+      <ThemeProvider theme={darkTheme}>
+        <CssBaseline />
+        <Box
+          sx={{
+            minHeight: '100vh',
+            background: 'linear-gradient(135deg, #0D0F18 0%, #111827 100%)',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            p: 4,
+            textAlign: 'center',
+          }}
+        >
+          {/* Header */}
+          <Box sx={{ position: 'absolute', top: 20, left: 20, right: 20, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <Typography variant="h6" sx={{ color: 'text.secondary' }}>
+              Integration Lab
+            </Typography>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+              <Typography
+                variant="body2"
+                onClick={() => handleNavigate('landing')}
+                sx={{
+                  color: 'text.secondary',
+                  cursor: 'pointer',
+                  '&:hover': { color: 'white' },
+                }}
+              >
+                ← Back
+              </Typography>
+              <IconButton
+                component="a"
+                href="https://github.com"
+                target="_blank"
+                sx={{ color: 'text.secondary' }}
+              >
+                <GitHub />
+              </IconButton>
+            </Box>
+          </Box>
+          
+          {/* Main title */}
+          <Typography variant="h2" sx={{ fontWeight: 700, mb: 8, color: 'white' }}>
+            Integration Lab
+          </Typography>
+          
+          {/* Coming Soon Message */}
+          <Box
+            sx={{
+              background: 'rgba(255, 255, 255, 0.05)',
+              borderRadius: 3,
+              p: 4,
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              maxWidth: 600,
+            }}
+          >
+            <Refresh sx={{ fontSize: 64, color: 'text.secondary', mb: 2 }} />
+            <Typography variant="h5" sx={{ color: 'white', mb: 2 }}>
+              Coming Soon
+            </Typography>
+            <Typography variant="body1" color="text.secondary">
+              Advanced integration features and API management tools are under development.
+            </Typography>
+          </Box>
+        </Box>
+      </ThemeProvider>
+    );
+  }
+
+  // Platform-specific lab views (Android, iOS, PWA)
+  const platformViews = ['android-lab', 'ios-lab', 'pwa-lab'];
+  if (platformViews.includes(currentView)) {
+    const platformNames = {
+      'android-lab': 'Android',
+      'ios-lab': 'iOS',
+      'pwa-lab': 'Progressive Web App'
+    };
+    
+    const platformName = platformNames[currentView];
+    
+    return (
+      <ThemeProvider theme={darkTheme}>
+        <CssBaseline />
+        <Box
+          sx={{
+            minHeight: '100vh',
+            background: 'linear-gradient(135deg, #0A0A0A 0%, #1A1A1A 50%, #0D0D0D 100%)',
+            position: 'relative',
+            '&::before': {
+              content: '""',
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              background: 'radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.1) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.1) 0%, transparent 50%)',
+              pointerEvents: 'none',
+            },
+          }}
+        >
+          {/* Header */}
+          <Box
+            sx={{
+              background: 'rgba(0, 0, 0, 0.8)',
+              backdropFilter: 'blur(20px)',
+              borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+              position: 'sticky',
+              top: 0,
+              zIndex: 1000,
+            }}
+          >
+            <Container maxWidth="xl">
+              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', py: 2 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                  <IconButton
+                    onClick={() => handleNavigate('app-lab')}
+                    sx={{
+                      color: 'text.secondary',
+                      '&:hover': { color: 'primary.main', transform: 'scale(1.1)' },
+                      transition: 'all 0.2s ease',
+                    }}
+                  >
+                    <ArrowBack />
+                  </IconButton>
+                  <Box>
+                    <Typography variant="h5" sx={{ fontWeight: 700, background: 'linear-gradient(45deg, #fff, #888)', backgroundClip: 'text', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                      {platformName} Lab
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Generate native {platformName.toLowerCase()} code from designs
+                    </Typography>
+                  </Box>
+                </Box>
+                
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, px: 2, py: 1, borderRadius: 2, background: 'rgba(255, 255, 255, 0.05)' }}>
+                    <Box sx={{ width: 8, height: 8, borderRadius: '50%', background: '#00ff88' }} />
+                    <Typography variant="caption" color="text.secondary">Live</Typography>
+                  </Box>
+                </Box>
+              </Box>
+            </Container>
+          </Box>
+
+          <Container maxWidth="xl" sx={{ py: 4, position: 'relative', zIndex: 1 }}>
+            <Box sx={{ display: 'flex', flexDirection: { xs: 'column', xl: 'row' }, gap: 4 }}>
+              {/* Left Panel - Enhanced Controls */}
+              <Box sx={{ width: { xs: '100%', xl: 380 }, flexShrink: 0 }}>
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                  {/* Import Section */}
+                  <Box
+                    sx={{
+                      background: 'rgba(255, 255, 255, 0.03)',
+                      borderRadius: 3,
+                      p: 3,
+                      border: '1px solid rgba(255, 255, 255, 0.1)',
+                      backdropFilter: 'blur(10px)',
+                    }}
+                  >
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
+                      <Box sx={{ p: 1, borderRadius: 2, background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>
+                        <Upload sx={{ color: 'white', fontSize: 20 }} />
+                      </Box>
+                      <Typography variant="h6" sx={{ fontWeight: 600, background: 'linear-gradient(45deg, #fff, #ccc)', backgroundClip: 'text', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                        IMPORT DESIGN
+                      </Typography>
+                    </Box>
+                    <EnhancedFigmaInput
+                      value={figmaUrl}
+                      onChange={setFigmaUrl}
+                      onImport={handleFigmaImport}
+                      loading={isLoading}
+                    />
+                  </Box>
+                  
+                  {/* Image Tray */}
+                  <Box
+                    sx={{
+                      background: 'rgba(255, 255, 255, 0.03)',
+                      borderRadius: 3,
+                      p: 3,
+                      border: '1px solid rgba(255, 255, 255, 0.1)',
+                      backdropFilter: 'blur(10px)',
+                      flexGrow: 1,
+                      minHeight: 0,
+                    }}
+                  >
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
+                      <Box sx={{ p: 1, borderRadius: 2, background: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)' }}>
+                        <Image sx={{ color: 'white', fontSize: 20 }} />
+                      </Box>
+                      <Typography variant="h6" sx={{ fontWeight: 600, background: 'linear-gradient(45deg, #fff, #ccc)', backgroundClip: 'text', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                        IMAGE TRAY
+                      </Typography>
+                    </Box>
+                    
+                    <EnhancedFileUpload
+                      onFileUpload={handleFileUpload}
+                      disabled={!isJsZipLoaded}
+                      accept="image/*,.zip"
+                    />
+                    
+                    {uploadedFiles.length > 0 && (
+                      <Box sx={{ mt: 3 }}>
+                        <EnhancedImageTray
+                          images={uploadedFiles}
+                          onImageDragStart={handleDragStart}
+                          onImageRemove={(index) => {
+                            setUploadedFiles(prev => prev.filter((_, i) => i !== index));
+                          }}
+                        />
+                      </Box>
+                    )}
+                  </Box>
+                </Box>
+              </Box>
+              
+              {/* Right Panel - Enhanced Main Content */}
+              <Box sx={{ flexGrow: 1 }}>
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                  {/* Screen Flow */}
+                  <Box
+                    sx={{
+                      background: 'rgba(255, 255, 255, 0.03)',
+                      borderRadius: 3,
+                      p: 3,
+                      border: '1px solid rgba(255, 255, 255, 0.1)',
+                      backdropFilter: 'blur(10px)',
+                    }}
+                  >
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
+                      <Box sx={{ p: 1, borderRadius: 2, background: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)' }}>
+                        <DragIndicator sx={{ color: 'white', fontSize: 20 }} />
+                      </Box>
+                      <Typography variant="h6" sx={{ fontWeight: 600, background: 'linear-gradient(45deg, #fff, #ccc)', backgroundClip: 'text', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                        SCREEN FLOW
+                      </Typography>
+                    </Box>
+                    
+                    <EnhancedDropZone
+                      onDrop={(e, index) => handleDrop(e, index)}
+                      isDragOver={!!draggedItem}
+                    >
+                      {flowOrder.length > 0 ? (
+                        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 3 }}>
+                          {flowOrder.map((file, index) => (
+                            file && (
+                              <Box
+                                key={index}
+                                sx={{
+                                  width: 140,
+                                  height: 140,
+                                  borderRadius: 3,
+                                  overflow: 'hidden',
+                                  border: '2px solid rgba(255, 255, 255, 0.2)',
+                                  position: 'relative',
+                                  background: 'rgba(255, 255, 255, 0.05)',
+                                  backdropFilter: 'blur(10px)',
+                                  transition: 'all 0.3s ease',
+                                  '&:hover': {
+                                    transform: 'translateY(-4px) scale(1.02)',
+                                    borderColor: 'primary.main',
+                                    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
+                                  },
+                                }}
+                              >
+                                <img
+                                  src={URL.createObjectURL(file)}
+                                  alt={file.name}
+                                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                />
+                                <Box
+                                  sx={{
+                                    position: 'absolute',
+                                    bottom: 0,
+                                    left: 0,
+                                    right: 0,
+                                    background: 'linear-gradient(transparent, rgba(0, 0, 0, 0.8))',
+                                    p: 1,
+                                  }}
+                                >
+                                  <Typography variant="caption" sx={{ color: 'white', fontSize: '0.7rem' }}>
+                                    {file.name}
+                                  </Typography>
+                                </Box>
+                                <IconButton
+                                  size="small"
+                                  onClick={() => {
+                                    const newOrder = [...flowOrder];
+                                    newOrder[index] = null;
+                                    setFlowOrder(newOrder);
+                                    setUploadedFiles(prev => [...prev, file]);
+                                  }}
+                                  sx={{
+                                    position: 'absolute',
+                                    top: 8,
+                                    right: 8,
+                                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                                    color: 'white',
+                                    backdropFilter: 'blur(10px)',
+                                    '&:hover': { 
+                                      backgroundColor: 'rgba(255, 0, 0, 0.8)',
+                                      transform: 'scale(1.1)',
+                                    },
+                                    transition: 'all 0.2s ease',
+                                  }}
+                                >
+                                  <Close fontSize="small" />
+                                </IconButton>
+                                <Box
+                                  sx={{
+                                    position: 'absolute',
+                                    top: 8,
+                                    left: 8,
+                                    px: 1,
+                                    py: 0.5,
+                                    borderRadius: 1,
+                                    background: 'rgba(0, 255, 136, 0.9)',
+                                    color: 'black',
+                                    fontSize: '0.7rem',
+                                    fontWeight: 600,
+                                  }}
+                                >
+                                  {index + 1}
+                                </Box>
+                              </Box>
+                            )
+                          ))}
+                        </Box>
+                      ) : (
+                        <Box
+                          sx={{
+                            textAlign: 'center',
+                            py: 8,
+                            border: '2px dashed rgba(255, 255, 255, 0.2)',
+                            borderRadius: 3,
+                            background: 'rgba(255, 255, 255, 0.02)',
+                          }}
+                        >
+                          <DragIndicator sx={{ fontSize: 48, color: 'text.secondary', mb: 2 }} />
+                          <Typography variant="h6" color="text.secondary" sx={{ mb: 1 }}>
+                            Arrange Your Screens
+                          </Typography>
+                          <Typography variant="body2" color="text.secondary">
+                            Drag images from the tray to create your screen flow
+                          </Typography>
+                        </Box>
+                      )}
+                    </EnhancedDropZone>
+                  </Box>
+                  
+                  {/* Actions */}
+                  <Box
+                    sx={{
+                      background: 'rgba(255, 255, 255, 0.03)',
+                      borderRadius: 3,
+                      p: 3,
+                      border: '1px solid rgba(255, 255, 255, 0.1)',
+                      backdropFilter: 'blur(10px)',
+                    }}
+                  >
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
+                      <Box sx={{ p: 1, borderRadius: 2, background: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)' }}>
+                        <Rocket sx={{ color: 'white', fontSize: 20 }} />
+                      </Box>
+                      <Typography variant="h6" sx={{ fontWeight: 600, background: 'linear-gradient(45deg, #fff, #ccc)', backgroundClip: 'text', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                        GENERATE {platformName.toUpperCase()} CODE
+                      </Typography>
+                    </Box>
+                    
+                    <EnhancedActionButtons
+                      onGenerate={handleGenerateCode}
+                      onPreview={handlePreview}
+                      onDownload={handleDownload}
+                      loading={isLoading}
+                    />
+                  </Box>
+                  
+                  {/* Workflow Status */}
+                  {Object.keys(workflowStatus).length > 0 && (
+                    <Box
+                      sx={{
+                        background: 'rgba(255, 255, 255, 0.03)',
+                        borderRadius: 3,
+                        p: 3,
+                        border: '1px solid rgba(255, 255, 255, 0.1)',
+                        backdropFilter: 'blur(10px)',
+                      }}
+                    >
+                      <EnhancedWorkflowStatus
+                        status={workflowStatus}
+                        error={error}
+                      />
+                    </Box>
+                  )}
+                  
+                  {/* Error Display */}
+                  <EnhancedErrorDisplay
+                    message={error}
+                    onRetry={() => setError('')}
+                  />
+                  
+                  {/* Generated Code Preview */}
+                  {Object.keys(generatedFiles).length > 0 && (
+                    <Box
+                      sx={{
+                        background: 'rgba(255, 255, 255, 0.03)',
+                        borderRadius: 3,
+                        p: 3,
+                        border: '1px solid rgba(255, 255, 255, 0.1)',
+                        backdropFilter: 'blur(10px)',
+                      }}
+                    >
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
+                        <Box sx={{ p: 1, borderRadius: 2, background: 'linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)' }}>
+                          <Code sx={{ color: 'white', fontSize: 20 }} />
+                        </Box>
+                        <Typography variant="h6" sx={{ fontWeight: 600, background: 'linear-gradient(45deg, #fff, #ccc)', backgroundClip: 'text', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                        GENERATED {platformName.toUpperCase()} CODE PREVIEW
+                        </Typography>
+                      </Box>
+                      
+                      <AdvancedReactPreview
+                        code={previewCode}
+                        className="w-full"
+                      />
+                    </Box>
+                  )}
+                </Box>
+              </Box>
+            </Box>
+          </Container>
         </Box>
       </ThemeProvider>
     );
