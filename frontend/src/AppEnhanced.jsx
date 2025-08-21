@@ -93,6 +93,11 @@ const AppEnhanced = () => {
   const [previewCode, setPreviewCode] = useState('');
   const [isJsZipLoaded, setIsJsZipLoaded] = useState(false);
   const [projectName, setProjectName] = useState('react-project');
+  
+  // Modal states - moved to top level
+  const [showFigmaModal, setShowFigmaModal] = useState(false);
+  const [showStylesModal, setShowStylesModal] = useState(false);
+  const [showTokensModal, setShowTokensModal] = useState(false);
 
   // Load JSZip
   useEffect(() => {
@@ -473,9 +478,6 @@ const AppEnhanced = () => {
 
   // Prototype Lab View - Redesigned with rich UI
   if (currentView === 'prototype-lab') {
-    const [showFigmaModal, setShowFigmaModal] = useState(false);
-    const [showStylesModal, setShowStylesModal] = useState(false);
-    const [showTokensModal, setShowTokensModal] = useState(false);
 
     return (
       <ThemeProvider theme={darkTheme}>
@@ -1261,7 +1263,6 @@ const AppEnhanced = () => {
     };
     
     const platformName = platformNames[currentView];
-    const [showFigmaModal, setShowFigmaModal] = useState(false);
     
     return (
       <ThemeProvider theme={darkTheme}>
