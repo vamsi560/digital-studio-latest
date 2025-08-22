@@ -240,8 +240,18 @@ const EnhancedPrototypeView = ({ onNavigate, isJsZipLoaded }) => {
     }
     const combinedFiles = [...uploadedFiles, ...newFiles];
     setUploadedFiles(combinedFiles);
-    // Initialize flow order with the correct number of slots
-    setFlowOrder(new Array(combinedFiles.length).fill(null));
+    
+    // Initialize or extend flow order to accommodate new files
+    const totalFiles = combinedFiles.length;
+    setFlowOrder(prevFlowOrder => {
+      const newFlowOrder = [...prevFlowOrder];
+      // Extend the array if needed
+      while (newFlowOrder.length < totalFiles) {
+        newFlowOrder.push(null);
+      }
+      return newFlowOrder;
+    });
+    
     setSnackbar({ open: true, message: `${newFiles.length} images uploaded successfully!`, severity: 'success' });
   }, [uploadedFiles, isJsZipLoaded]);
 
@@ -250,11 +260,41 @@ const EnhancedPrototypeView = ({ onNavigate, isJsZipLoaded }) => {
   const handleDrop = (e, index) => {
     e.preventDefault();
     if (!draggedItem) return;
+    
     const newFlowOrder = [...flowOrder];
-    newFlowOrder[index] = draggedItem;
+    
+    // Check if the slot is already occupied
+    if (newFlowOrder[index] !== null) {
+      // If slot is occupied, swap the items
+      const existingItem = newFlowOrder[index];
+      newFlowOrder[index] = draggedItem;
+      
+      // Find the original position of the dragged item and put the existing item there
+      const draggedItemIndex = uploadedFiles.findIndex(f => f === draggedItem);
+      if (draggedItemIndex !== -1) {
+        const newUploadedFiles = [...uploadedFiles];
+        newUploadedFiles[draggedItemIndex] = existingItem;
+        setUploadedFiles(newUploadedFiles);
+      }
+    } else {
+      // If slot is empty, just place the item
+      newFlowOrder[index] = draggedItem;
+      setUploadedFiles(uploadedFiles.filter(f => f !== draggedItem));
+    }
+    
     setFlowOrder(newFlowOrder);
-    setUploadedFiles(uploadedFiles.filter(f => f !== draggedItem));
     setDraggedItem(null);
+  };
+
+  // Function to remove an item from flow order and return it to uploaded files
+  const handleRemoveFromFlow = (index) => {
+    const itemToRemove = flowOrder[index];
+    if (itemToRemove) {
+      const newFlowOrder = [...flowOrder];
+      newFlowOrder[index] = null;
+      setFlowOrder(newFlowOrder);
+      setUploadedFiles([...uploadedFiles, itemToRemove]);
+    }
   };
 
   const handleFigmaImport = async () => {
@@ -311,6 +351,7 @@ const EnhancedPrototypeView = ({ onNavigate, isJsZipLoaded }) => {
         const validFiles = imageFiles.filter(file => file !== null);
         if (validFiles.length > 0) {
           setUploadedFiles(validFiles);
+          // Initialize flow order to accommodate all files
           setFlowOrder(new Array(validFiles.length).fill(null));
         }
       }
@@ -971,7 +1012,7 @@ const EnhancedPrototypeView = ({ onNavigate, isJsZipLoaded }) => {
                     borderRadius: 2,
                     border: '1px dashed rgba(255, 255, 255, 0.1)'
                   }}>
-                    {uploadedFiles.length === 0 ? (
+                    {uploadedFiles.length === 0 && flowOrder.every(slot => slot === null) ? (
                       <Box sx={{ 
                         width: '100%', 
                         textAlign: 'center', 
@@ -982,13 +1023,12 @@ const EnhancedPrototypeView = ({ onNavigate, isJsZipLoaded }) => {
                         <Typography>Upload images first, then drag them here to order your screens</Typography>
                       </Box>
                     ) : (
-                      // Show slots based on uploaded files
-                      Array.from({ length: uploadedFiles.length }, (_, index) => (
+                      // Show slots based on the maximum of uploaded files or flow order length
+                      Array.from({ length: Math.max(uploadedFiles.length, flowOrder.length) }, (_, index) => (
                         <Box
                           key={index}
                           onDragOver={(e) => e.preventDefault()}
                           onDrop={(e) => handleDrop(e, index)}
-                          onClick={() => flowOrder[index] && setImagePreview(URL.createObjectURL(flowOrder[index]))}
                           sx={{
                             width: 120,
                             height: 120,
@@ -1018,6 +1058,7 @@ const EnhancedPrototypeView = ({ onNavigate, isJsZipLoaded }) => {
                                   objectFit: 'cover',
                                   borderRadius: 8
                                 }}
+                                onClick={() => setImagePreview(URL.createObjectURL(flowOrder[index]))}
                               />
                               <Chip 
                                 label={index + 1} 
@@ -1029,6 +1070,28 @@ const EnhancedPrototypeView = ({ onNavigate, isJsZipLoaded }) => {
                                   background: 'primary.main'
                                 }} 
                               />
+                              {/* Remove button */}
+                              <IconButton
+                                size="small"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleRemoveFromFlow(index);
+                                }}
+                                sx={{
+                                  position: 'absolute',
+                                  top: -8,
+                                  left: -8,
+                                  background: 'rgba(244, 67, 54, 0.9)',
+                                  color: 'white',
+                                  width: 24,
+                                  height: 24,
+                                  '&:hover': {
+                                    background: 'rgba(244, 67, 54, 1)'
+                                  }
+                                }}
+                              >
+                                <Close sx={{ fontSize: 16 }} />
+                              </IconButton>
                             </>
                           ) : (
                             <Typography variant="h4" color="text.secondary">
