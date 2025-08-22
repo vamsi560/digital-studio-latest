@@ -147,6 +147,11 @@ const AdvancedReactPreview = ({
                 <strong>{analysis.componentName}</strong> ({analysis.componentType})
               </p>
               <p className="text-sm text-blue-700">{analysis.description}</p>
+              {analysis.estimatedLines > 0 && (
+                <p className="text-xs text-blue-600 mt-1">
+                  Estimated: {analysis.estimatedLines} lines of code
+                </p>
+              )}
             </div>
             
             <div className="space-y-2">
@@ -162,17 +167,36 @@ const AdvancedReactPreview = ({
                   </div>
                 </div>
               )}
+              
+              {analysis.suggestions?.length > 0 && (
+                <div>
+                  <span className="text-xs font-medium text-blue-900">Suggestions:</span>
+                  <div className="flex flex-wrap gap-1 mt-1">
+                    {analysis.suggestions.slice(0, 3).map((suggestion, i) => (
+                      <span key={i} className="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded">
+                        {suggestion}
+                      </span>
+                    ))}
+                    {analysis.suggestions.length > 3 && (
+                      <span className="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded">
+                        +{analysis.suggestions.length - 3} more
+                      </span>
+                    )}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
             {analysis.props?.length > 0 && (
               <div>
-                <span className="font-medium text-blue-900">Props:</span>
+                <span className="font-medium text-blue-900">Props ({analysis.props.length}):</span>
                 <ul className="text-blue-700 mt-1 space-y-1">
                   {analysis.props.map((prop, i) => (
                     <li key={i} className="text-xs">
                       • {prop.name} ({prop.type}) {prop.required && '⚠️'}
+                      {prop.defaultValue && ` = ${prop.defaultValue}`}
                     </li>
                   ))}
                 </ul>
@@ -181,7 +205,7 @@ const AdvancedReactPreview = ({
             
             {analysis.hooks?.length > 0 && (
               <div>
-                <span className="font-medium text-blue-900">Hooks:</span>
+                <span className="font-medium text-blue-900">Hooks ({analysis.hooks.length}):</span>
                 <ul className="text-blue-700 mt-1 space-y-1">
                   {analysis.hooks.map((hook, i) => (
                     <li key={i} className="text-xs">• {hook}</li>
@@ -190,19 +214,57 @@ const AdvancedReactPreview = ({
               </div>
             )}
             
-            {previewData?.dependencies?.length > 0 && (
+            {analysis.imports?.length > 0 && (
               <div>
-                <span className="font-medium text-blue-900">Imports:</span>
+                <span className="font-medium text-blue-900">Imports ({analysis.imports.length}):</span>
                 <ul className="text-blue-700 mt-1 space-y-1">
-                  {previewData.dependencies.slice(0, 3).map((dep, i) => (
-                    <li key={i} className="text-xs">• {dep}</li>
+                  {analysis.imports.slice(0, 5).map((imp, i) => (
+                    <li key={i} className="text-xs">• {imp}</li>
                   ))}
-                  {previewData.dependencies.length > 3 && (
-                    <li className="text-xs text-blue-500">+{previewData.dependencies.length - 3} more</li>
+                  {analysis.imports.length > 5 && (
+                    <li className="text-xs text-blue-500">+{analysis.imports.length - 5} more</li>
                   )}
                 </ul>
               </div>
             )}
+          </div>
+
+          {/* Component State Analysis */}
+          <div className="mt-3 pt-3 border-t border-blue-200">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              <div className="text-center">
+                <div className={`w-8 h-8 rounded-full mx-auto mb-1 flex items-center justify-center ${
+                  analysis.hasState ? 'bg-green-100 text-green-600' : 'bg-gray-100 text-gray-400'
+                }`}>
+                  {analysis.hasState ? '✓' : '✗'}
+                </div>
+                <span className="text-xs text-blue-900">State</span>
+              </div>
+              <div className="text-center">
+                <div className={`w-8 h-8 rounded-full mx-auto mb-1 flex items-center justify-center ${
+                  analysis.hasEffects ? 'bg-green-100 text-green-600' : 'bg-gray-100 text-gray-400'
+                }`}>
+                  {analysis.hasEffects ? '✓' : '✗'}
+                </div>
+                <span className="text-xs text-blue-900">Effects</span>
+              </div>
+              <div className="text-center">
+                <div className={`w-8 h-8 rounded-full mx-auto mb-1 flex items-center justify-center ${
+                  analysis.hasContext ? 'bg-green-100 text-green-600' : 'bg-gray-100 text-gray-400'
+                }`}>
+                  {analysis.hasContext ? '✓' : '✗'}
+                </div>
+                <span className="text-xs text-blue-900">Context</span>
+              </div>
+              <div className="text-center">
+                <div className={`w-8 h-8 rounded-full mx-auto mb-1 flex items-center justify-center ${
+                  analysis.hasRefs ? 'bg-green-100 text-green-600' : 'bg-gray-100 text-gray-400'
+                }`}>
+                  {analysis.hasRefs ? '✓' : '✗'}
+                </div>
+                <span className="text-xs text-blue-900">Refs</span>
+              </div>
+            </div>
           </div>
         </div>
       )}
@@ -295,7 +357,56 @@ const AdvancedReactPreview = ({
               className="w-full h-96 border-0"
               title="React Component Preview"
               sandbox="allow-scripts allow-same-origin allow-forms"
+              onLoad={() => {
+                // Send a message to the iframe to check if it loaded properly
+                setTimeout(() => {
+                  if (iframeRef.current) {
+                    iframeRef.current.contentWindow.postMessage({ type: 'CHECK_READY' }, '*');
+                  }
+                }, 1000);
+              }}
             />
+          )}
+          
+          {/* Fallback preview if iframe doesn't work */}
+          {previewData?.url && !previewData?.previewHTML && (
+            <div className="bg-gray-50 p-4 rounded-lg">
+              <p className="text-sm text-gray-600 mb-2">
+                Preview is available at the development server URL:
+              </p>
+              <a 
+                href={previewData.url} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-blue-600 hover:text-blue-800 text-sm break-all"
+              >
+                {previewData.url}
+              </a>
+            </div>
+          )}
+          
+          {/* No preview data available */}
+          {!previewData?.previewHTML && !previewData?.url && previewReady && (
+            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-yellow-600">⚠️</span>
+                <span className="text-yellow-800 font-medium">Preview Not Available</span>
+              </div>
+              <p className="text-yellow-700 text-sm">
+                The preview could not be generated. This might be due to:
+              </p>
+              <ul className="text-yellow-700 text-sm mt-2 list-disc list-inside">
+                <li>Component compilation errors</li>
+                <li>Missing dependencies</li>
+                <li>Unsupported React features</li>
+              </ul>
+              <button
+                onClick={handleRefresh}
+                className="mt-3 bg-yellow-600 text-white px-4 py-2 rounded-md hover:bg-yellow-700 transition-colors text-sm"
+              >
+                🔄 Retry Preview
+              </button>
+            </div>
           )}
         </div>
       </div>
@@ -308,10 +419,23 @@ const AdvancedReactPreview = ({
           </summary>
           <div className="mt-3 space-y-2 text-xs">
             <div><strong>Generated:</strong> {previewData.timestamp}</div>
-            <div><strong>Dependencies:</strong> {previewData.dependencies?.join(', ') || 'none'}</div>
-            <div><strong>Component Type:</strong> {analysis?.componentType}</div>
+            <div><strong>Framework:</strong> {previewData.framework}</div>
+            <div><strong>Project:</strong> {previewData.projectName}</div>
+            <div><strong>Status:</strong> {previewData.status}</div>
+            <div><strong>Component Name:</strong> {analysis?.componentName || 'Unknown'}</div>
+            <div><strong>Component Type:</strong> {analysis?.componentType || 'Unknown'}</div>
+            <div><strong>Complexity:</strong> {analysis?.complexity || 'Unknown'}</div>
+            <div><strong>Estimated Lines:</strong> {analysis?.estimatedLines || 0}</div>
             <div><strong>Has State:</strong> {analysis?.hasState ? 'Yes' : 'No'}</div>
             <div><strong>Has Effects:</strong> {analysis?.hasEffects ? 'Yes' : 'No'}</div>
+            <div><strong>Has Context:</strong> {analysis?.hasContext ? 'Yes' : 'No'}</div>
+            <div><strong>Has Refs:</strong> {analysis?.hasRefs ? 'Yes' : 'No'}</div>
+            <div><strong>Props Count:</strong> {analysis?.props?.length || 0}</div>
+            <div><strong>Hooks Count:</strong> {analysis?.hooks?.length || 0}</div>
+            <div><strong>Imports Count:</strong> {analysis?.imports?.length || 0}</div>
+            <div><strong>Features Count:</strong> {analysis?.features?.length || 0}</div>
+            <div><strong>Suggestions Count:</strong> {analysis?.suggestions?.length || 0}</div>
+            {previewData.url && <div><strong>Server URL:</strong> {previewData.url}</div>}
           </div>
         </details>
       )}
