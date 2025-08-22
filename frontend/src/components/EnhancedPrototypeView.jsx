@@ -81,7 +81,6 @@ import {
   Style,
   ColorLens,
   FormatSize,
-  BorderRadius,
   Close,
   GridView,
   Timeline,

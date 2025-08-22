@@ -22,5 +22,10 @@
       "src": "/(.*)",
       "dest": "/frontend/$1"
     }
-  ]
+  ],
+  "functions": {
+    "backend/api/**/*.js": {
+      "maxDuration": 30
+    }
+  }
 }
